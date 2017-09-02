@@ -1,6 +1,6 @@
-# vue-practice
+# VUE-CloudMusic-PC
 
-> dont know
+> 使用VUE实现网易云音乐PC端
 
 ## Build Setup
 
