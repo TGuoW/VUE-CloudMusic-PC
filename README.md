@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 # project2
 
 > A Vue.js project
+=======
+# VUE-CloudMusic-PC
+
+> 使用VUE实现网易云音乐PC端
+>>>>>>> ec6fdc27c204eae1fed40e9ede8bd87cf8790ec3
 
 ## Build Setup
 
