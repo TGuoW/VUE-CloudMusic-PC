@@ -1,6 +1,6 @@
-# vue-practice
+# project2
 
-> dont know
+> A Vue.js project
 
 ## Build Setup
 
