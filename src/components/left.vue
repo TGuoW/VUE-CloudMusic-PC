@@ -33,7 +33,7 @@
 #left{
   text-align: left;
   position: fixed;
-  top: 5rem;
+  top: 60px;
   bottom: 4.6rem;
   width: 20rem;  
   background: #f5f5f7;
