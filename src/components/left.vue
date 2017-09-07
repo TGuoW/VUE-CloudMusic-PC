@@ -28,14 +28,14 @@
 	
 </script>
 
-<style type="text/css">
+<style type="text/css" scoped>
 
 #left{
   text-align: left;
   position: fixed;
   top: 60px;
   bottom: 4.6rem;
-  width: 20rem;  
+  width: 20%;  
   background: #f5f5f7;
   overflow: scroll;
   overflow-x: hidden;

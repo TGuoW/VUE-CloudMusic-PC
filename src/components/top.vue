@@ -27,12 +27,30 @@ export default {
 }
 </script>
 <style>
+.fa {
+        vertical-align: middle;
+        margin-left: 1.2rem;
+        cursor: pointer;
+height: 1.2rem;
+      }
+  .fa-search {
+    color: #c87676;
+    cursor: pointer;
+   
+  }
+  .fa-yelp {
+        margin-left: 2.5rem;
+        font-size: 1.6rem;
+        cursor: pointer;
+        color: #e7a8a3;
+        vertical-align: middle;
+      }
 	.bg{
 		background: #c62f2f;
 		top: 0;
 		width: 100%;
 		height: 60px;
-		position: absolute;
+		position: fixed;
 	}
 	.logo{
 		height: 60px;

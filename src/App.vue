@@ -2,7 +2,9 @@
   <div id="app">
     <top></top>
     <left></left>
+    <mainBody></mainBody>
     <bottom></bottom>
+
 <!--     <img src="./assets/logo.png">
     <router-view></router-view> -->
 
@@ -13,12 +15,14 @@
 import left from './components/left.vue'
 import top from './components/top.vue'
 import bottom from './components/bottom.vue'
+import mainBody from './components/mainBody.vue'
 export default {
   name: 'app',
   components: {
     left,
     top,
-    bottom
+    bottom,
+    mainBody
   }
 }
 </script>

@@ -15,7 +15,7 @@
 	top: 564px;
 	height: 73px;
 	width: 100%;
-	position: absolute;
+	position: fixed;
 }
 
 
