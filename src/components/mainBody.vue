@@ -19,7 +19,14 @@
         <li class="bb"></li>
       </ul>
     </div>
-    
+    <div class="btn-2">
+      <span class="btn-sty">独家放送</span>
+      <ul class="aa">
+        <li class="bb"></li>
+        <li class="bb"></li>
+        <li class="bb"></li>
+      </ul>
+    </div>
 	</div>
 </template>
 
@@ -37,13 +44,22 @@
 <style type="text/css" scoped>
   .main{
     background: #fff;
-    position: absolute;
+    position: fixed;
     left: 20%;
-    height: 510px;
+    /*height: 32rem;*/
+    top: 60px;
+    bottom: 74px;
     width: 80%;
     overflow: scroll;
     overflow-x: hidden;
     text-align: center;
+  }
+  .main::-webkit-scrollbar {
+    width: 8px;
+  }
+  .main::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #e1e1e2;
   }
   .btn{
     margin: auto;
@@ -71,13 +87,17 @@
   }
   .aa{
     width: 100%;
+    display: inline-flex;
+    margin: auto;
+    margin-top: 10px;
+    list-style-type:none;
+    justify-content: space-between;
     /*background: #000;*/
     height: 100px;
   }
   .bb{
-    margin-left: 10px;
     background: #000;
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
   }
 </style>
