@@ -2,17 +2,17 @@
 	<div id="left">
     <div id="list-head">推荐</div>
     <ul id="list">
-       <li>发现音乐</li>
-       <li>私人FM</li>
-       <li>MV</li>
-       <li>朋友</li>
+       <li><i class="fa fa-music fa-fw"></i>发现音乐</li>
+       <li><i class="fa fa-podcast fa-fw"></i>私人FM</li>
+       <li><i class="fa fa-youtube-play fa-fw"></i>MV</li>
+       <li><i class="fa fa-user-o fa-fw"></i>朋友</li>
     </ul>
     <div id="list-head">我的音乐</div>
     <ul id="list">
-       <li>本地音乐</li>
-       <li>下载管理</li>
-       <li>我的音乐云盘</li>
-       <li>我的歌手</li>
+       <li><i class="fa fa-music fa-fw"></i>本地音乐</li>
+       <li><i class="fa fa-download fa-fw"></i>下载管理</li>
+       <li><i class="fa fa-mixcloud fa-fw"></i>我的音乐云盘</li>
+       <li><i class="fa fa-user-md fa-fw"></i>我的歌手</li>
     </ul>
     <div id="list-head">我的音乐</div>
     <ul id="list">
@@ -35,7 +35,7 @@
   position: fixed;
   top: 60px;
   bottom: 4.6rem;
-  width: 20%;  
+  width: 15%;  
   background: #f5f5f7;
   overflow: scroll;
   overflow-x: hidden;
@@ -48,7 +48,7 @@
   background-color: #e1e1e2;
   }
 #list{
-  margin-left: 50px;
+  margin-left: 18px;
 }
 #list-head{
   padding-left: 1rem;
@@ -71,7 +71,6 @@
   cursor: pointer;
 }
 #left ul li:hover {
-    color:#000;
+  color:#000;
   }
-
 </style>

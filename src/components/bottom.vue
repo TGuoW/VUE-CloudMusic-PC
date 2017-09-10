@@ -1,22 +1,32 @@
 <template>
 	<div class="bottom">
 		<div class="row">
-			<li class="btn"></li>
-			<li class="btn"></li>
-			<li class="btn"></li>
+			<li class="btn">
+				<i class="fa fa-step-backward"></i>
+			</li>
+			<li class="btn">
+				<i class="fa fa-play"></i>
+			</li>
+			<li class="btn">
+				<i class="fa fa-step-forward"></i>
+			</li>
 		</div>
 		<div class="time">
 			<span >0:00</span>
 		</div>
 		<div class="bar"></div>
 		<div class="volume">
-			<div class="logo-volume"></div>
+			<i class="fa fa-fw fa-volume-up"></i>
 			<div class="bar-volume"></div>
 		</div>
 		<div class="row2">
-			<li class="btn"></li>
-			<li class="btn"></li>
-			<li class="btn"></li>
+			<li class="btn">
+				
+			</li>
+			<li class="btn">
+				<i class="fa fa-fw"></i>
+			</li>
+				<i class="fa fa-file-text-o fa-fw" ></i>
 		</div>
 	</div>
 </template>
@@ -29,7 +39,7 @@
 .bottom{
 	background: #fff;
 	border-top: 1px;
-	border-color: #000aaa;
+	border-color: #bdbdbd;
 	border-style: solid;
 	bottom: 0;
 	height: 73px;
@@ -39,15 +49,25 @@
 .row{
 	width: 300px;
 	left: 10px;
+	top: 20px;
+	position: absolute;
 	display: inline-flex;
 	list-style-type: none;
 }
 .btn{
+	color: #fff;
 	border-radius: 20px;
-	background: #000;
+	background: #ca1c15;
     margin: 0 10px 0 20px;
 	height: 40px;
 	width: 40px;
+	cursor: pointer;
+}
+.fa{
+	line-height: 40px;
+	font-size: 16px;
+	vertical-align: middle;
+	cursor: pointer;
 }
 .time{
 	line-height: 73px;
@@ -55,12 +75,12 @@
     left: 340px;
 }
 .bar{
-	background: #000;
+	background: #ca1c15;
 	position: absolute;
 	margin: auto;
-	border-radius: 5px;
+	border-radius: 3px;
 	width: 40%;
-	height: 10px;
+	height: 6px;
 	top: 31.5px;
 	left: 380px;
 }
@@ -68,22 +88,17 @@
 	display: inline-flex;
 	width: 15%;
 	position: absolute;
-	height: 20px;
+	height: 40px;
 	/*background: #000;*/
 	left: 950px;
-	top: 26px;
-}
-.logo-volume{
-	background: #000aaa;
-	width: 20px;
-	height: 20px;
+	top: 15px;
 }
 .bar-volume{
 	margin: auto;
-	background: #000;
-	border-radius: 5px;
+	background: #ca1c15;
+	border-radius: 3px;
 	width: 80%;
-	height: 10px;
+	height: 6px;
 }
 .row2{
 	position: absolute;

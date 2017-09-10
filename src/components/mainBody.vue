@@ -45,11 +45,11 @@
   .main{
     background: #fff;
     position: fixed;
-    left: 20%;
+    left: 15%;
     /*height: 32rem;*/
     top: 60px;
     bottom: 74px;
-    width: 80%;
+    width: 85%;
     overflow: scroll;
     overflow-x: hidden;
     text-align: center;

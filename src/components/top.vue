@@ -4,15 +4,18 @@
 			<div class="logo-wrap"></div>
 		</div>
 		<input type="text" class="input" name="search" placeholder="搜索音乐，歌手，歌词，用户">
-		<div class="row">
-			<div class="jj"></div>
-			<div class="jj"></div>
-			<div class="jj"></div>
-			<div class="jj"></div>
-			<div class="jj"></div>
-			<div class="jj"></div>
-			<div class="jj"></div>
-			<div class="jj"></div>
+		<div class="tool">
+			<div class="user-img"></div>
+			<span id="username">TGuoW</span>
+			<i class="fa fa-yelp" id="yelp"></i>
+        	<i class="fa fa-envelope-o"></i>
+        	<i class="fa fa-cog"></i>
+		</div>
+		<div class="set">
+			<i class="fa fa-external-link"></i>
+       		<i class="fa fa-minus"></i>
+        	<i class="fa fa-square-o"></i>
+        	<i class="fa fa-close"></i>
 		</div>
 	</div>
 </template>
@@ -26,12 +29,12 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .fa {
         vertical-align: middle;
         margin-left: 1.2rem;
         cursor: pointer;
-height: 1.2rem;
+		height: 1.2rem;
       }
   .fa-search {
     color: #c87676;
@@ -46,7 +49,7 @@ height: 1.2rem;
         vertical-align: middle;
       }
 	.bg{
-		background: #c62f2f;
+		background: #ca1c15;
 		top: 0;
 		width: 100%;
 		height: 60px;
@@ -78,10 +81,31 @@ height: 1.2rem;
 	input::-webkit-input-placeholder{
     	color: #fff;opacity:1;
     }
-    .row{
+    .user-img{
+    	background: #fff;
+    	width: 40px;
+    	height: 40px;
+    	border-radius: 20px;
+    	vertical-align: middle;
+    	display: inline-flex;
+    }
+    .set{
     	position: absolute;
+    	vertical-align: middle;
     	right: 0;
     	top:20px;
+    	color: #fff;
+    	right: 10px;
+    	border-left: solid;
+    	border-width: 2px;
+    }
+    .tool{
+       	position: absolute;
+    	vertical-align: middle;
+    	right: 0;
+    	top:10px;
+    	color: #fff;
+    	right: 180px;
     }
     .jj{
     	height: 20px;
