@@ -59,7 +59,7 @@ export default {
 		height: 60px;
 	}
 	.logo-wrap{
-		background: url(http://www.pppoo.com/blog/upload/music163_logo.jpg);
+		background: url(http://img2.imgtn.bdimg.com/it/u=1972940345,1771388347&fm=214&gp=0.jpg);
 		height: 60px;
 		background-size: 250px;
         background-position: -10px;

@@ -2,7 +2,7 @@
   <div id="app">
     <top></top>
     <left></left>
-    <mainBody></mainBody>
+    <!-- <mainBody></mainBody> -->
     <bottom></bottom>
 
 <!--     <img src="./assets/logo.png">
