@@ -1,6 +1,6 @@
 <template>
   <div class="hello" style="background:#000">
-    <top></top>
+    <!-- <top></top> -->
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
     <ul>
@@ -54,6 +54,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.hello{
+  text-align: center;
+}
 h1, h2 {
   font-weight: normal;
 }

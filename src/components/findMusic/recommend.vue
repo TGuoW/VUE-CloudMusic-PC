@@ -1,13 +1,5 @@
 <template>
 	<div class="main">
-    <div class="btn">
-      <span class="btn-sty">个性推荐</span>
-      <span class="btn-sty">歌单</span>
-      <span class="btn-sty">主播电台</span>
-      <span class="btn-sty">排行榜</span>
-      <span class="btn-sty">歌手</span>
-      <span class="btn-sty">最新音乐</span>
-    </div>
     <rotate></rotate>
     <div class="btn-2">
       <span class="btn-sty">推荐歌单</span>
@@ -31,9 +23,9 @@
 </template>
 
 <script>
-  import rotate from './retail/rotate.vue'
+  import rotate from '../retail/rotate.vue'
   export default {
-    name: 'mainBody',
+    name: 'findMusic',
     components: {
       rotate
     }
@@ -43,11 +35,11 @@
 
 <style type="text/css" scoped>
   .main{
-    background: #fff;
+    /* background: #fff; */
     position: fixed;
     left: 15%;
     /*height: 32rem;*/
-    top: 60px;
+    top: 120px;
     bottom: 74px;
     width: 85%;
     overflow: scroll;

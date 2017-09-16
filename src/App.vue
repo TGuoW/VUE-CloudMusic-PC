@@ -15,14 +15,14 @@
 import left from './components/left.vue'
 import top from './components/top.vue'
 import bottom from './components/bottom.vue'
-import mainBody from './components/mainBody.vue'
+import findMusic from './components/findMusic.vue'
 export default {
   name: 'app',
   components: {
     left,
     top,
     bottom,
-    mainBody
+    findMusic
   }
 }
 </script>

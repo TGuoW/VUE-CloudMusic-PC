@@ -3,10 +3,10 @@
 	  <div id="left">
       <div id="list-head">推荐</div>
       <ul id="list">
-        <router-link :to="{ path: '/mainBody' }" tag="li">
+        <router-link :to="{ path: '/findMusic' }" tag="li">
           <i class="fa fa-music fa-fw"></i>发现音乐
         </router-link>
-        <router-link :to="{ path: '/asa' }" tag="li">
+        <router-link :to="{ path: '/he' }" tag="li">
           <i class="fa fa-podcast fa-fw"></i>私人FM
         </router-link>
         <router-link :to="{ path: '/asa' }" tag="li">
