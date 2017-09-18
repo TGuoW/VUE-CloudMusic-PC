@@ -1,12 +1,16 @@
 <template>
 	<div class="bg">
 		<div class="logo">
-			<div class="logo-wrap"></div>
+			<router-link :to="{ path: '/'}">
+				<div class="logo-wrap"></div>
+			</router-link>
 		</div>
 		<input type="text" class="input" name="search" placeholder="搜索音乐，歌手，歌词，用户">
 		<div class="tool">
-			<div class="user-img"></div>
-			<span id="username">TGuoW</span>
+			<router-link :to="{ path: '/information'}">
+				<div class="user-img"></div>
+			</router-link>
+			<span class="username">TGuoW&gt;</span>
 			<i class="fa fa-yelp" id="yelp"></i>
         	<i class="fa fa-envelope-o"></i>
         	<i class="fa fa-cog"></i>
@@ -89,6 +93,9 @@ export default {
     	vertical-align: middle;
     	display: inline-flex;
     }
+	.username{
+		font-weight: normal;
+	}
     .set{
     	position: absolute;
     	vertical-align: middle;

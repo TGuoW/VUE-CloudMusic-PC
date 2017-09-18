@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
+import information from '@/components/retail/information'
 import findMusic from '@/components/findMusic'
 import recommend from '@/components/findMusic/recommend'
 import songList from '@/components/findMusic/songList'
@@ -23,6 +24,11 @@ export default new Router({
       path: '/he',
       name: 'Hello',
       component: Hello
+    },
+    {
+      path: '/information',
+      name: 'information',
+      component: information
     },
     {
       path: '/findMusic',

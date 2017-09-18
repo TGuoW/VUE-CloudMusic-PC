@@ -1,8 +1,8 @@
 <template>
 	<div class="main">
-    <rotate></rotate>
+    <carousel></carousel>
     <div class="btn-2">
-      <span class="btn-sty">推荐歌单</span>
+      <div class="btn-sty">推荐歌单</div>
       <ul class="aa">
         <li class="bb"></li>
         <li class="bb"></li>
@@ -12,7 +12,7 @@
       </ul>
     </div>
     <div class="btn-2">
-      <span class="btn-sty">独家放送</span>
+      <div class="btn-sty">独家放送</div>
       <ul class="aa">
         <li class="bb"></li>
         <li class="bb"></li>
@@ -23,11 +23,11 @@
 </template>
 
 <script>
-  import rotate from '../retail/rotate.vue'
+  import carousel from '../retail/carousel.vue'
   export default {
     name: 'findMusic',
     components: {
-      rotate
+      carousel
     }
   }
 </script>
@@ -46,13 +46,6 @@
     overflow-x: hidden;
     text-align: center;
   }
-  .main::-webkit-scrollbar {
-    width: 8px;
-  }
-  .main::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: #e1e1e2;
-  }
   .btn{
     margin: auto;
     background: #fff;
@@ -64,17 +57,20 @@
   }
   .btn-2{
     text-align: left;
-    margin: 200px auto auto auto;
+    margin: auto auto auto auto;
     background: #fff;
-    border-bottom: 1px;
-    border-color: #000;
-    border-style: solid;
-    height: 50px;
+    
+    height: 250px;
     width: 90%;
   }
   .btn-sty{
     line-height: 50px;
-    margin: 20px;
+    border-bottom: 1px;
+    border-color: #000;
+    border-style: solid;
+    width: 100%;
+    height: 50px;
+    /* margin-bottom: 20px; */
     font-size: 18px;
   }
   .aa{
