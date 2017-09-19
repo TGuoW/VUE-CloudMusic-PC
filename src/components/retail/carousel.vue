@@ -1,5 +1,6 @@
 
 <template>
+<div>
   <div class="carousel">
     <transition-group tag='ul' class="clearfix slide" name='image'>
       
@@ -12,11 +13,7 @@
       <li v-for='(image,index) in img' :key='index' v-show='index===(mark+1<4?mark+1:mark-3)' class="right">
         <a><img :src="image"></a>
       </li>
-      
     </transition-group>
-    <div class="bullet">
-      <span v-for='(item,index) in img.length' :class="{'active':index===mark}" @mouseover='change(index)' :key="item.id"></span>
-    </div>
     <div class="prev-btn">
       <i class="fa fa-chevron-left" @click="getPeddingContribution()"></i>
     </div>
@@ -24,6 +21,10 @@
       <i class="fa fa-chevron-right"></i>
     </div>
   </div>
+  <div class="bullet">
+      <span v-for='(item,index) in img.length' :class="{'active':index===mark}" @mouseover='change(index)' :key="item.id"></span>
+  </div>
+</div>
 </template>
 
 <style type="text/css" scoped>
@@ -41,14 +42,14 @@
     display: block;
   }
   .carousel {
-    width: 900px;
-    height: 320px;
+    width: 90%;
+    height: auto;
     margin: 0 auto;
     overflow: hidden;
     position: relative;
   }
   .slide {
-    width: 500px;
+    /* width: 500px; */
     height: 300px;
   }
         
@@ -58,23 +59,26 @@
   }
   .left{
     margin-left: 0px;
+    /* margin:auto; */
+    width: 60%;
+    margin-top: 4.8%;
   }
   .middle{
-    margin-left: 200px;
+    margin-left: 15%;
     z-index: 10;
   }
   .right{
-    margin-left: 400px;
+    margin-left: 40%;
+    width: 60%;
+    margin-top: 4.8%;
   }
   img {
-    width: 500px;
-    height: 300px;
+    width: 100%;
   }
         
   .bullet {
     width: 100%;
     position: absolute;
-    bottom: 0;
     margin: 0 auto;
     text-align: center;
     z-index: 10;

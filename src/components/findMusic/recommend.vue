@@ -39,11 +39,11 @@
     position: fixed;
     left: 15%;
     /*height: 32rem;*/
-    top: 120px;
+    margin-top: 60px;
     bottom: 74px;
     width: 85%;
-    overflow: scroll;
-    overflow-x: hidden;
+    /* overflow: scroll;
+    overflow-x: hidden; */
     text-align: center;
   }
   .btn{
@@ -57,9 +57,9 @@
   }
   .btn-2{
     text-align: left;
-    margin: auto auto auto auto;
+    margin: auto auto -20px auto;
     background: #fff;
-    
+    padding-top: 20px;
     height: 250px;
     width: 90%;
   }

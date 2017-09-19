@@ -46,7 +46,7 @@
   }
   .main{
     background: #fff;
-    position: absolute;
+    position: fixed;
     left: 15%;
     /*height: 32rem;*/
     top: 60px;
