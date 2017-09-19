@@ -18,7 +18,7 @@
       <span v-for='(item,index) in img.length' :class="{'active':index===mark}" @mouseover='change(index)' :key="item.id"></span>
     </div>
     <div class="prev-btn">
-      <i class="fa fa-chevron-left"></i>
+      <i class="fa fa-chevron-left" @click="getPeddingContribution()"></i>
     </div>
     <div class="next-btn">
       <i class="fa fa-chevron-right"></i>
@@ -130,8 +130,8 @@
   }
 </style>
 
-
 <script>
+import axios from 'axios'
 export default {
   name: 'rotate',
   data: function () {
@@ -168,6 +168,33 @@ export default {
     },
     play: function () {
       setInterval(this.autoPlay, 3000)
+    },
+    getPeddingContribution: function () {
+      this.seeButtonNotUse = false
+      this.seeButtonUse = false
+      console.log('爸爸getMsg 1在运行')
+      var self = this
+      axios({
+        url: '/submission/getMsg.php',
+        method: 'post',
+        data: {
+          weixie: 'weixie',
+          status: '1'}
+      }).then((response) => {
+        console.log('getMsg +1拿到数据了')
+        console.log(response.data)
+        for (var t = 0; t < response.data.length; t++) {
+          response.data[t].seen = true
+          if (response.data[t].img_url.length === 0) {
+            response.data[t].haveImg = false
+          } else {
+            response.data[t].haveImg = true
+          }
+        }
+        self.contribution = response.data
+      }).catch((error) => {
+        console.log(error)
+      })
     }
   }
 }

@@ -1,5 +1,15 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
+const routerConf = require('../src/mock/config/router');
+const serverConf = require('../src/mock/config/default');
+
+let proxyTable = {};
+for (let api in routerConf) {
+  api = api.indexOf(' ') > 0
+    ? api.split(' ')[1]
+    : api;
+  proxyTable[api] = `http://${serverConf.PROTOCOL}:${serverConf.PORT}`;
+}
 
 module.exports = {
   build: {
@@ -27,7 +37,7 @@ module.exports = {
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: proxyTable,
     // CSS Sourcemaps off by default because relative paths are "buggy"
     // with this option, according to the CSS-Loader README
     // (https://github.com/webpack/css-loader#sourcemaps)
