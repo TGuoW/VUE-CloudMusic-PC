@@ -22,7 +22,34 @@
         	<i class="fa fa-close"></i>
 		</div>
 		<transition name="fade">
-			<div class="jj" v-show="show">asdasdadaasdasdasdasdasdasdasdasddqweqweqweqweqwesd</div>
+			<div class="top-status" v-show="show">
+				<div class="triangle"></div>
+				<div class="rectangle">
+					<div class="user-info">
+						<div class="user-img"></div>
+						<span class="nickname">TGuoW</span>
+						<span class="check-in">签到</span>
+					</div>
+					<div class="follow">
+          	<div class="row">0<p>动态</p></div>
+            <div class="row line">3<p>关注</p></div>
+            <div class="row">0<p>粉丝</p></div>
+          </div>
+					<div class="item">
+						<p>会员中心</p>
+						<p>等级</p>
+						<p>积分商城</p>
+					</div>
+					<div class="item">
+						<p>个人信息设置</p>
+						<p>绑定社交账号</p>
+						<p>导入歌单</p>
+					</div>
+					<div class="sign-out">
+						<p>退出登录</p>
+					</div>
+				</div>
+			</div>
 		</transition>
 	</div>
 </template>
@@ -119,18 +146,87 @@ export default {
     	color: #fff;
     	right: 180px;
     }
-    .jj{
+    .top-status{
 			position: absolute;
-			background: gray;
+			
 			z-index: 999 !important;
-    	height: 200px;
-    	width: 200px;
-    	/* float: right; */
-			margin-top: -50px;
-    	margin-left: 200px;
+    	/* height: 200px;
+    	width: 270px; */
+			margin-top: -16px;
+    	margin-left: 860px;
     }
+		.triangle{
+			position: relative;
+			margin: auto;
+			width: 0;
+    	height: 0;
+    	border-left: 15px solid transparent;
+    	border-right: 15px solid transparent;
+    	border-bottom: 16px solid #fafafa;
+		}
+	.rectangle{
+		width: 270px;
+		height: 400px;
+		border-left:1px solid #cccccc;
+		border-right:1px solid #cccccc;
+		border-bottom:1px solid #cccccc;
+		border-radius: 6px;
+		box-shadow: 0px 2px 5px #666666;
+		background: #fafafa;
+	}
+	.user-info{
+		text-align: left;
+		padding-top: 20px;
+		padding-left: 20px;
+		/* line-height: 40px; */
+		width: 250px;
+	}
+	.nickname{
+		padding-left: 5px;
+	}
+	.check-in{
+		float: right;
+		background: #fff;
+		font-size: 14px;
+		border: 1px solid #e0e0e0;
+		/* padding-left: 50px; */
+		margin: 5px 15px 0 0;
+		border-radius: 5px;
+		padding: 3px 10px 3px 10px;
+	}
 	#top{
 		font-size: 68px;
 		color: #bbbbbb;
 	}
+	.follow{
+    margin-top: 10px;
+		padding-bottom: 20px;
+		border-bottom: 1px solid #e0e0e0;
+    font-size: 20px;
+}
+p{
+    font-size: 14px;
+    padding: 2px;
+}
+.row{
+    display: inline-block;
+    padding-right: 25px;
+    padding-left: 25px;
+}
+.line{
+    border-right: 1px #e0e0e0 solid;
+    border-left: 1px #e0e0e0 solid;
+}
+.item{
+	text-align: left;
+	padding-left: 30px;
+	line-height: 32px;
+	border-bottom: 1px solid #e0e0e0;
+}
+.sign-out{
+	text-align: left;
+	padding-left: 30px;
+	font-size: 14px;
+	line-height: 44px;
+}
 </style>

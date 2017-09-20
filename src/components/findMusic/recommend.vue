@@ -121,6 +121,7 @@
   }
   .more{
     float: right;
+    cursor: pointer;
     color: gray;
   }
   .more:hover{

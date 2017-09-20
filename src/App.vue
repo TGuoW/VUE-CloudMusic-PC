@@ -2,7 +2,7 @@
   <div id="app">
     <top></top>
     <left></left>
-    <bottom></bottom>s
+    <bottom></bottom>
   </div>
 </template>
 
