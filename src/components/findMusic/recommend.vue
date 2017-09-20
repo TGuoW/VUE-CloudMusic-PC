@@ -2,21 +2,27 @@
 	<div class="main">
     <carousel></carousel>
     <div class="btn-2">
-      <div class="btn-sty">推荐歌单</div>
-      <ul class="aa">
-        <li class="bb"></li>
-        <li class="bb"></li>
-        <li class="bb"></li>
-        <li class="bb"></li>
-        <li class="bb"></li>
+      <div class="btn-sty">推荐歌单
+        <router-link :to="{ path: '/findMusic/songList'}">
+          <span class="more">更多></span>
+        </router-link>
+      </div>
+      <ul class="list">
+        <li class="item" v-for="(item, index) in songlist" :key="index">
+          <img :src="item.imgUrl">
+          <span>{{item.songlistName}}</span>
+        </li>
       </ul>
     </div>
     <div class="btn-2">
-      <div class="btn-sty">独家放送</div>
-      <ul class="aa">
-        <li class="bb"></li>
-        <li class="bb"></li>
-        <li class="bb"></li>
+      <div class="btn-sty">独家放送
+        <span class="more">更多></span>
+      </div>
+      <ul class="list">
+        <li class="item" v-for="(item, index) in exclusive" :key="index">
+          <img :src="item.imgUrl">
+          <span>{{item.songlistName}}</span>
+        </li>
       </ul>
     </div>
 	</div>
@@ -24,10 +30,43 @@
 
 <script>
   import carousel from '../retail/carousel.vue'
+  import axios from 'axios'
   export default {
     name: 'findMusic',
+    data: function () {
+      return {
+        songlist: [],
+        exclusive: []
+      }
+    },
     components: {
       carousel
+    },
+    mounted: function () {
+      axios({
+        url: '/submission/getSonglist.php',
+        method: 'post'
+      }).then((response) => {
+        console.log('getMsg +1拿到数据了')
+        var self = this
+        self.songlist = response.data
+        console.log(self.songlist)
+      }).catch((error) => {
+        console.log(error)
+      })
+      axios({
+        url: '/submission/exclusive.php',
+        method: 'post'
+      }).then((response) => {
+        console.log('getMsg +1拿到数据了')
+        var self = this
+        self.exclusive = response.data
+        console.log(self.exclusive)
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    methods: {
     }
   }
 </script>
@@ -57,9 +96,9 @@
   }
   .btn-2{
     text-align: left;
-    margin: auto auto -20px auto;
+    margin: auto auto 40px auto;
     background: #fff;
-    padding-top: 20px;
+    /* padding-top: 20px; */
     height: 250px;
     width: 90%;
   }
@@ -73,7 +112,21 @@
     /* margin-bottom: 20px; */
     font-size: 18px;
   }
-  .aa{
+  img{
+    width: 150px;
+    height: 150px;
+  }
+  span{
+    font-size: 14px;
+  }
+  .more{
+    float: right;
+    color: gray;
+  }
+  .more:hover{
+    color: #000;
+  }
+  .list{
     width: 100%;
     display: inline-flex;
     margin: auto;
@@ -83,8 +136,8 @@
     /*background: #000;*/
     height: 100px;
   }
-  .bb{
-    background: #000;
+  .item{
+    /* background: #000; */
     width: 150px;
     height: 150px;
   }

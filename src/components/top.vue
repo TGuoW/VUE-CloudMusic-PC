@@ -10,7 +10,7 @@
 			<router-link :to="{ path: '/information'}">
 				<div class="user-img"></div>
 			</router-link>
-			<span class="username">TGuoW&gt;</span>
+			<span class="username" v-on:click="show = !show">TGuoW&gt;</span>
 			<i class="fa fa-yelp" id="yelp"></i>
         	<i class="fa fa-envelope-o"></i>
         	<i class="fa fa-cog"></i>
@@ -21,6 +21,9 @@
         	<i class="fa fa-square-o"></i>
         	<i class="fa fa-close"></i>
 		</div>
+		<transition name="fade">
+			<div class="jj" v-show="show">asdasdadaasdasdasdasdasdasdasdasddqweqweqweqweqwesd</div>
+		</transition>
 	</div>
 </template>
 <script>
@@ -28,33 +31,34 @@ export default {
   name: 'top',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      show: false
     }
   }
 }
 </script>
 <style scoped>
 .fa {
-        vertical-align: middle;
-        margin-left: 1.2rem;
-        cursor: pointer;
-		height: 1.2rem;
-      }
+  vertical-align: middle;
+  margin-left: 1.2rem;
+  cursor: pointer;
+	height: 1.2rem;
+}
   .fa-search {
     color: #c87676;
     cursor: pointer;
    
   }
   .fa-yelp {
-        margin-left: 2.5rem;
-        font-size: 1.6rem;
-        cursor: pointer;
-        color: #e7a8a3;
-        vertical-align: middle;
-      }
+    margin-left: 2.5rem;
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: #e7a8a3;
+    vertical-align: middle;
+  }
 	.bg{
 		background: #ca1c15;
 		top: 0;
+		z-index: 1;
 		width: 100%;
 		height: 60px;
 		position: fixed;
@@ -66,8 +70,8 @@ export default {
 		background: url(http://img2.imgtn.bdimg.com/it/u=1972940345,1771388347&fm=214&gp=0.jpg);
 		height: 60px;
 		background-size: 250px;
-        background-position: -10px;
-        background-repeat: no-repeat;
+    background-position: -10px;
+    background-repeat: no-repeat;
 	}
 	.input{
 		color: #fff;
@@ -95,6 +99,7 @@ export default {
     }
 	.username{
 		font-weight: normal;
+		cursor: pointer;
 	}
     .set{
     	position: absolute;
@@ -115,11 +120,14 @@ export default {
     	right: 180px;
     }
     .jj{
-    	height: 20px;
-    	width: 20px;
-    	float: right;
-    	margin-left: 20px;
-    	background: #fff;
+			position: absolute;
+			background: gray;
+			z-index: 999 !important;
+    	height: 200px;
+    	width: 200px;
+    	/* float: right; */
+			margin-top: -50px;
+    	margin-left: 200px;
     }
 	#top{
 		font-size: 68px;

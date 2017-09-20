@@ -3,7 +3,6 @@
 <div>
   <div class="carousel">
     <transition-group tag='ul' class="clearfix slide" name='image'>
-      
       <li v-for='(image,index) in img' :key='index' v-show='index===(mark-1>=0?mark-1:mark+3)' class="left">
         <a><img :src="image"></a>
       </li>
@@ -15,124 +14,17 @@
       </li>
     </transition-group>
     <div class="prev-btn">
-      <i class="fa fa-chevron-left" @click="getPeddingContribution()"></i>
+      <i class="fa fa-chevron-left" @click="prev()"></i>
     </div>
     <div class="next-btn">
-      <i class="fa fa-chevron-right"></i>
+      <i class="fa fa-chevron-right" @click="next()"></i>
     </div>
-  </div>
-  <div class="bullet">
+    <div class="bullet">
       <span v-for='(item,index) in img.length' :class="{'active':index===mark}" @mouseover='change(index)' :key="item.id"></span>
+    </div>
   </div>
 </div>
 </template>
-
-<style type="text/css" scoped>
-  .bg{
-    position: absolute;
-    margin: 0 5% 0 5%;
-    background: #000;
-    width: 100px;
-    z-index: 20;
-    height: 200px;
-  }
-  .clearfix {
-    content: '';
-    clear: both;
-    display: block;
-  }
-  .carousel {
-    width: 90%;
-    height: auto;
-    margin: 0 auto;
-    overflow: hidden;
-    position: relative;
-  }
-  .slide {
-    /* width: 500px; */
-    height: 300px;
-  }
-        
-  li {
-    position: absolute;
-    list-style-type:none;
-  }
-  .left{
-    margin-left: 0px;
-    /* margin:auto; */
-    width: 60%;
-    margin-top: 4.8%;
-  }
-  .middle{
-    margin-left: 15%;
-    z-index: 10;
-  }
-  .right{
-    margin-left: 40%;
-    width: 60%;
-    margin-top: 4.8%;
-  }
-  img {
-    width: 100%;
-  }
-        
-  .bullet {
-    width: 100%;
-    position: absolute;
-    margin: 0 auto;
-    text-align: center;
-    z-index: 10;
-  }
-        
-  span {
-    width: 20px;
-    height: 3px;
-    cursor: pointer;
-    background: gainsboro;
-    display: inline-block;
-    margin-right: 10px;
-  }
-  .prev-btn{
-    position: relative;
-    top: -170px;
-    font-size: 32px;
-    float: left;
-    z-index: 20;
-  }   
-  .next-btn{
-    position: relative;
-    top: -170px;
-    font-size: 32px;
-    float: right;
-    z-index: 20;
-  }
-  .active {
-    background: #ca1c15;
-  }
-        
-  .image-enter-active {
-    transform: translateX(0);
-    opacity: 1;
-    transition: all 0.5s ease;
-  }
-        
-  .image-leave-active {
-    transform: translateX(-20%) scale(0.9,0.9);
-    opacity: 0.5;
-    transition: all 0.5s ease;
-    
-  }
-        
-  .image-enter {
-    transform: translateX(20%);
-    opacity: 1;
-  }
-        
-  .image-leave {
-    transform: translateX(0)  scale(0.9,0.9);
-    opacity: 0.5;
-  }
-</style>
 
 <script>
 import axios from 'axios'
@@ -160,8 +52,11 @@ export default {
     change: function (i) {
       this.mark = i
     },
-    change1: function (i) {
-      this.mark = this.mark + i > 3 ? this.mark - 3 : this.mark + 1
+    prev: function () {
+      this.mark = this.mark - 1 < 0 ? this.mark + 7 : this.mark - 1
+    },
+    next: function () {
+      this.mark = this.mark + 1 > 7 ? this.mark - 7 : this.mark + 1
     },
     autoPlay: function () {
       this.mark++
@@ -204,3 +99,107 @@ export default {
 }
 </script>
 
+<style type="text/css" scoped>
+  .clearfix {
+    content: '';
+    clear: both;
+    display: block;
+  }
+  .carousel {
+    width: 90%;
+    height: 320px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+  }
+  .slide {
+    /* width: 500px; */
+    height: auto;
+  }
+        
+  li {
+    position: absolute;
+    list-style-type:none;
+  }
+  .left{
+    margin-left: 0px;
+    /* margin:auto; */
+    width: 60%;
+    /* margin-top: 4.8%; */
+  }
+  .middle{
+    margin-left: 20%;
+    width: 60%;
+    /* text-align: center; */
+    z-index: 10;
+  }
+  .right{
+    position: absolute;
+    right: 0;
+    /* margin-left: 40%; */
+    width: 60%;
+    /* margin-top: 4.8%; */
+  }
+  img {
+    width: 100%;
+  }
+        
+  .bullet {
+    width: 100%;
+    position: absolute;
+    margin-top: 290px;;
+    text-align: center;
+    z-index: 10;
+  }
+        
+  span {
+    width: 20px;
+    height: 3px;
+    cursor: pointer;
+    background: gainsboro;
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .prev-btn{
+    position: relative;
+    cursor: pointer;
+    top: 120px;
+    font-size: 32px;
+    float: left;
+    z-index: 20;
+  }   
+  .next-btn{
+    position: relative;
+    cursor: pointer;
+    top: 120px;
+    font-size: 32px;
+    float: right;
+    z-index: 20;
+  }
+  .active {
+    background: #ca1c15;
+  }
+        
+  .image-enter-active {
+    transform: translateX(0);
+    opacity: 1;
+    transition: all 0.5s ease;
+  }
+        
+  .image-leave-active {
+    transform: translateX(-20%) scale(0.9,0.9);
+    opacity: 0.5;
+    transition: all 0.5s ease;
+    
+  }
+        
+  .image-enter {
+    transform: translateX(20%);
+    opacity: 1;
+  }
+        
+  .image-leave {
+    transform: translateX(0)  scale(0.9,0.9);
+    opacity: 0.5;
+  }
+</style>
