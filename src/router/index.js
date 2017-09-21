@@ -9,6 +9,7 @@ import transceiver from '@/components/findMusic/transceiver'
 import rank from '@/components/findMusic/rank'
 import singer from '@/components/findMusic/singer'
 import newMusic from '@/components/findMusic/newMusic'
+import FM from '@/components/FM/FM'
 import asa from '@/components/retail/asa'
 
 Vue.use(Router)
@@ -29,6 +30,11 @@ export default new Router({
       path: '/information',
       name: 'information',
       component: information
+    },
+    {
+      path: '/FM',
+      name: 'FM',
+      component: FM
     },
     {
       path: '/findMusic',

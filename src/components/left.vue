@@ -6,7 +6,7 @@
         <router-link :to="{ path: '/findMusic' }" tag="li">
           <i class="fa fa-music fa-fw"></i>发现音乐
         </router-link>
-        <router-link :to="{ path: '/he' }" tag="li">
+        <router-link :to="{ path: '/FM' }" tag="li">
           <i class="fa fa-podcast fa-fw"></i>私人FM
         </router-link>
         <router-link :to="{ path: '/asa' }" tag="li">
@@ -53,7 +53,7 @@ export default {
 }
 </script>
 
-<style type="text/css" scoped>
+<style lang="scss" scoped>
 .fa{
 
 }

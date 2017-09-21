@@ -3,7 +3,7 @@
     <div class="drop-down">华语</div>
     <div class="classification">
       热门标签：
-      <span>华语</span>
+      <span v-for="(cl, index) in classification" :key="index">{{cl.Classification}}</span>
     </div>
     <div>
       <ul class="list">
@@ -20,7 +20,8 @@ import axios from 'axios'
 export default {
   data: function () {
     return {
-      songlist: []
+      songlist: [],
+      classification: []
     }
   },
   mounted: function () {
@@ -32,6 +33,16 @@ export default {
       var self = this
       self.songlist = response.data
       console.log(self.songlist)
+    }).catch((error) => {
+      console.log(error)
+    })
+    axios({
+      url: '/submission/getClassification.php',
+      method: 'post'
+    }).then((response) => {
+      console.log('getMsg +1拿到数据了')
+      var self = this
+      self.classification = response.data
     }).catch((error) => {
       console.log(error)
     })
@@ -70,7 +81,11 @@ export default {
   }
   span{
     color: gray;
-    padding: 0 10px 0 10px;
+    border-left: 1px solid #e0e0e0;
+    padding: 0 15px 0 15px;
+  }
+  span:nth-child(1){
+    border-left: none;
   }
   .list{
     width: 92%;
