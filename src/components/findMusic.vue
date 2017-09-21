@@ -45,7 +45,7 @@
     border-color: #ca1c15;
   }
   .main{
-    background: #fff;
+    background: #fafafa;
     position: absolute;
     left: 15%;
     /*height: 32rem;*/
@@ -65,7 +65,7 @@
   }
   .btn{
     margin: auto;
-    background: #fff;
+    background: #fafafa;
     border-bottom: 1px;
     border-color: #000;
     border-style: solid;

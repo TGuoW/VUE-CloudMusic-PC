@@ -44,7 +44,7 @@
     },
     mounted: function () {
       axios({
-        url: '/submission/getSonglist.php',
+        url: '/submission/getRecommendList.php',
         method: 'post'
       }).then((response) => {
         console.log('getMsg +1拿到数据了')
@@ -74,15 +74,11 @@
 
 <style type="text/css" scoped>
   .main{
-    /* background: #fff; */
     position: fixed;
     left: 15%;
-    /*height: 32rem;*/
     margin-top: 60px;
     bottom: 74px;
     width: 85%;
-    /* overflow: scroll;
-    overflow-x: hidden; */
     text-align: center;
   }
   .btn{
