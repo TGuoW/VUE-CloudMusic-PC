@@ -13,6 +13,9 @@
         </li>
       </ul>
     </div>
+    <div class="page">
+      <span>1 2 3 4 5 6 7 8 9 10</span>
+    </div>
   </div>
 </template>
 <<script>
@@ -21,13 +24,17 @@ export default {
   data: function () {
     return {
       songlist: [],
-      classification: []
+      classification: [],
+      page: 1
     }
   },
   mounted: function () {
     axios({
       url: '/submission/getSonglist.php',
-      method: 'post'
+      method: 'post',
+      data: {
+        page: this.page
+      }
     }).then((response) => {
       console.log('getMsg +1拿到数据了')
       var self = this
@@ -93,6 +100,7 @@ export default {
     /* display: inline-flex; */
     margin: auto;
     margin-top: 10px;
+    height: 5700px;
     list-style-type:none;
     justify-content: space-between;
     /*background: #000;*/
@@ -111,6 +119,11 @@ export default {
     width: 150px;
     margin:8px 28px 8px 28px;
     font-size: 14px;
+  }
+  .page{
+    background: #000;
+    /* width: 1000px;
+    height: 100px; */
   }
 </style>
 

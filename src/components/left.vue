@@ -9,7 +9,7 @@
         <router-link :to="{ path: '/FM' }" tag="li">
           <i class="fa fa-podcast fa-fw"></i>私人FM
         </router-link>
-        <router-link :to="{ path: '/asa' }" tag="li">
+        <router-link :to="{ path: '/MV' }" tag="li">
           <i class="fa fa-youtube-play fa-fw"></i>MV
         </router-link>
         <router-link :to="{ path: '/asa' }" tag="li">
