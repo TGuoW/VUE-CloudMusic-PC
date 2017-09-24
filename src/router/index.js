@@ -11,6 +11,9 @@ import singer from '@/components/findMusic/singer'
 import newMusic from '@/components/findMusic/newMusic'
 import FM from '@/components/FM/FM'
 import MV from '@/components/MV/MV'
+import featuredMV from '@/components/MV/featuredMV'
+
+import allMV from '@/components/MV/allMV'
 import asa from '@/components/retail/asa'
 
 Vue.use(Router)
@@ -40,7 +43,21 @@ export default new Router({
     {
       path: '/MV',
       name: 'MV',
-      component: MV
+      component: MV,
+      children: [
+        {
+          path: '',
+          redirect: 'featuredMV'
+        },
+        {
+          path: 'featuredMV',
+          component: featuredMV
+        },
+        {
+          path: 'allMV',
+          component: allMV
+        }
+      ]
     },
     {
       path: '/findMusic',
@@ -48,39 +65,39 @@ export default new Router({
       component: findMusic,
       children: [
         {
-          path: '/findMusic/',
-          redirect: '/findMusic/recommend'
+          path: '',
+          redirect: 'recommend'
         },
         { path: '/findMusic/he',
           component: Hello
         },
         {
-          path: '/findMusic/recommend',
+          path: 'recommend',
           name: 'recommend',
           component: recommend
         },
         {
-          path: '/findMusic/songList',
+          path: 'songList',
           name: 'songList',
           component: songList
         },
         {
-          path: '/findMusic/transceiver',
+          path: 'transceiver',
           name: 'transceiver',
           component: transceiver
         },
         {
-          path: '/findMusic/rank',
+          path: 'rank',
           name: 'rank',
           component: rank
         },
         {
-          path: '/findMusic/singer',
+          path: 'singer',
           name: 'singer',
           component: singer
         },
         {
-          path: '/findMusic/newMusic',
+          path: 'newMusic',
           name: 'newMusic',
           component: newMusic
         }

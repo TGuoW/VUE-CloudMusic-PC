@@ -64,6 +64,7 @@
     background-color: #e1e1e2;
   }
   .btn{
+    /* position: relative; */
     margin: auto;
     background: #fafafa;
     border-bottom: 1px;

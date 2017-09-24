@@ -93,7 +93,7 @@
   .btn-2{
     text-align: left;
     margin: auto auto 40px auto;
-    background: #fff;
+    background: #fafafa;
     /* padding-top: 20px; */
     height: 250px;
     width: 90%;
@@ -101,7 +101,7 @@
   .btn-sty{
     line-height: 50px;
     border-bottom: 1px;
-    border-color: #000;
+    border-color: #e0e0e0;
     border-style: solid;
     width: 100%;
     height: 50px;
