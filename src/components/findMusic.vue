@@ -68,7 +68,7 @@
     margin: auto;
     background: #fafafa;
     border-bottom: 1px;
-    border-color: #000;
+    border-color: #e0e0e0;
     border-style: solid;
     height: 50px;
     width: 90%;

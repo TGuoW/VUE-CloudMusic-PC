@@ -87,6 +87,7 @@ export default {
 		top: 0;
 		z-index: 1;
 		width: 100%;
+		/* opacity: 0.5; */
 		height: 60px;
 		position: fixed;
 	}
@@ -97,8 +98,8 @@ export default {
 		background: url(http://img2.imgtn.bdimg.com/it/u=1972940345,1771388347&fm=214&gp=0.jpg);
 		height: 60px;
 		background-size: 250px;
-    background-position: -10px;
-    background-repeat: no-repeat;
+    	background-position: -10px;
+    	background-repeat: no-repeat;
 	}
 	.input{
 		color: #fff;
