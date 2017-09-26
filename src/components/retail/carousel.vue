@@ -122,9 +122,11 @@ export default {
     list-style-type:none;
   }
   .left{
-    margin-left: 0px;
+    position: absolute;
+    left: 0;
+    bottom: 29px;
     /* margin:auto; */
-    width: 60%;
+    width: 56%;
     /* margin-top: 4.8%; */
   }
   .middle{
@@ -135,9 +137,10 @@ export default {
   }
   .right{
     position: absolute;
+    bottom: 29px;
     right: 0;
     /* margin-left: 40%; */
-    width: 60%;
+    width: 56%;
     /* margin-top: 4.8%; */
   }
   img {
@@ -182,24 +185,24 @@ export default {
         
   .image-enter-active {
     transform: translateX(0);
-    opacity: 1;
+    /* opacity: 1; */
     transition: all 0.5s ease;
   }
         
   .image-leave-active {
-    transform: translateX(-20%) scale(0.9,0.9);
-    opacity: 0.5;
+    transform: scale3d(0.9,0.9,0.9) translateY(5.5%) translateX(43%);
+    /* opacity: 0.5; */
     transition: all 0.5s ease;
     
   }
         
   .image-enter {
-    transform: translateX(20%);
-    opacity: 1;
+    transform: scale3d(0.9,0.9,0.9) translateY(5.5%) translateX(43%);
+    /* opacity: 1; */
   }
         
   .image-leave {
-    transform: translateX(0)  scale(0.9,0.9);
-    opacity: 0.5;
+    transform: translateX(0);
+    /* opacity: 0.5; */
   }
 </style>

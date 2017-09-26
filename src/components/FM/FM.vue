@@ -22,7 +22,10 @@
             </div>
         </div>
         <div class="comment">
-            <div class="title">听友评论</div>
+            <div class="title">
+                <span>听友评论</span>
+            </div>
+            <input type="text" class="input">
         </div>
     </div>
 </template>
@@ -47,9 +50,17 @@ export default {
         overflow: scroll;
         overflow-x: hidden;
     }
+    .main::-webkit-scrollbar {
+        width: 8px;
+    }
+    .main::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background-color: #e1e1e2;
+    }
     .song{
         position: relative;
         /* background: #000; */
+        display: flex;
         margin: auto;
         margin-top:10px;
         width: 660px;
@@ -58,7 +69,8 @@ export default {
     .img-btn{
         position: relative;
         /* background: #000; */
-        float: left;
+        /* float: left; */
+        margin-right: 50px;
         width: 300px;
         height: 450px;
     }
@@ -72,7 +84,7 @@ export default {
         height: 300px;
     }
     .lyrics{
-        float: right;
+        /* float: right; */
         position: relative;
         background: #fff;
         width: 300px;
@@ -90,7 +102,7 @@ export default {
         font-weight: normal;
     }
     span{
-        margin-right: 40px;
+        margin-right: 80px;
     }
     li{
         list-style: none;
@@ -103,19 +115,26 @@ export default {
         width: 40px;
     }
     .comment{
-        /* background: #000; */
         position: relative;
-        /* text-align: left; */
-        margin: auto;
-        margin-top:10px;
-        height: 200px;
         width: 900px;
+        /* left: 15%; */
+        margin: auto;
+        /* background: #000; */
     }
     .title{
-        position: relative;
-        background: #000;
         text-align: left;
-        margin-left: 0;
+        font-size: 24px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e0e0e0;
+        /* float: left; */
+    }
+    .input{
+        margin-top: 20px;
+        margin-bottom: 40px;
+        border: 10px solid #e0e0e0;
+        padding: 8px;
+        font-size: 16px;
+        width: 864px;
     }
 </style>
 
