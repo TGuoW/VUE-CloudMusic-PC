@@ -1,5 +1,5 @@
 <template>
-	<div class="bottom">
+	<div class="bottom" @click="jj()">
 		<div class="row">
 			<li class="btn">
 				<i class="fa fa-step-backward"></i>
@@ -32,7 +32,13 @@
 </template>
 
 <script type="text/javascript">
-	
+export default {
+  methods: {
+    jj: function () {
+      this.$store.commit('showStatus', false)
+    }
+  }
+}
 </script>
 
 <style type="text/css" scoped>

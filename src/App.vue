@@ -18,6 +18,17 @@ export default {
     top,
     bottom,
     findMusic
+  },
+  methods: {
+    jj: function () {
+      // console.log(3)
+      // top.data().show = false
+      // if (this.$refs.isShowStatus.show) {
+      //   this.$refs.isShowStatus.fade()
+      // }
+      this.$store.commit('showStatus', false)
+      // console.log(this.$refs)
+    }
   }
 }
 </script>

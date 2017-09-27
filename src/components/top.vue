@@ -1,28 +1,28 @@
 <template>
 	<div class="bg">
-		<div class="logo">
+		<div class="logo" @click="jj()">
 			<router-link :to="{ path: '/'}">
 				<div class="logo-wrap"></div>
 			</router-link>
 		</div>
 		<input type="text" class="input" name="search" placeholder="搜索音乐，歌手，歌词，用户">
 		<div class="tool">
-			<router-link :to="{ path: '/information'}">
+			<router-link :to="{ path: '/information'}" @click="jj()">
 				<div class="user-img"></div>
 			</router-link>
-			<span class="username" v-on:click="show = !show">TGuoW&gt;</span>
-			<i class="fa fa-yelp" id="yelp"></i>
-        	<i class="fa fa-envelope-o"></i>
-        	<i class="fa fa-cog"></i>
+			<span class="username" v-on:click="fade()">TGuoW&gt;</span>
+				<i class="fa fa-yelp" id="yelp" @click="jj()"></i>
+        <i class="fa fa-envelope-o" @click="jj()"></i>
+        <i class="fa fa-cog" @click="jj()"></i>
 		</div>
-		<div class="set">
+		<div class="set" @click="jj()">
 			<i class="fa fa-external-link"></i>
        		<i class="fa fa-minus"></i>
         	<i class="fa fa-square-o"></i>
         	<i class="fa fa-close"></i>
 		</div>
 		<transition name="fade">
-			<div class="top-status" v-show="show">
+			<div class="top-status" v-show="isShow()">
 				<div class="triangle"></div>
 				<div class="rectangle">
 					<div class="user-info">
@@ -59,6 +59,17 @@ export default {
   data () {
     return {
       show: false
+    }
+  },
+  methods: {
+    fade: function () {
+      this.$store.commit('showStatus', true)
+    },
+    isShow: function () {
+      return this.$store.state.isShowStatus
+    },
+    jj: function () {
+      this.$store.commit('showStatus', false)
     }
   }
 }

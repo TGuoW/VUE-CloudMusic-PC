@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div @click="jj()">
 	  <div id="left">
       <div id="list-head">推荐</div>
       <ul id="list">
@@ -31,6 +31,7 @@
         <li>我的歌手</li>
       </ul>
 	  </div>
+    <narrow-detail></narrow-detail>
     <div class="mainBody">
       <router-view></router-view>
     </div>
@@ -38,16 +39,23 @@
 </template>
 
 <script type="text/javascript">
+import narrowDetail from './songDetail/narrowDetail'
 export default {
   data: function () {
     return {
       activeTab: 'findMusic'
     }
   },
+  components: {
+    narrowDetail
+  },
   methods: {
     handleTabChange (val) {
       console.log('handleTabChange函数跑了一次')
       this.activeTab = val
+    },
+    jj: function () {
+      this.$store.commit('showStatus', false)
     }
   }
 }
@@ -69,8 +77,9 @@ export default {
   text-align: left;
   position: fixed;
   top: 60px;
-  bottom: 4.6rem;
-  width: 15%;  
+  bottom: 133px;
+  width: 14.9%;  
+  border-right: 1px solid #e0e0e0;
   background: #f5f5f7;
   overflow: scroll;
   overflow-x: hidden;
