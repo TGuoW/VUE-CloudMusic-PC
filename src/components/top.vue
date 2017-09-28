@@ -63,7 +63,11 @@ export default {
   },
   methods: {
     fade: function () {
-      this.$store.commit('showStatus', true)
+      if (this.$store.state.isShowStatus) {
+        this.$store.commit('showStatus', false)
+      } else {
+        this.$store.commit('showStatus', true)
+      }
     },
     isShow: function () {
       return this.$store.state.isShowStatus

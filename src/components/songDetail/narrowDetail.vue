@@ -1,6 +1,6 @@
 <template>
   <div class="main" @mouseover="fadeIn()" @mouseout="fadeOut()">
-    <div class="image">
+    <div class="image" @click="showAllDetail()">
       <img src="http://p3.music.126.net/Kv0E_qQdJ9amNRu4_64Mxw==/18924794137514110.jpg?param=200y200" id="image">
     </div>
     <div class="text">
@@ -18,6 +18,9 @@ export default {
     },
     fadeOut: function () {
       document.getElementById('image').style.opacity = 1
+    },
+    showAllDetail: function () {
+      this.$store.commit('showAllDetail', true)
     }
   }
 }

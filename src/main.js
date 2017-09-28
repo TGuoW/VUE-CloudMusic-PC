@@ -10,12 +10,16 @@ Vue.config.productionTip = false
 
 const store = new Vuex.Store({
   state: {
-    isShowStatus: false
+    isShowStatus: false,
+    isShowAllDetail: false
   },
   mutations: {
     showStatus (state, n) {
       // 变更状态
       state.isShowStatus = n
+    },
+    showAllDetail (state, n) {
+      state.isShowAllDetail = n
     }
   }
 })

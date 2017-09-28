@@ -74,11 +74,12 @@
 
 <style type="text/css" scoped>
   .main{
-    position: fixed;
-    left: 15%;
-    margin-top: 60px;
+    position: relative;
+    left: 0;
+    top: 0;
+    margin-top: 30px;
     bottom: 74px;
-    width: 85%;
+    width: 100%;
     text-align: center;
   }
   .btn{

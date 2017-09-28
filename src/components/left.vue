@@ -30,8 +30,8 @@
         <li>我的音乐云盘</li>
         <li>我的歌手</li>
       </ul>
+      <narrow-detail></narrow-detail>
 	  </div>
-    <narrow-detail></narrow-detail>
     <div class="mainBody">
       <router-view></router-view>
     </div>

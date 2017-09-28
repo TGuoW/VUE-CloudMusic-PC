@@ -48,7 +48,8 @@
     background: #fafafa;
     position: absolute;
     left: 15%;
-    /*height: 32rem;*/
+    /* height: 1000px; */
+    height: auto;
     top: 60px;
     bottom: 74px;
     width: 85%;
@@ -106,8 +107,8 @@
     height: 100px;
   }
   .router-view{
-    position: absolute;
-    margin: auto;
+    /* position: absolute; */
+    /* margin: auto; */
     text-align: center;
     top: 60px;
   }

@@ -59,12 +59,13 @@ export default {
 
 <style scoped>
   .main{
-    position: fixed;
-    left: 15%;
+    position: relative;
+    left: 0;
     /* margin-top: 60px; */
-    margin: 60px auto auto auto;
+    top: 0;
+    margin: auto auto auto auto;
     bottom: 74px;
-    width: 85%;
+    width: 100%;
     /* text-align: center; */
   }
   .drop-down{

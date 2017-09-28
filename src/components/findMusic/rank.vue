@@ -109,11 +109,12 @@
 </template>
 <style scoped>
   .main{
-    position: fixed;
-    left: 15%;
-    margin-top: 60px;
+    position: relative;
+    left: 0;
+    margin-top: -60px;
     bottom: 74px;
-    width: 85%;
+    width: 100%;
+    height: auto;
     text-align: center;
   }
   .official-rank{
@@ -148,7 +149,7 @@
     width: 300px;
     height: 400px;
     margin-top: 20px;
-    margin-right: 68px;
+    margin-right: 65px;
   }
   li:nth-child(3){
     margin-right: 0;
@@ -170,7 +171,7 @@
     list-style-type:none;
     justify-content: space-between;
     /*background: #000;*/
-    height: 100px;
+    height: 200px;
   }
   .item2{
     /* background: #000; */
