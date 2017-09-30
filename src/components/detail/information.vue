@@ -1,10 +1,12 @@
 <template>
     <div class="main">
         <div class="about">
-            <div class="img"></div>
+            <div class="img">
+                <img v-bind:src=userInfo.img>
+            </div>
             <div class="info">
                 <div class="person">
-                    <span>TGuoW</span>
+                    <span>{{userInfo.nickName}}</span>
                     <span class="edit">编辑个人信息</span>
                 </div>
                 <div class="follow">
@@ -41,6 +43,21 @@
         </div>
     </div>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      userInfo: {}
+    }
+  },
+  mounted: function () {
+    let self = this
+    self.userInfo = self.$store.state.userInfo
+  }
+}
+</script>
+
 <style scoped>
 .main{
     position: fixed;

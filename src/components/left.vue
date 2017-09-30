@@ -51,7 +51,6 @@ export default {
   },
   methods: {
     handleTabChange (val) {
-      console.log('handleTabChange函数跑了一次')
       this.activeTab = val
     },
     jj: function () {

@@ -8,9 +8,11 @@
 		<input type="text" class="input" name="search" placeholder="搜索音乐，歌手，歌词，用户">
 		<div class="tool">
 			<router-link :to="{ path: '/information'}" @click="jj()">
-				<div class="user-img"></div>
+				<div class="user-img">
+          <img v-bind:src=userInfo.img>
+        </div>
 			</router-link>
-			<span class="username" v-on:click="fade()">TGuoW&gt;</span>
+			<span class="username" v-on:click="fade()">{{userInfo.nickName}}</span>
 				<i class="fa fa-yelp" id="yelp" @click="jj()"></i>
         <i class="fa fa-envelope-o" @click="jj()"></i>
         <i class="fa fa-cog" @click="jj()"></i>
@@ -26,8 +28,10 @@
 				<div class="triangle"></div>
 				<div class="rectangle">
 					<div class="user-info">
-						<div class="user-img"></div>
-						<span class="nickname">TGuoW</span>
+						<div class="user-img">
+              <img v-bind:src=userInfo.img>
+            </div>
+						<span class="nickname">{{userInfo.nickName}}</span>
 						<span class="check-in">签到</span>
 					</div>
 					<div class="follow">
@@ -37,7 +41,7 @@
           </div>
 					<div class="item">
 						<p>会员中心</p>
-						<p>等级</p>
+						<p>等级：{{userInfo.level}}</p>
 						<p>积分商城</p>
 					</div>
 					<div class="item">
@@ -54,14 +58,32 @@
 	</div>
 </template>
 <script>
+import axios from 'axios'
 export default {
   name: 'top',
   data () {
     return {
-      show: false
+      show: false,
+      userInfo: {}
     }
   },
+  mounted: function () {
+    this.login()
+  },
   methods: {
+    login: function () {
+      axios({
+        url: '/submission/userInfo.php',
+        method: 'post'
+      }).then((response) => {
+        var self = this
+        self.userInfo = response.data
+        self.$store.commit('login', self.userInfo)
+        console.log(self.userInfo)
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
     fade: function () {
       if (this.$store.state.isShowStatus) {
         this.$store.commit('showStatus', false)
@@ -110,7 +132,7 @@ export default {
 		height: 60px;
 	}
 	.logo-wrap{
-		background: url(http://img2.imgtn.bdimg.com/it/u=1972940345,1771388347&fm=214&gp=0.jpg);
+		background: url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1507384086&di=af3f2dbad88ad08a346bee44153ceaad&imgtype=jpg&er=1&src=http%3A%2F%2Fwww.pppoo.com%2Fblog%2Fupload%2Fmusic163_logo.jpg);
 		height: 60px;
 		background-size: 250px;
     	background-position: -10px;
@@ -131,15 +153,19 @@ export default {
 	}
 	input::-webkit-input-placeholder{
     	color: #fff;opacity:1;
-    }
-    .user-img{
+  }
+  .user-img{
     	background: #fff;
     	width: 40px;
     	height: 40px;
     	border-radius: 20px;
     	vertical-align: middle;
     	display: inline-flex;
-    }
+  }
+  img{
+    width: 40px;
+    border-radius: 20px;
+  }
 	.username{
 		font-weight: normal;
 		cursor: pointer;

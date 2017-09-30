@@ -11,7 +11,9 @@ Vue.config.productionTip = false
 const store = new Vuex.Store({
   state: {
     isShowStatus: false,
-    isShowAllDetail: false
+    isShowAllDetail: false,
+    isLogin: false,
+    userInfo: {}
   },
   mutations: {
     showStatus (state, n) {
@@ -20,6 +22,10 @@ const store = new Vuex.Store({
     },
     showAllDetail (state, n) {
       state.isShowAllDetail = n
+    },
+    login (state, n) {
+      state.userInfo = n
+      state.isLogin = true
     }
   }
 })

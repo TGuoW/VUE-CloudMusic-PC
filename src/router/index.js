@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
-import information from '@/components/retail/information'
+import information from '@/components/detail/information'
 import findMusic from '@/components/findMusic'
 import recommend from '@/components/findMusic/recommend'
 import songList from '@/components/findMusic/songList'
@@ -14,7 +14,7 @@ import MV from '@/components/MV/MV'
 import featuredMV from '@/components/MV/featuredMV'
 
 import allMV from '@/components/MV/allMV'
-import asa from '@/components/retail/asa'
+import asa from '@/components/detail/asa'
 
 Vue.use(Router)
 

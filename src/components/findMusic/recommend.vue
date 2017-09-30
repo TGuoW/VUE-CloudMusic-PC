@@ -29,7 +29,7 @@
 </template>
 
 <script>
-  import carousel from '../retail/carousel.vue'
+  import carousel from '../detail/carousel.vue'
   import axios from 'axios'
   export default {
     name: 'findMusic',
@@ -47,10 +47,8 @@
         url: '/submission/getRecommendList.php',
         method: 'post'
       }).then((response) => {
-        console.log('getMsg +1拿到数据了')
         var self = this
         self.songlist = response.data
-        console.log(self.songlist)
       }).catch((error) => {
         console.log(error)
       })
@@ -58,10 +56,8 @@
         url: '/submission/exclusive.php',
         method: 'post'
       }).then((response) => {
-        console.log('getMsg +1拿到数据了')
         var self = this
         self.exclusive = response.data
-        console.log(self.exclusive)
       }).catch((error) => {
         console.log(error)
       })
