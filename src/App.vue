@@ -45,6 +45,7 @@ export default {
   color: #2c3e50;
   width: 100%;
   margin-top: 60px;
+  user-select: none;
 }
 .top-layer {
   z-index: 0;

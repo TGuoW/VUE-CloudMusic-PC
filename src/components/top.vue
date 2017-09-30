@@ -7,8 +7,8 @@
 		</div>
 		<input type="text" class="input" name="search" placeholder="搜索音乐，歌手，歌词，用户">
 		<div class="tool">
-			<router-link :to="{ path: '/information'}" @click="jj()">
-				<div class="user-img">
+			<router-link :to="{ path: '/information'}">
+				<div class="user-img" @click="jj()">
           <img v-bind:src=userInfo.img>
         </div>
 			</router-link>
@@ -27,31 +27,37 @@
 			<div class="top-status" v-show="isShow()">
 				<div class="triangle"></div>
 				<div class="rectangle">
-					<div class="user-info">
-						<div class="user-img">
-              <img v-bind:src=userInfo.img>
-            </div>
-						<span class="nickname">{{userInfo.nickName}}</span>
-						<span class="check-in">签到</span>
-					</div>
-					<div class="follow">
-          	<div class="row">0<p>动态</p></div>
-            <div class="row line">3<p>关注</p></div>
-            <div class="row">0<p>粉丝</p></div>
+          <div class="loading" v-if="!isLoading">
+            <i class="fa fa-spinner fa-pulse"></i>
+            <!-- <p class="load-text">载入中...</p> -->
           </div>
-					<div class="item">
-						<p>会员中心</p>
-						<p>等级：{{userInfo.level}}</p>
-						<p>积分商城</p>
-					</div>
-					<div class="item">
-						<p>个人信息设置</p>
-						<p>绑定社交账号</p>
-						<p>导入歌单</p>
-					</div>
-					<div class="sign-out">
-						<p>退出登录</p>
-					</div>
+          <div v-show="isLoading">
+					  <div class="user-info">
+						  <div class="user-img">
+                <img v-bind:src=userInfo.img>
+              </div>
+						  <span class="nickname">{{userInfo.nickName}}</span>
+						  <span class="check-in">签到</span>
+					  </div>
+					  <div class="follow">
+          	  <div class="row">0<p>动态</p></div>
+              <div class="row line">3<p>关注</p></div>
+              <div class="row">0<p>粉丝</p></div>
+            </div>
+					  <div class="item">
+						  <p>会员中心</p>
+						  <p>等级：{{userInfo.level}}</p>
+						  <p>积分商城</p>
+					  </div>
+					  <div class="item">
+						  <p>个人信息设置</p>
+						  <p>绑定社交账号</p>
+						  <p>导入歌单</p>
+					  </div>
+					  <div class="sign-out">
+						  <p>退出登录</p>
+					  </div>
+          </div>
 				</div>
 			</div>
 		</transition>
@@ -64,7 +70,8 @@ export default {
   data () {
     return {
       show: false,
-      userInfo: {}
+      userInfo: {},
+      isLoading: false
     }
   },
   mounted: function () {
@@ -79,6 +86,7 @@ export default {
         var self = this
         self.userInfo = response.data
         self.$store.commit('login', self.userInfo)
+        self.isLoading = true
         console.log(self.userInfo)
       }).catch((error) => {
         console.log(error)
@@ -87,8 +95,12 @@ export default {
     fade: function () {
       if (this.$store.state.isShowStatus) {
         this.$store.commit('showStatus', false)
+        setTimeout(() => {
+          this.isLoading = false
+        }, 200)
       } else {
         this.$store.commit('showStatus', true)
+        this.login()
       }
     },
     isShow: function () {
@@ -168,8 +180,13 @@ export default {
   }
 	.username{
 		font-weight: normal;
+    color: #e0e0e0;
+    font-size: 12px;
 		cursor: pointer;
 	}
+  .username:hover{
+    color: #fff;
+  }
     .set{
     	position: absolute;
     	vertical-align: middle;
@@ -271,4 +288,21 @@ p{
 	font-size: 14px;
 	line-height: 44px;
 }
+.loading {
+  position: absolute;
+  top: 0;
+  /* background: #000; */
+  left: 110px;
+  /* transform: translateX(-50%); */
+  margin-top: 50px;
+  text-align: center;
+}
+.load-text{
+  /* text-align: right; */
+  margin-left: 20px;
+}
+  /* .fa {
+    color: #c62f2f;
+    font-size: 30px;
+  } */
 </style>

@@ -1,59 +1,87 @@
 <template>
-    <div class="main">
-        <div class="about">
-            <div class="img">
-                <img v-bind:src=userInfo.img>
-            </div>
-            <div class="info">
-                <div class="person">
-                    <span>{{userInfo.nickName}}</span>
-                    <span class="edit">编辑个人信息</span>
-                </div>
-                <div class="follow">
-                    <div class="row">0<p>动态</p></div>
-                    <div class="row line">3<p>关注</p></div>
-                    <div class="row">0<p>粉丝</p></div>
-                </div>
-                <div class="introduce">
-                    <p>个人介绍：<span>暂无介绍</span></p>
-                    <p>社交网络：<span>暂无</span></p>
-                    <p>所在地区：<span>广东省 广州市</span></p>
-                </div>
-            </div>
-        </div>
-        <div class="my-create">
-            <div class="my-songlist">我创建的歌单</div>
-            <ul class="aa">
-                <li class="bb"></li>
-                <li class="bb"></li>
-                <li class="bb"></li>
-                <li class="bb"></li>
-                <li class="bb"></li>
-            </ul>
-        </div>
-        <div class="my-collect">
-            <div class="my-songlist">我收藏的歌单</div>
-            <ul class="aa">
-                <li class="bb"></li>
-                <li class="bb"></li>
-                <li class="bb"></li>
-                <li class="bb"></li>
-                <li class="bb"></li>
-            </ul>
-        </div>
+  <div class="main">
+    <div class="loading" v-if="!isLoading">
+      <i class="fa fa-spinner fa-pulse"></i>
+      <span class="load-text">载入中...</span>
     </div>
+    <div v-if="isLoading">
+      <div class="about" >
+        <div class="img">
+          <img v-bind:src=userInfo.img>
+        </div>
+        <div class="info">
+          <div class="person">
+            <span>{{userInfo.nickName}}</span>
+            <span class="edit">编辑个人信息</span>
+          </div>
+          <div class="follow">
+            <div class="row">0<p>动态</p></div>
+            <div class="row line">3<p>关注</p></div>
+            <div class="row">0<p>粉丝</p></div>
+          </div>
+          <div class="introduce">
+            <p>个人介绍：<span>暂无介绍</span></p>
+            <p>社交网络：<span>暂无</span></p>
+            <p>所在地区：<span>广东省 广州市</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="my-create">
+        <div class="my-songlist">我创建的歌单</div>
+        <ul class="aa">
+                <li class="bb"></li>
+                <li class="bb"></li>
+                <li class="bb"></li>
+                <li class="bb"></li>
+                <li class="bb"></li>
+        </ul>
+      </div>
+      <div class="my-collect">
+        <div class="my-songlist">我收藏的歌单</div>
+        <ul class="aa">
+                <li class="bb"></li>
+                <li class="bb"></li>
+                <li class="bb"></li>
+                <li class="bb"></li>
+                <li class="bb"></li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data () {
     return {
-      userInfo: {}
+      userInfo: {},
+      isLoading: false
     }
   },
   mounted: function () {
     let self = this
-    self.userInfo = self.$store.state.userInfo
+    self.login()
+  },
+  destroyed: function () {
+    let self = this
+    self.isLoading = false
+  },
+  methods: {
+    login: function () {
+      axios({
+        url: '/submission/userInfo.php',
+        method: 'post'
+      }).then((response) => {
+        var self = this
+        self.userInfo = response.data
+        self.$store.commit('login', self.userInfo)
+        self.isLoading = true
+        console.log(self.userInfo)
+      }).catch((error) => {
+        console.log(error)
+      })
+    }
   }
 }
 </script>
@@ -170,5 +198,8 @@ p{
     background: #000;
     width: 150px;
     height: 150px;
+  }
+  .loading{
+    margin-top: 100px;
   }
 </style>
