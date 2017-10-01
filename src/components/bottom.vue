@@ -5,16 +5,20 @@
 				<i class="fa fa-step-backward"></i>
 			</li>
 			<li class="btn">
-				<i class="fa fa-play"></i>
+				<i class="fa fa-play" @click="play()"></i>
 			</li>
 			<li class="btn">
 				<i class="fa fa-step-forward"></i>
 			</li>
 		</div>
 		<div class="time">
-			<span >0:00</span>
+			<span >{{currentTime}}</span>
 		</div>
-		<div class="bar"></div>
+		<div class="bar">
+      <div class="pos-i">
+        <div id="pos"></div>
+      </div>
+    </div>
 		<div class="volume">
 			<i class="fa fa-fw fa-volume-up"></i>
 			<div class="bar-volume"></div>
@@ -32,10 +36,41 @@
 </template>
 
 <script type="text/javascript">
+import Mc from './detail/musicController.js'
+var musicUrl = 'http://39.108.221.165/src.mp3'
+var music = new Mc(musicUrl)
 export default {
+  data: function () {
+    return {
+      currentTime: 0
+    }
+  },
+  mounted: function () {
+    // if (music.isPaused) {
+    //   clearInterval(p)
+    // } else {
+    var self = this
+    setInterval(function () {
+      console.log(self.currentTime)
+      self.currentTime = music.currentTime
+      // document.getElementById('pos').style.left = music.currentTime + 'px'
+    }, 100)
+    // }
+  },
   methods: {
     jj: function () {
       this.$store.commit('showStatus', false)
+    },
+    ct: function () {
+      return music.currentTime
+    },
+    play: function () {
+      console.log(1)
+      if (music.isPaused) {
+        music.run()
+      } else {
+        music.pause()
+      }
     }
   }
 }
@@ -86,8 +121,8 @@ export default {
 	margin: auto;
 	border-radius: 3px;
 	width: 40%;
-	height: 6px;
-	top: 31.5px;
+	height: 4px;
+	top: 34px;
 	left: 380px;
 }
 .volume{
@@ -113,6 +148,21 @@ export default {
 	left: 1150px;
 	display: inline-flex;
 	list-style-type: none;
-
+}
+.pos-i{
+  position: relative;
+  /* background: #e0e0e0; */
+  top: -6px;
+  border: 1px solid #b4b4b4;
+  border-radius: 7px;
+  height: 14px;
+  width: 14px;
+}
+#pos{
+  margin: auto;
+  border: 5px solid #fff;
+  border-radius: 8px;
+  height: 4px;
+  width: 4px;
 }
 </style>
