@@ -8,7 +8,7 @@
 		<input type="text" class="input" name="search" placeholder="搜索音乐，歌手，歌词，用户">
 		<div class="tool">
 			<router-link :to="{ path: '/information'}">
-				<div class="user-img" @click="jj()">
+				<div class="user-img" @click="cc()">
           <img v-bind:src=userInfo.img>
         </div>
 			</router-link>
@@ -108,6 +108,10 @@ export default {
     },
     jj: function () {
       this.$store.commit('showStatus', false)
+    },
+    cc: function () {
+      this.jj()
+      this.$store.commit('showAllDetail', false)
     }
   }
 }
@@ -249,9 +253,13 @@ export default {
 		font-size: 14px;
 		border: 1px solid #e0e0e0;
 		/* padding-left: 50px; */
+		cursor: pointer;
 		margin: 5px 15px 0 0;
 		border-radius: 5px;
 		padding: 3px 10px 3px 10px;
+	}
+	.check-in:hover{
+		background: #b4b4b4;
 	}
 	#top{
 		font-size: 68px;

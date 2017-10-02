@@ -5,20 +5,24 @@
 				<i class="fa fa-step-backward"></i>
 			</li>
 			<li class="btn">
-				<i class="fa fa-play" @click="play()"></i>
+				<i class="fa fa-pause" @click="play()" v-show="!isPaused()"></i>
+        <i class="fa fa-play" @click="play()" v-show="isPaused()"></i>
 			</li>
 			<li class="btn">
 				<i class="fa fa-step-forward"></i>
 			</li>
 		</div>
 		<div class="time">
-			<span >{{currentTime}}</span>
+			<span>{{currentTime}}</span>
 		</div>
 		<div class="bar">
-      <div class="pos-i">
+      <div id="bar-red"></div>
+      <div id="bar-grey"></div>
+      <div id="pos-i">
         <div id="pos"></div>
       </div>
     </div>
+    <div class="music-length">{{duration}}</div>
 		<div class="volume">
 			<i class="fa fa-fw fa-volume-up"></i>
 			<div class="bar-volume"></div>
@@ -42,35 +46,64 @@ var music = new Mc(musicUrl)
 export default {
   data: function () {
     return {
-      currentTime: 0
+      currentTime: '00:00',
+      duration: 0
     }
   },
   mounted: function () {
     // if (music.isPaused) {
     //   clearInterval(p)
     // } else {
-    var self = this
-    setInterval(function () {
-      console.log(self.currentTime)
-      self.currentTime = music.currentTime
-      // document.getElementById('pos').style.left = music.currentTime + 'px'
-    }, 100)
     // }
   },
   methods: {
     jj: function () {
       this.$store.commit('showStatus', false)
     },
-    ct: function () {
-      return music.currentTime
-    },
-    play: function () {
+    play: function () { // 播放或暂停
       console.log(1)
+      let self = this
+      self.duration = self.standardizedTime(music.duration)
       if (music.isPaused) {
         music.run()
+        this.showTime()
+        this.$store.commit('pause', false)
       } else {
         music.pause()
+        this.$store.commit('pause', true)
       }
+    },
+    isPaused: function () {
+      return this.$store.state.isPaused
+    },
+    standardizedTime: function (t) { // 标准化时间
+      let minute = parseInt(t / 60)
+      let second = parseInt(t % 60)
+      if (minute / 10 < 1) {
+        minute = '0' + minute.toString()
+      } else {
+        minute = minute.toString()
+      }
+      if (second / 10 < 1) {
+        second = '0' + second.toString()
+      } else {
+        second = second.toString()
+      }
+      return minute + ':' + second
+    },
+    showTime: function () { // 计算已播放歌曲的时间
+      let self = this
+      console.log(music.duration)
+      let p = setInterval(function () {
+        console.log(1)
+        self.currentTime = self.standardizedTime(music.currentTime)
+        document.getElementById('bar-red').style.width = music.currentTime / music.duration * 500 + 4 + 'px'
+        document.getElementById('bar-grey').style.width = 496 - music.currentTime / music.duration * 500 + 'px'
+        document.getElementById('pos-i').style.left = music.currentTime / music.duration * 486 + 'px'
+        if (music.isPaused) {
+          clearInterval(p)
+        }
+      }, 100)
     }
   }
 }
@@ -112,18 +145,48 @@ export default {
 }
 .time{
 	line-height: 73px;
-    position: absolute;
-    left: 340px;
+  position: absolute;
+  color: #000;
+  font-size: 14px;
+  left: 330px;
 }
 .bar{
-	background: #ca1c15;
+  /* background: #ca1c15; */
 	position: absolute;
 	margin: auto;
-	border-radius: 3px;
-	width: 40%;
+	width: 500px;
 	height: 4px;
 	top: 34px;
 	left: 380px;
+}
+#bar-red{
+	background: #ca1c15;
+  display: flex;
+	position: relative;
+	/* margin: auto; */
+	border-radius: 3px;
+	width: 4px;
+	height: 4px;
+	top: 0px;
+	left: 0px;
+}
+#bar-grey{
+  background: #b4b4b4;
+  display: flex;
+	position: absolute;
+	margin: auto;
+	border-radius: 3px;
+	width: 496px;
+	height: 4px;
+	top: 0px;
+	right: 0px;
+}
+.music-length{
+  line-height: 73px;
+  position: absolute;
+  color: #000;
+  font-size: 14px;
+  left: 890px;
 }
 .volume{
 	display: inline-flex;
@@ -149,17 +212,22 @@ export default {
 	display: inline-flex;
 	list-style-type: none;
 }
-.pos-i{
+#pos-i{
   position: relative;
   /* background: #e0e0e0; */
-  top: -6px;
+  cursor: pointer;
+  top: -10px;
   border: 1px solid #b4b4b4;
   border-radius: 7px;
   height: 14px;
   width: 14px;
 }
+#pos-i:hover{
+  box-shadow: 0px 0px 4px #666666;
+}
 #pos{
   margin: auto;
+  background: #ca1c15;
   border: 5px solid #fff;
   border-radius: 8px;
   height: 4px;

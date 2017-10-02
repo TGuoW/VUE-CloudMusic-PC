@@ -1,4 +1,4 @@
-const musicController = function (url, autoplay = false, loop = true) {
+const musicController = function (url, autoplay = false, loop = false) {
   let audio = document.createElement('audio')
   audio.src = url
   audio.autoplay = autoplay

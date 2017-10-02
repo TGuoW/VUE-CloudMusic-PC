@@ -13,6 +13,7 @@ const store = new Vuex.Store({
     isShowStatus: false,
     isShowAllDetail: false,
     isLogin: false,
+    isPaused: true,
     userInfo: {}
   },
   mutations: {
@@ -26,6 +27,9 @@ const store = new Vuex.Store({
     login (state, n) {
       state.userInfo = n
       state.isLogin = true
+    },
+    pause: function (state, n) {
+      state.isPaused = n
     }
   }
 })
