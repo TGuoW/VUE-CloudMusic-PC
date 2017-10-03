@@ -1,35 +1,61 @@
 <template>
-    <div class="main" @click="closeStatus()">
-        
-        <div class="song">
-            <div class="img-btn">
-                <div class="song-img"></div>
-                <div>
-                    <ul>
-                        <li  class="btn"></li>
-                        <li  class="btn"></li>
-                        <li  class="btn"></li>
-                        <li  class="btn"></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="lyrics">
-                <h1>非酋</h1>
-                <h2>
-                    <span>专辑:任然</span>
-                    <span>歌手：啊设计的</span>
-                </h2>
-                <p>歌词</p>
-            </div>  
-            <div class="close" @click="closeAllDetail()"></div>        
+  <div class="main" @click="closeStatus()">    
+    <div class="song">
+      <div class="img-btn">
+        <div class="song-img"></div>
+        <div>
+          <ul>
+            <li  class="btn">
+              <span>喜欢</span>
+            </li>
+            <li  class="btn">
+              <span>收藏</span>
+            </li>
+            <li  class="btn">
+              <span>下载</span>
+            </li>
+            <li  class="btn">
+               <span>分享</span>
+            </li>
+          </ul>
         </div>
-        <div class="comment">
-            <div class="title">
-                <span>听友评论</span>
-            </div>
-            <input type="text" class="input">
-        </div>
+      </div>
+      <div class="lyrics">
+        <h1>非酋</h1>
+        <h2>
+          <span>专辑:任然</span>
+          <span>歌手：啊设计的</span>
+        </h2>
+        <p>歌词</p>
+      </div>  
+      <div class="close" @click="closeAllDetail()"></div>        
     </div>
+    <div class="about">
+      <div class="comment">
+        <div class="title">
+          <span>听友评论</span>
+        </div>
+        <input type="text" class="input">
+      </div>
+      <div class="other-song">
+        <div class="contain-song">
+          <div class="title">
+            <p>包含这首歌的歌单</p>
+          </div>
+        </div>
+        <div class="contain-song">
+          <div class="title">
+            <p>相似歌曲</p>
+          </div>
+        </div>
+        <div class="contain-song">
+          <div class="title">
+            <p>喜欢这首歌的人</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -47,7 +73,7 @@ export default {
 
 <style scoped>
     .main{
-        background: #000;
+        background: #fff;
         position: fixed;
         width: 100%;
         /* height: 300px; */
@@ -66,9 +92,12 @@ export default {
         background-color: #e1e1e2;
     }
     .close{
-      background: #fff;
+      background: #000;
+      position: absolute;
       margin: auto;
       /* float: right; */
+      left: 800px;
+      top: 50px;
       width: 50px;
       height: 50px;
     }
@@ -118,24 +147,38 @@ export default {
         font-weight: normal;
     }
     span{
-        margin-right: 80px;
+        /* margin-right: 80px; */
     }
     li{
         list-style: none;
     }
     .btn{
-        background: #000;
+        /* background: #000; */
         float: left;
-        margin: 25px 17px auto 17px;
-        height: 40px;
-        width: 40px;
+        margin: 25px 19px auto 19px;
+        /* height: 24px;
+        width: 40px; */
+    }
+    .btn:nth-child(1){
+      margin-left: 0;
+    }
+    .btn:nth-child(4){
+      margin-right: 0;
+    }
+    .about{
+      position: relative;
+      width: 900px;
+      display: flex;
+      /* background: #000; */
+      margin: auto;
     }
     .comment{
-        position: relative;
-        width: 900px;
-        /* left: 15%; */
-        margin: auto;
-        /* background: #000; */
+      position: relative;
+      margin-left: 0;
+      /* left: 0; */
+      width: 600px;
+      /* display: flex; */
+      /* background: #000; */
     }
     .title{
         text-align: left;
@@ -150,7 +193,29 @@ export default {
         border: 10px solid #e0e0e0;
         padding: 8px;
         font-size: 16px;
-        width: 864px;
+        width: 560px;
+    }
+    li span{
+      background: #e0e0e0;
+      cursor: pointer;
+      padding: 4px 8px 4px 8px;
+      border-radius: 4px;
+      border: 1px solid #b4b4b4;
+      line-height: 24px;
+      font-size:14px;
+    }
+    .other-song{
+      position: relative;
+      margin-left: 40px;
+      height: auto;
+      width: 300px;
+    }
+    .contain-song .title{
+      font-size: 22px;
+      width: 300px;
+      font-weight: lighter;
+      line-height: 31px;
+      border-bottom: 1px solid #e0e0e0;
     }
 </style>
 

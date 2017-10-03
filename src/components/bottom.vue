@@ -15,10 +15,10 @@
 		<div class="time">
 			<span>{{currentTime}}</span>
 		</div>
-		<div class="bar">
+		<div class="bar" @ondrageover="allowDrop(event)" @ondrop="drop(event)">
       <div id="bar-red"></div>
       <div id="bar-grey"></div>
-      <div id="pos-i">
+      <div id="pos-i" draggable="true" @ondragstart="drag(event)">
         <div id="pos"></div>
       </div>
     </div>
@@ -104,6 +104,17 @@ export default {
           clearInterval(p)
         }
       }, 100)
+    },
+    drop: function (ev) {
+      ev.preventDefault()
+      var data = ev.dataTransfer.getData('Text')
+      ev.target.appendChild(document.getElementById(data))
+    },
+    drag: function (ev) {
+      ev.dataTransfer.setData('Text', ev.target.id)
+    },
+    allowDrop: function (ev) {
+      ev.preventDefault()
     }
   }
 }

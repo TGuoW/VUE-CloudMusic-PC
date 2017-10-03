@@ -3,9 +3,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import App from './App'
+import axios from 'axios'
 import router from './router'
 
 Vue.use(Vuex)
+Vue.use(axios)
 Vue.config.productionTip = false
 
 const store = new Vuex.Store({
@@ -21,6 +23,9 @@ const store = new Vuex.Store({
       // 变更状态
       state.isShowStatus = n
     },
+    closeAll (state, n) {
+      state.isShowStatus = false
+    },
     showAllDetail (state, n) {
       state.isShowAllDetail = n
     },
@@ -28,7 +33,7 @@ const store = new Vuex.Store({
       state.userInfo = n
       state.isLogin = true
     },
-    pause: function (state, n) {
+    pause (state, n) {
       state.isPaused = n
     }
   }
