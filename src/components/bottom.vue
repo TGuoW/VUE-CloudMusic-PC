@@ -1,5 +1,5 @@
 <template>
-	<div class="bottom" @click="jj()">
+	<div class="bottom" @mouseup="freeMouse()" @mousemove="setX()">
 		<div class="row">
 			<li class="btn">
 				<i class="fa fa-step-backward"></i>
@@ -15,11 +15,11 @@
 		<div class="time">
 			<span>{{currentTime}}</span>
 		</div>
-		<div class="bar" @ondrageover="allowDrop(event)" @ondrop="drop(event)">
+		<div class="bar">
       <div id="bar-red"></div>
       <div id="bar-grey"></div>
-      <div id="pos-i" draggable="true" @ondragstart="drag(event)">
-        <div id="pos"></div>
+      <div id="pos-i" @mousedown="selectMouse()">
+        <div id="pos" ></div>
       </div>
     </div>
     <div class="music-length">{{duration}}</div>
@@ -47,21 +47,20 @@ export default {
   data: function () {
     return {
       currentTime: '00:00',
-      duration: 0
+      duration: '00:00',
+      isSelectedMouse: false,
+      x: 0
     }
   },
-  mounted: function () {
-    // if (music.isPaused) {
-    //   clearInterval(p)
-    // } else {
-    // }
+  created: function () {
+    let self = this
+    self.currentTime = self.standardizedTime(music.currentTime)
+    setTimeout(function () {
+      self.duration = self.standardizedTime(music.duration)
+    }, 180)
   },
   methods: {
-    jj: function () {
-      this.$store.commit('showStatus', false)
-    },
     play: function () { // 播放或暂停
-      console.log(1)
       let self = this
       self.duration = self.standardizedTime(music.duration)
       if (music.isPaused) {
@@ -105,16 +104,40 @@ export default {
         }
       }, 100)
     },
-    drop: function (ev) {
-      ev.preventDefault()
-      var data = ev.dataTransfer.getData('Text')
-      ev.target.appendChild(document.getElementById(data))
+    selectMouse: function () {
+      var self = this
+      self.isSelectedMouse = true
+      let p = setInterval(function () {
+        if (self.isSelectedMouse) {
+          let x = self.x
+          if (x <= 386) {
+            x = 386
+          } else if (x >= 880) {
+            x = 880
+          }
+          console.log(x)
+          self.updateBar(x)
+        } else {
+          clearInterval(p)
+        }
+      }, 10)
     },
-    drag: function (ev) {
-      ev.dataTransfer.setData('Text', ev.target.id)
+    updateBar: function (x) {
+      let self = this
+      document.getElementById('bar-red').style.width = x - 386 + 'px'
+      document.getElementById('bar-grey').style.width = 886 - x + 'px'
+      document.getElementById('pos-i').style.left = x - 390 + 'px'
+      let time = (x - 386) / 494 * music.duration
+      self.currentTime = self.standardizedTime(time)
     },
-    allowDrop: function (ev) {
-      ev.preventDefault()
+    setX: function () {
+      let ev = window.event
+      this.x = ev.screenX
+    },
+    freeMouse: function () {
+      let self = this
+      self.isSelectedMouse = false
+      self.$store.commit('showStatus', false)
     }
   }
 }

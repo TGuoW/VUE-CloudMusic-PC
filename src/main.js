@@ -16,6 +16,7 @@ const store = new Vuex.Store({
     isShowAllDetail: false,
     isLogin: false,
     isPaused: true,
+    // isSelectedMouse: false,
     userInfo: {}
   },
   mutations: {
