@@ -33,6 +33,9 @@ const musicController = function (url, autoplay = false, loop = false) {
       audio.currentTime = 0
       audio.play()
     },
+    j: function () {
+      console.log(audio.src)
+    },
     fastSeek: function (t) {
       audio.currentTime = t
     }

@@ -1,21 +1,39 @@
-<template>
+<template> 
   <div class="main" @click="closeStatus()">    
     <div class="song">
       <div class="img-btn">
-        <div class="song-img"></div>
+        <div class="disc">
+          <div class="needle"></div>
+          <div class="record">
+            <div class="song-img"></div>
+          </div>
+          
+        </div>
         <div>
           <ul>
-            <li  class="btn">
-              <span>喜欢</span>
+            <li class="btn">
+              <span>
+                <i class="fa fa-fw fa-heart"></i>
+                喜欢
+              </span>
             </li>
-            <li  class="btn">
-              <span>收藏</span>
+            <li class="btn">
+              <span>
+                <i class="fa fa-folder-open-o fa-fw"></i>
+                收藏
+              </span>
             </li>
-            <li  class="btn">
-              <span>下载</span>
+            <li class="btn">
+              <span>
+                <i class="fa fa-cloud-download fa-fw"></i>
+                下载
+              </span>
             </li>
-            <li  class="btn">
-               <span>分享</span>
+            <li class="btn">
+              <span>
+                <i class="fa fa-share-square-o fa-fw"></i>
+                分享
+              </span>
             </li>
           </ul>
         </div>
@@ -76,7 +94,7 @@ export default {
         background: #fff;
         position: fixed;
         width: 100%;
-        /* height: 300px; */
+        /* height: 300px; src="http://on99ebnkk.bkt.clouddn.com/play_needle.png" http://on99ebnkk.bkt.clouddn.com/disc-ip6.png*/
         bottom: 73px;
         top: 60px;
         height: auto;
@@ -108,7 +126,7 @@ export default {
         margin: auto;
         margin-right:100px;
         margin-top:10px;
-        width: 1000px;
+        width: 1050px;
         height: 430px;
     }
     .img-btn{
@@ -116,15 +134,46 @@ export default {
         /* background: #000; */
         /* float: left; */
         margin-right: 50px;
-        width: 300px;
-        height: 450px;
+        width: 360px;
+        height: 400px;
+    }
+    .disc{
+      position: relative;
+      /* background: #000; */
+      width: 360px;
+      height: 360px;
+      margin: auto;
+    }
+    .needle{
+      position: relative;
+      background: url(http://on99ebnkk.bkt.clouddn.com/play_needle.png) no-repeat;
+      /* background: #000; */
+      background-size: 100%;
+      z-index: 3;
+      margin: auto;
+      margin-top: -24px;
+      width: 80px;
+      height: 120px;
+    }
+    .record{
+      position: relative;
+      background: url(http://on99ebnkk.bkt.clouddn.com/disc-ip6.png) no-repeat;
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;  
+      background-size: 100%;
+      top: -50px;
+      z-index: 2;
+      width: 360px;
+      height: 360px;
     }
     .song-img{
-        background: url("http://p3.music.126.net/Kv0E_qQdJ9amNRu4_64Mxw==/18924794137514110.jpg?param=200y200") no-repeat;
-        background-size: 100%;
-        /* float: left; */
         position: relative;
-        margin-top: 40px;
+        background: url("http://p3.music.126.net/Kv0E_qQdJ9amNRu4_64Mxw==/18924794137514110.jpg?param=200y200") no-repeat center;
+        background-size: 80%;
+        margin: auto;
+        z-index: -1;
+        border-radius: 50%;
         width: 300px;
         height: 300px;
     }
@@ -151,13 +200,13 @@ export default {
     }
     li{
         list-style: none;
+        cursor: pointer;
     }
     .btn{
-        /* background: #000; */
+      position: relative;
+      z-index: 2;
         float: left;
-        margin: 25px 19px auto 19px;
-        /* height: 24px;
-        width: 40px; */
+        margin: 100px 14px auto 14px;
     }
     .btn:nth-child(1){
       margin-left: 0;
@@ -171,6 +220,7 @@ export default {
       display: flex;
       /* background: #000; */
       margin: auto;
+      top: 100px;
     }
     .comment{
       position: relative;

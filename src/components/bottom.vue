@@ -1,7 +1,7 @@
 <template>
 	<div class="bottom" @mouseup="freeMouse()" @mousemove="setX()">
 		<div class="row">
-			<li class="btn" @click="jj()">
+			<li class="btn">
 				<i class="fa fa-step-backward"></i>
 			</li>
 			<li class="btn" @click="play()">
@@ -62,13 +62,6 @@ export default {
     }, 200)
   },
   methods: {
-    // jj: function () {
-    //   ID3.loadTags(musicUrl, function () {
-    //     var tags = ID3.getAllTags(musicUrl)
-    //     console.log(tags)
-    //     // alert(tags.artist + ' - ' + tags.title + ", " + tags.album);
-    //   })
-    // },
     play: function () { // 播放或暂停
       let self = this
       self.duration = self.standardizedTime(music.duration)
