@@ -18,6 +18,9 @@ var webpackConfig = merge(baseConfig, {
       'scss-loader': 'sass-loader'
     }
   },
+  node: {
+    fs: 'empty'
+  },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': require('../config/test.env')

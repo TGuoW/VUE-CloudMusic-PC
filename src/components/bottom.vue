@@ -1,12 +1,12 @@
 <template>
 	<div class="bottom" @mouseup="freeMouse()" @mousemove="setX()">
 		<div class="row">
-			<li class="btn">
+			<li class="btn" @click="jj()">
 				<i class="fa fa-step-backward"></i>
 			</li>
-			<li class="btn">
-				<i class="fa fa-pause" @click="play()" v-show="!isPaused()"></i>
-        <i class="fa fa-play" @click="play()" v-show="isPaused()"></i>
+			<li class="btn" @click="play()">
+				<i class="fa fa-pause" v-show="!isPaused()"></i>
+        <i class="fa fa-play" v-show="isPaused()"></i>
 			</li>
 			<li class="btn">
 				<i class="fa fa-step-forward"></i>
@@ -41,6 +41,8 @@
 
 <script type="text/javascript">
 import Mc from './detail/musicController.js'
+// import ID3 from 'id3_reader'
+// import ID3 from '../assets/id3-minimized.js'
 var musicUrl = 'http://39.108.221.165/src.mp3'
 var music = new Mc(musicUrl)
 export default {
@@ -57,9 +59,16 @@ export default {
     self.currentTime = self.standardizedTime(music.currentTime)
     setTimeout(function () {
       self.duration = self.standardizedTime(music.duration)
-    }, 180)
+    }, 200)
   },
   methods: {
+    // jj: function () {
+    //   ID3.loadTags(musicUrl, function () {
+    //     var tags = ID3.getAllTags(musicUrl)
+    //     console.log(tags)
+    //     // alert(tags.artist + ' - ' + tags.title + ", " + tags.album);
+    //   })
+    // },
     play: function () { // 播放或暂停
       let self = this
       self.duration = self.standardizedTime(music.duration)
@@ -92,13 +101,15 @@ export default {
     },
     showTime: function () { // 计算已播放歌曲的时间
       let self = this
-      console.log(music.duration)
+      // console.log(music.duration)
       let p = setInterval(function () {
         console.log(1)
-        self.currentTime = self.standardizedTime(music.currentTime)
-        document.getElementById('bar-red').style.width = music.currentTime / music.duration * 500 + 4 + 'px'
-        document.getElementById('bar-grey').style.width = 496 - music.currentTime / music.duration * 500 + 'px'
-        document.getElementById('pos-i').style.left = music.currentTime / music.duration * 486 + 'px'
+        if (!self.isSelectedMouse) {
+          self.currentTime = self.standardizedTime(music.currentTime)
+          document.getElementById('bar-red').style.width = music.currentTime / music.duration * 500 + 4 + 'px'
+          document.getElementById('bar-grey').style.width = 496 - music.currentTime / music.duration * 500 + 'px'
+          document.getElementById('pos-i').style.left = music.currentTime / music.duration * 486 + 'px'
+        }
         if (music.isPaused) {
           clearInterval(p)
         }
@@ -136,7 +147,12 @@ export default {
     },
     freeMouse: function () {
       let self = this
-      self.isSelectedMouse = false
+      if (self.isSelectedMouse) {
+        let time = (self.x - 386) / 494 * music.duration
+        self.isSelectedMouse = false
+        music.fastSeek(time)
+      }
+      // console.log(time)
       self.$store.commit('showStatus', false)
     }
   }
