@@ -116,81 +116,69 @@ export default {
   }
 }
 </script>
-<style scoped>
-.fa {
-  vertical-align: middle;
-  margin-left: 1.2rem;
-  cursor: pointer;
-	height: 1.2rem;
-}
-  .fa-search {
-    color: #c87676;
-    cursor: pointer;
-   
-  }
-  .fa-yelp {
-    margin-left: 2.5rem;
-    font-size: 1.6rem;
-    cursor: pointer;
-    color: #e7a8a3;
-    vertical-align: middle;
-  }
-	.bg{
-		background: #ca1c15;
-		top: 0;
-		z-index: 1;
-		width: 100%;
-		/* opacity: 0.5; */
+<style lang="scss" scoped>
+$red-color: #ca1c15;
+	.fa {
+  	cursor: pointer;
+		height: 1.2rem;
+		margin-left: 1.2rem;
+		vertical-align: middle;
+	}
+	.bg {
+		background: $red-color;
 		height: 60px;
 		position: fixed;
+		top: 0;
+		width: 100%;
+		z-index: 1;
 	}
-	.logo{
+	.logo {
 		height: 60px;
-	}
-	.logo-wrap{
-		background: url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1507384086&di=af3f2dbad88ad08a346bee44153ceaad&imgtype=jpg&er=1&src=http%3A%2F%2Fwww.pppoo.com%2Fblog%2Fupload%2Fmusic163_logo.jpg);
-		height: 60px;
-		background-size: 250px;
+		.logo-wrap {
+			background: url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1507384086&di=af3f2dbad88ad08a346bee44153ceaad&imgtype=jpg&er=1&src=http%3A%2F%2Fwww.pppoo.com%2Fblog%2Fupload%2Fmusic163_logo.jpg);
     	background-position: -10px;
     	background-repeat: no-repeat;
+			background-size: 250px;
+			height: 60px;
+		}
 	}
-	.input{
-		color: #fff;
-		width: 250px;
-		height: 20px;
+	.input {
 		background: #d73f3f;
-		position: absolute;
-		top: 20px;
-		border-radius: 10px;
 		border: none;
+		border-radius: 10px;
+		color: #fff;
+		height: 20px;
+		left:300px;
 		outline: none;
 		padding-left: 10px;
-		left:300px;
+		position: absolute;
+		top: 20px;
+		width: 250px;
+		&::-webkit-input-placeholder{
+   	 	color: #fff;opacity:1;
+  	}
 	}
-	input::-webkit-input-placeholder{
-    	color: #fff;opacity:1;
-  }
   .user-img{
-    	background: #fff;
-    	width: 40px;
-    	height: 40px;
-    	border-radius: 20px;
-    	vertical-align: middle;
-    	display: inline-flex;
-  }
-  img{
+    background: #fff;
+		border-radius: 20px;
+		display: inline-flex;
+    height: 40px;
+    vertical-align: middle;
     width: 40px;
-    border-radius: 20px;
+		img {
+			border-radius: 20px;
+    	width: 40px;
+  	}
   }
 	.username{
 		font-weight: normal;
     color: #e0e0e0;
     font-size: 12px;
 		cursor: pointer;
+		&:hover{
+    	color: #fff;
+  	}
 	}
-  .username:hover{
-    color: #fff;
-  }
     .set{
     	position: absolute;
     	vertical-align: middle;
@@ -202,23 +190,19 @@ export default {
     	border-width: 2px;
     }
     .tool{
-       	position: absolute;
+      position: absolute;
     	vertical-align: middle;
     	right: 0;
     	top:10px;
     	color: #fff;
     	right: 180px;
     }
-    .top-status{
-			position: absolute;
-			
-			z-index: 999 !important;
-    	/* height: 200px;
-    	width: 270px; */
-			margin-top: -16px;
-    	margin-left: 860px;
-    }
-		.triangle{
+  .top-status {
+		position: absolute;
+		z-index: 999 !important;
+		margin-top: -16px;
+    margin-left: 860px;
+		.triangle {
 			position: relative;
 			margin: auto;
 			width: 0;
@@ -227,16 +211,17 @@ export default {
     	border-right: 15px solid transparent;
     	border-bottom: 16px solid #fafafa;
 		}
-	.rectangle{
-		width: 270px;
-		height: 400px;
-		border-left:1px solid #cccccc;
-		border-right:1px solid #cccccc;
-		border-bottom:1px solid #cccccc;
-		border-radius: 6px;
-		box-shadow: 0px 2px 5px #666666;
-		background: #fafafa;
-	}
+		.rectangle {
+			width: 270px;
+			height: 400px;
+			border-left:1px solid #cccccc;
+			border-right:1px solid #cccccc;
+			border-bottom:1px solid #cccccc;
+			border-radius: 6px;
+			box-shadow: 0px 2px 5px #666666;
+			background: #fafafa;
+	  }
+  }
 	.user-info{
 		text-align: left;
 		padding-top: 20px;
@@ -257,9 +242,9 @@ export default {
 		margin: 5px 15px 0 0;
 		border-radius: 5px;
 		padding: 3px 10px 3px 10px;
-	}
-	.check-in:hover{
-		background: #b4b4b4;
+		&:hover{
+			background: #b4b4b4;
+		}
 	}
 	#top{
 		font-size: 68px;
@@ -306,11 +291,6 @@ p{
   text-align: center;
 }
 .load-text{
-  /* text-align: right; */
   margin-left: 20px;
 }
-  /* .fa {
-    color: #c62f2f;
-    font-size: 30px;
-  } */
 </style>

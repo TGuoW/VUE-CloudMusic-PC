@@ -2,12 +2,13 @@
   <div class="main" @click="closeStatus()">    
     <div class="song">
       <div class="img-btn">
-        <div class="disc">
-          <div class="needle"></div>
-          <div class="record">
-            <div class="song-img"></div>
+        <div class="disc"> 
+          <div class="needle" :class="isPaused() ? 'needle-pause' : 'needle-play'"></div>
+          <div :class="isPaused() ? '' : 'record-rotate'"> 
+            <div class="song-img">
+              <div class="record"></div>
+            </div>
           </div>
-          
         </div>
         <div>
           <ul>
@@ -46,7 +47,7 @@
         </h2>
         <p>歌词</p>
       </div>  
-      <div class="close" @click="closeAllDetail()"></div>        
+      <!-- <div class="close" @click="closeAllDetail()"></div>         -->
     </div>
     <div class="about">
       <div class="comment">
@@ -78,7 +79,15 @@
 
 <script>
 export default {
+  data: function () {
+    return {
+      // isPaused: this.isPaused()
+    }
+  },
   methods: {
+    isPaused: function () {
+      return this.$store.state.isPaused
+    },
     closeAllDetail: function () {
       this.$store.commit('showAllDetail', false)
     },
@@ -89,7 +98,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .main{
         background: #fff;
         position: fixed;
@@ -123,17 +132,15 @@ export default {
         position: relative;
         /* background: #000; */
         display: flex;
+        justify-content: space-between;
         margin: auto;
         margin-right:100px;
         margin-top:10px;
-        width: 1050px;
+        width: 900px;
         height: 430px;
     }
     .img-btn{
         position: relative;
-        /* background: #000; */
-        /* float: left; */
-        margin-right: 50px;
         width: 360px;
         height: 400px;
     }
@@ -149,20 +156,42 @@ export default {
       background: url(http://on99ebnkk.bkt.clouddn.com/play_needle.png) no-repeat;
       /* background: #000; */
       background-size: 100%;
+      transform-origin: 14px 12px;
+      transition: All 0.4s ease-in-out;
+      // transform: rotate(-45deg);
       z-index: 3;
       margin: auto;
       margin-top: -24px;
       width: 80px;
       height: 120px;
     }
+    .needle-play{
+      transform: rotate(0deg);
+    }
+    .needle-pause{
+      transform: rotate(-45deg);
+    }
+    .record-rotate{
+      transform-origin: 180px 130px;
+      animation: myfirst 12s;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+    @keyframes myfirst {
+      from {
+        transform: rotate(0deg)
+      }
+      to {
+        transform: rotate(360deg)
+      }
+    }
     .record{
       position: relative;
-      background: url(http://on99ebnkk.bkt.clouddn.com/disc-ip6.png) no-repeat;
+      background: url(http://on99ebnkk.bkt.clouddn.com/disc-ip6.png) no-repeat center;
       display: table-cell;
       vertical-align: middle;
       text-align: center;  
       background-size: 100%;
-      top: -50px;
       z-index: 2;
       width: 360px;
       height: 360px;
@@ -170,12 +199,13 @@ export default {
     .song-img{
         position: relative;
         background: url("http://p3.music.126.net/Kv0E_qQdJ9amNRu4_64Mxw==/18924794137514110.jpg?param=200y200") no-repeat center;
-        background-size: 80%;
+        background-size: 65%;
         margin: auto;
         z-index: -1;
+        top: -50px;
         border-radius: 50%;
-        width: 300px;
-        height: 300px;
+        width: 360px;
+        height: 360px;
     }
     .lyrics{
         /* float: right; */
