@@ -1,7 +1,7 @@
 <template>
 	<div class="bottom" @mouseup="freeMouse()" @mousemove="setX()">
 		<div class="row">
-			<li class="btn">
+			<li class="btn" @click="jj()">
 				<i class="fa fa-step-backward"></i>
 			</li>
 			<li class="btn" @click="play()">
@@ -41,8 +41,7 @@
 
 <script type="text/javascript">
 import Mc from './detail/musicController.js'
-// import ID3 from 'id3_reader'
-// import ID3 from '../assets/id3-minimized.js'
+import axios from 'axios'
 var musicUrl = 'http://39.108.221.165/src.mp3'
 var music = new Mc(musicUrl)
 export default {
@@ -62,6 +61,37 @@ export default {
     }, 200)
   },
   methods: {
+    jj: function () {
+      var self = this
+      axios({
+        url: '/submission/getLyric.php',
+        method: 'post'
+      }).then((response) => {
+        console.log(response.data.lrc.lyric)
+        console.log(self.parseLyric(response.data.lrc.lyric))
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    parseLyric: function (lrc) {
+      var lyrics = lrc.split('\n')
+      var lrcObj = {}
+      for (var i = 0; i < lyrics.length; i++) {
+        var lyric = decodeURIComponent(lyrics[i])
+        var timeReg = /\[\d*:\d*((\.|:)\d*)*\]/g
+        var timeRegExpArr = lyric.match(timeReg)
+        if (!timeRegExpArr) continue
+        var clause = lyric.replace(timeReg, '')
+        for (var k = 0, h = timeRegExpArr.length; k < h; k++) {
+          var t = timeRegExpArr[k]
+          var min = Number(String(t.match(/\[\d*/i)).slice(1))
+          var sec = Number(String(t.match(/:\d*/i)).slice(1))
+          var time = min * 60 + sec
+          lrcObj[time] = clause
+        }
+      }
+      return lrcObj
+    },
     play: function () { // 播放或暂停
       let self = this
       self.duration = self.standardizedTime(music.duration)
