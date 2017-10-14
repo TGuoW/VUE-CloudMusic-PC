@@ -45,7 +45,9 @@
           <span>专辑:任然</span>
           <span>歌手：啊设计的</span>
         </h2>
-        <p>歌词</p>
+        <div class="lyric">
+          <p v-for="(item, index) in lyric" :key="index">{{item}}</p>
+        </div>
       </div>  
       <!-- <div class="close" @click="closeAllDetail()"></div>         -->
     </div>
@@ -78,13 +80,58 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data: function () {
     return {
-      // isPaused: this.isPaused()
+      lyric: {}
     }
   },
+  mounted: function () {
+    var self = this
+    axios({
+      url: '/submission/getLyric.php',
+      method: 'post'
+    }).then((response) => {
+      // console.log(response.data.lrc.lyric)
+      self.lyric = self.parseLyric(response.data.lrc.lyric)
+      console.log(self.parseLyric(response.data.lrc.lyric))
+    }).catch((error) => {
+      console.log(error)
+    })
+  },
   methods: {
+    jj: function () {
+      var self = this
+      axios({
+        url: '/submission/getLyric.php',
+        method: 'post'
+      }).then((response) => {
+        console.log(response.data.lrc.lyric)
+        console.log(self.parseLyric(response.data.lrc.lyric))
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    parseLyric: function (lrc) {
+      var lyrics = lrc.split('\n')
+      var lrcObj = {}
+      for (var i = 0; i < lyrics.length; i++) {
+        var lyric = decodeURIComponent(lyrics[i])
+        var timeReg = /\[\d*:\d*((\.|:)\d*)*\]/g
+        var timeRegExpArr = lyric.match(timeReg)
+        if (!timeRegExpArr) continue
+        var clause = lyric.replace(timeReg, '')
+        for (var k = 0, h = timeRegExpArr.length; k < h; k++) {
+          var t = timeRegExpArr[k]
+          var min = Number(String(t.match(/\[\d*/i)).slice(1))
+          var sec = Number(String(t.match(/:\d*/i)).slice(1))
+          var time = min * 60 + sec
+          lrcObj[time] = clause
+        }
+      }
+      return lrcObj
+    },
     isPaused: function () {
       return this.$store.state.isPaused
     },
@@ -130,14 +177,13 @@ export default {
     }
     .song{
         position: relative;
-        /* background: #000; */
+        // background: #000; 
         display: flex;
         justify-content: space-between;
         margin: auto;
-        margin-right:100px;
         margin-top:10px;
-        width: 900px;
-        height: 430px;
+        width: 1000px;
+        height: 460px;
     }
     .img-btn{
         position: relative;
@@ -210,9 +256,16 @@ export default {
     .lyrics{
         /* float: right; */
         position: relative;
-        background: #fff;
-        width: 300px;
+        // background: #fff;
+        width: 640px;
         height: 300px;
+        .lyric{
+          height: 400px;
+          width: 640px;
+          overflow: scroll;
+          overflow-x: hidden;
+          line-height: 32px;
+        }
     }
     h1{
         text-align: left;
