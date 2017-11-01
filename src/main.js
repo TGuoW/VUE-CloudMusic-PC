@@ -3,13 +3,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import App from './App'
-import axios from 'axios'
 // import fse from 'fs-extra'
 import router from './router'
 
 Vue.use(Vuex)
 // Vue.use(fse)
-Vue.use(axios)
 Vue.config.productionTip = false
 
 const store = new Vuex.Store({

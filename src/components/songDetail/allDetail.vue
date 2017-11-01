@@ -12,7 +12,7 @@
         </div>
         <div>
           <ul>
-            <li class="btn">
+            <li class="btn" @click="jj()">
               <span>
                 <i class="fa fa-fw fa-heart"></i>
                 喜欢
@@ -45,8 +45,8 @@
           <span>专辑:任然</span>
           <span>歌手：啊设计的</span>
         </h2>
-        <div class="lyric">
-          <p v-for="(item, index) in lyric" :key="index">{{item}}</p>
+        <div class="lyric" id="lrc">
+          <p v-for="(item, index) in lyric" :key="index">{{item[1]}}</p>
         </div>
       </div>  
       <!-- <div class="close" @click="closeAllDetail()"></div>         -->
@@ -84,7 +84,7 @@ import axios from 'axios'
 export default {
   data: function () {
     return {
-      lyric: {}
+      lyric: []
     }
   },
   mounted: function () {
@@ -95,28 +95,22 @@ export default {
     }).then((response) => {
       // console.log(response.data.lrc.lyric)
       self.lyric = self.parseLyric(response.data.lrc.lyric)
-      console.log(self.parseLyric(response.data.lrc.lyric))
+      console.log(self.lyric)
     }).catch((error) => {
       console.log(error)
     })
   },
   methods: {
     jj: function () {
-      var self = this
-      axios({
-        url: '/submission/getLyric.php',
-        method: 'post'
-      }).then((response) => {
-        console.log(response.data.lrc.lyric)
-        console.log(self.parseLyric(response.data.lrc.lyric))
-      }).catch((error) => {
-        console.log(error)
-      })
+      var hei = document.getElementById('lrc')
+      hei.children[1].setAttribute('style', 'color:#fff')
+      console.log(hei.children[1])
     },
     parseLyric: function (lrc) {
       var lyrics = lrc.split('\n')
-      var lrcObj = {}
+      var lrcObj = []
       for (var i = 0; i < lyrics.length; i++) {
+        lrcObj[i] = []
         var lyric = decodeURIComponent(lyrics[i])
         var timeReg = /\[\d*:\d*((\.|:)\d*)*\]/g
         var timeRegExpArr = lyric.match(timeReg)
@@ -126,8 +120,10 @@ export default {
           var t = timeRegExpArr[k]
           var min = Number(String(t.match(/\[\d*/i)).slice(1))
           var sec = Number(String(t.match(/:\d*/i)).slice(1))
-          var time = min * 60 + sec
-          lrcObj[time] = clause
+          var time = (min * 60 + sec)
+          // lrcObj[time] = clause
+          lrcObj[i][0] = time
+          lrcObj[i][1] = clause
         }
       }
       return lrcObj
@@ -157,14 +153,15 @@ export default {
         text-align: center;
         overflow: scroll;
         overflow-x: hidden;
+        &::-webkit-scrollbar {
+          width: 8px;
+        }
+        &::-webkit-scrollbar-thumb {
+          border-radius: 4px;
+          background-color: #e1e1e2;
+        }
     }
-    .main::-webkit-scrollbar {
-        width: 8px;
-    }
-    .main::-webkit-scrollbar-thumb {
-        border-radius: 4px;
-        background-color: #e1e1e2;
-    }
+
     .close{
       background: #000;
       position: absolute;
@@ -256,17 +253,26 @@ export default {
     .lyrics{
         /* float: right; */
         position: relative;
-        // background: #fff;
+        // background: #000;
         width: 640px;
         height: 300px;
         .lyric{
+          border-right: 1px solid #e0e0e0;
           height: 400px;
           width: 640px;
           overflow: scroll;
           overflow-x: hidden;
           line-height: 32px;
+          &::-webkit-scrollbar {
+            width: 8px;
+          }
+          &::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background-color: #e1e1e2;
+          }
         }
     }
+    
     h1{
         text-align: left;
         font-size: 24px;
