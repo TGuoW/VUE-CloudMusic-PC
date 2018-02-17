@@ -33,7 +33,8 @@ export default {
     /* background: #000; */
     margin-top: 24px;
     /* margin: auto; */
-    height: 1600px;
+    /* height: auto; */
+    height: 1800px;
 }
 .main{
     position: absolute;

@@ -23,12 +23,21 @@
         <li><i class="fa fa-mixcloud fa-fw"></i>我的音乐云盘</li>
         <li><i class="fa fa-user-md fa-fw"></i>我的歌手</li>
       </ul>
-      <div id="list-head">我的音乐</div>
+      <div id="list-head">创建的歌单</div>
       <ul id="list">
-        <li>本地音乐</li>
-        <li>下载管理</li>
-        <li>我的音乐云盘</li>
-        <li>我的歌手</li>
+        <router-link v-for="(item, index) in playlist" :key="index" @click.native="viewPlaylist(item)" :to="{path: '/playlistDetails',query: {id: item.id}}" tag="li" exact>
+          <i v-if="item.specialType" class="fa fa-heart-o fa-fw"></i>
+          <i v-else class="fa fa-list fa-fw"></i>
+          {{item.name}}
+        </router-link>
+      </ul>
+      <div id="list-head">收藏的歌单</div>
+      <ul id="list">
+        <router-link v-for="(item, index) in orderedPlaylist" :key="index" @click.native="viewPlaylist(item)" :to="{path: '/playlistDetails',query: {id: item.id}}" tag="li" exact>
+          <i v-if="item.specialType" class="fa fa-heart-o fa-fw"></i>
+          <i v-else class="fa fa-list fa-fw"></i>
+          {{item.name}}
+        </router-link>
       </ul>
       <narrow-detail></narrow-detail>
 	  </div>
@@ -40,11 +49,36 @@
 
 <script type="text/javascript">
 import narrowDetail from './songDetail/narrowDetail'
+// import timeFormat from './detail/time'
+import axios from 'axios'
 export default {
   data: function () {
     return {
-      activeTab: 'findMusic'
+      activeTab: 'findMusic',
+      playlist: [],
+      orderedPlaylist: [],
+      currentPlaylist: {}
     }
+  },
+  mounted: function () {
+    axios({
+      // url: 'http://localhost:3000/recommend/resource',
+      url: '/user/playlist',
+      xhrFields: {
+        withCredentials: true
+      }
+    }).then((response) => {
+      var self = this
+      self.playlist = response.data.playlist.filter(function (item) {
+        // item.createTime = timeFormat(this.playlist.createTime).split(' ')[0]
+        return !item.ordered
+      })
+      self.orderedPlaylist = response.data.playlist.filter(function (item) {
+        return item.ordered
+      })
+    }).catch((error) => {
+      console.log(error)
+    })
   },
   components: {
     narrowDetail
@@ -55,15 +89,15 @@ export default {
     },
     jj: function () {
       this.$store.commit('showStatus', false)
+    },
+    viewPlaylist: function (msg) {
+      this.currentPlaylist = msg
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.fa{
-
-}
 .link-active{
   color: #000 !important;
   background: #b4b4b4;
@@ -98,7 +132,7 @@ export default {
   padding-left: 1rem;
   height: 3.2rem;
   line-height: 3.2rem;
-  font-size: 1.3rem;
+  font-size: 14px;
   text-align: left;
   cursor: default;
 }
@@ -110,6 +144,7 @@ export default {
   white-space: nowrap;
   width: 100%;
   line-height: 2.5rem;
+  font-size: 14px;
   height: 2.5rem;
   color: #5e5e5e;
   vertical-align: middle;

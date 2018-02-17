@@ -1,5 +1,5 @@
 <template>
-	<div class="main">
+	<div class="main" id="main">
     <div class="btn">
       <router-link :to="{ path: '/findMusic/recommend'}"  tag="li">
         个性推荐
@@ -107,8 +107,6 @@
     height: 100px;
   }
   .router-view{
-    /* position: absolute; */
-    /* margin: auto; */
     text-align: center;
     top: 60px;
   }

@@ -8,10 +8,10 @@
         </router-link>
       </div>
       <ul class="list">
-        <li class="item" v-for="(item, index) in songlist" :key="index">
-          <img :src="item.imgUrl">
-          <span>{{item.songlistName}}</span>
-        </li>
+        <router-link class="item-1" v-for="(item, index) in songlist" :key="index" :to="{path: '/playlistDetails',query: {id: item.id}}" tag="li" exact>
+          <img :src="item.picUrl">
+          <span>{{item.name}}</span>
+        </router-link>
       </ul>
     </div>
     <div class="btn-2">
@@ -19,9 +19,9 @@
         <span class="more">更多></span>
       </div>
       <ul class="list">
-        <li class="item" v-for="(item, index) in exclusive" :key="index">
-          <img :src="item.imgUrl">
-          <span>{{item.songlistName}}</span>
+        <li class="item-2" v-for="(item, index) in exclusive" :key="index">
+          <img :src="item.sPicUrl">
+          <span>{{item.name}}</span>
         </li>
       </ul>
     </div>
@@ -44,20 +44,26 @@
     },
     mounted: function () {
       axios({
-        url: '/submission/getRecommendList.php',
-        method: 'post'
+        // url: 'http://localhost:3000/recommend/resource',
+        url: '/recommend/resource',
+        xhrFields: {
+          withCredentials: true
+        }
       }).then((response) => {
         var self = this
-        self.songlist = response.data
+        self.songlist = response.data.recommend
       }).catch((error) => {
         console.log(error)
       })
       axios({
-        url: '/submission/exclusive.php',
-        method: 'post'
+        // url: 'http://localhost:3000/personalized/privatecontent',
+        url: '/personalized/privatecontent',
+        xhrFields: {
+          withCredentials: true
+        }
       }).then((response) => {
         var self = this
-        self.exclusive = response.data
+        self.exclusive = response.data.result
       }).catch((error) => {
         console.log(error)
       })
@@ -68,7 +74,7 @@
 </script>
 
 
-<style type="text/css" scoped>
+<style lang="scss" scoped>
   .main{
     position: relative;
     left: 0;
@@ -105,10 +111,6 @@
     /* margin-bottom: 20px; */
     font-size: 18px;
   }
-  img{
-    width: 150px;
-    height: 150px;
-  }
   span{
     font-size: 14px;
   }
@@ -130,9 +132,23 @@
     /*background: #000;*/
     height: 100px;
   }
-  .item{
+  .item-1{
     /* background: #000; */
+    cursor: pointer;
     width: 150px;
     height: 150px;
+    img {
+    width: 150px;
+    height: 150px;
+    }
+  }
+  .item-2{
+    cursor: pointer;
+    width: 267px;
+    height: 150px;
+    img {
+      width: 267px;
+      height: 150px;
+    }
   }
 </style>

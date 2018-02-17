@@ -102,9 +102,16 @@ export default {
   },
   methods: {
     jj: function () {
-      var hei = document.getElementById('lrc')
-      hei.children[1].setAttribute('style', 'color:#fff')
-      console.log(hei.children[1])
+      axios({
+        url: 'https://bird.ioliu.cn/netease/song?id=473940941',
+        method: 'get',
+        type: 'jsonp'
+      }).then((response) => {
+        // console.log(response.data.lrc.lyric)
+        console.log(response.data)
+      }).catch((error) => {
+        console.log(error)
+      })
     },
     parseLyric: function (lrc) {
       var lyrics = lrc.split('\n')

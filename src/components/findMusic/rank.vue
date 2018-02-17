@@ -5,109 +5,236 @@
       <div class="diff-rank">
         <ul>
           <li class="item">
-            <div>
               <div class="img"></div>
               <ul>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
+                <li class="detail" v-for="(item, index) in upRank" :key="index">
+                  <span>{{index + 1}}</span>
+                  <span>{{item.ratio}}</span>
+                  <span>{{item.name}}</span>
+                  <span>{{item.artists}}</span>
+                </li>
+                <li class="more">
+                  <router-link :to="{path: '/playlistDetails',query: {id: upRankAll.id}}" tag="span" exact>
+                    查看全部<i class="fa fa-angle-right fa-fw"></i>
+                  </router-link>
+                </li>
               </ul>
-            </div>
           </li>
           <li class="item">
-            <div>
-              <div class="img"></div>
-              <ul>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-              </ul>
-            </div>
+            <div class="img"></div>
+            <ul>
+              <li class="detail" v-for="(item, index) in newSongRank" :key="index">
+                <span>{{index + 1}}</span>
+                <span>{{item.ratio}}</span>
+                <span>{{item.name}}</span>
+                <span>{{item.artists}}</span>
+              </li>
+              <li class="more">
+                <router-link :to="{path: '/playlistDetails',query: {id: newSongRankAll.id}}" tag="span" exact>
+                  查看全部<i class="fa fa-angle-right fa-fw"></i>
+                </router-link>
+              </li>
+            </ul>   
           </li>
           <li class="item">
-            <div>
-              <div class="img"></div>
-              <ul>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-              </ul>
-            </div>
+            <div class="img"></div>
+            <ul>
+              <li class="detail" v-for="(item, index) in originalRank" :key="index">
+                <span>{{index + 1}}</span>
+                <span>{{item.ratio}}</span>
+                <span>{{item.name}}</span>
+                <span>{{item.artists}}</span>
+              </li>
+              <li class="more">
+                <router-link :to="{path: '/playlistDetails',query: {id: originalRankAll.id}}" tag="span" exact>
+                  查看全部<i class="fa fa-angle-right fa-fw"></i>
+                </router-link>
+              </li>
+            </ul>   
           </li>
           <li class="item">
-            <div>
-              <div class="img"></div>
-              <ul>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-              </ul>
-            </div>
-          </li>
-          <li class="item">
-            <div>
-              <div class="img"></div>
-              <ul>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-                <li class="retail">asdasdasdasd</li>
-              </ul>
-            </div>
+            <div class="img"></div>
+            <ul>
+              <li class="detail" v-for="(item, index) in hotRank" :key="index">
+                <span>{{index + 1}}</span>
+                <span>{{item.ratio}}</span>
+                <span>{{item.name}}</span>
+                <span>{{item.artists}}</span>
+              </li>
+              <li class="more">
+                <router-link :to="{path: '/playlistDetails',query: {id: hotRankAll.id}}" tag="span" exact>
+                  查看全部<i class="fa fa-angle-right fa-fw"></i>
+                </router-link>
+              </li>
+            </ul>   
           </li>
         </ul>
       </div>
     </div>
-    <div class="global-rank">
+    <!-- <div class="global-rank">
       <div class="title">官方榜</div>
       <div>
-      <ul class="list">
-        <li class="item2">
-          <img class="img2">
-          <p>sadasdasdasd</p>
-        </li>
-        <li class="item2">
-          <img class="img2">
-          <p>sadasdasdasd</p>
-        </li>
-        <li class="item2">
-          <img class="img2">
-          <p>sadasdasdasd</p>
-        </li>
-        <li class="item2">
-          <img class="img2">
-          <p>sadasdasdasd</p>
-        </li>
-      </ul>
-    </div>
-    </div>
+        <ul class="list">
+          <li class="item2">
+            <img class="img2">
+            <p>sadasdasdasd</p>
+          </li>
+          <li class="item2">
+            <img class="img2">
+            <p>sadasdasdasd</p>
+          </li>
+          <li class="item2">
+            <img class="img2">
+            <p>sadasdasdasd</p>
+          </li>
+          <li class="item2">
+            <img class="img2">
+            <p>sadasdasdasd</p>
+          </li>
+        </ul>
+      </div>
+    </div> -->
   </div>
 </template>
-<style scoped>
+
+<script>
+import axios from 'axios'
+export default {
+  data: function () {
+    return {
+      upRank: [],
+      upRankAll: {},
+      newSongRank: [],
+      newSongRankAll: {},
+      originalRank: [],
+      originalRankAll: {},
+      hotRank: [],
+      hotRankAll: {}
+    }
+  },
+  mounted: function () {
+    this.getUpRank()
+    this.getNewSongRank()
+    this.getOriginalRank()
+    this.getHotRank()
+  },
+  methods: {
+    getUpRank: function () {
+      axios({
+        url: 'http://localhost:3000/top/list?idx=3',
+        xhrFields: {
+          withCredentials: true
+        }
+      }).then((response) => {
+        let self = this
+        self.upRankAll = response.data.playlist
+        for (let i = 0; i < 8; i++) {
+          self.upRank[i] = {}
+          self.upRank[i].ratio = self.upRankAll.trackIds[i].ratio + '%'
+          self.upRank[i].name = self.upRankAll.tracks[i].name
+          self.upRank[i].artists = self.upRankAll.tracks[i].ar.reduce(function (a, b) {
+            return a + '/' + b.name
+          }, '').substr(1)
+        }
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    getNewSongRank: function () {
+      axios({
+        url: 'http://localhost:3000/top/list?idx=0',
+        xhrFields: {
+          withCredentials: true
+        }
+      }).then((response) => {
+        let self = this
+        self.newSongRankAll = response.data.playlist
+        for (let i = 0; i < 8; i++) {
+          self.newSongRank[i] = {}
+          if (self.newSongRankAll.trackIds[i].lr === undefined) {
+            self.newSongRank[i].ratio = 'new'
+          } else if (self.newSongRankAll.trackIds[i].lr > i) {
+            self.newSongRank[i].ratio = '\u2191'
+          } else if (self.newSongRankAll.trackIds[i].lr < i) {
+            self.newSongRank[i].ratio = '\u2193'
+          } else {
+            self.newSongRank[i].ratio = '-'
+          }
+          self.newSongRank[i].name = self.newSongRankAll.tracks[i].name
+          self.newSongRank[i].artists = self.newSongRankAll.tracks[i].ar.reduce(function (a, b) {
+            return a + '/' + b.name
+          }, '').substr(1)
+        }
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    getOriginalRank: function () {
+      axios({
+        url: 'http://localhost:3000/top/list?idx=2',
+        xhrFields: {
+          withCredentials: true
+        }
+      }).then((response) => {
+        let self = this
+        self.originalRankAll = response.data.playlist
+        for (let i = 0; i < 8; i++) {
+          self.originalRank[i] = {}
+          if (self.originalRankAll.trackIds[i].lr === undefined) {
+            self.originalRank[i].ratio = 'new'
+          } else if (self.originalRankAll.trackIds[i].lr > i) {
+            self.originalRank[i].ratio = '\u2191'
+          } else if (self.originalRankAll.trackIds[i].lr < i) {
+            self.originalRank[i].ratio = '\u2193'
+          } else {
+            self.originalRank[i].ratio = '-'
+          }
+          self.originalRank[i].name = self.originalRankAll.tracks[i].name
+          self.originalRank[i].artists = self.originalRankAll.tracks[i].ar.reduce(function (a, b) {
+            return a + '/' + b.name
+          }, '').substr(1)
+        }
+        console.log(self.originalRank)
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    getHotRank: function () {
+      axios({
+        url: 'http://localhost:3000/top/list?idx=1',
+        xhrFields: {
+          withCredentials: true
+        }
+      }).then((response) => {
+        let self = this
+        self.hotRankAll = response.data.playlist
+        for (let i = 0; i < 8; i++) {
+          self.hotRank[i] = {}
+          if (self.hotRankAll.trackIds[i].lr === undefined) {
+            self.hotRank[i].ratio = 'new'
+          } else if (self.hotRankAll.trackIds[i].lr > i) {
+            self.hotRank[i].ratio = '\u2191'
+          } else if (self.hotRankAll.trackIds[i].lr < i) {
+            self.hotRank[i].ratio = '\u2193'
+          } else {
+            self.hotRank[i].ratio = '-'
+          }
+          self.hotRank[i].name = self.hotRankAll.tracks[i].name
+          self.hotRank[i].artists = self.hotRankAll.tracks[i].ar.reduce(function (a, b) {
+            return a + '/' + b.name
+          }, '').substr(1)
+        }
+        console.log(self.originalRank)
+      }).catch((error) => {
+        console.log(error)
+      })
+    }
+  }
+}
+</script>
+
+
+<style lang="scss" scoped>
   .main{
     position: relative;
     left: 0;
@@ -136,10 +263,6 @@
     /* margin-top: 20px; */
     width: 90%;
   }
-  ul{
-    /* display: flex;
-    justify-content: flex-start; */
-  }
   li{
     /* background: #000; */
     list-style: none;
@@ -147,22 +270,78 @@
   .item{
     float: left;
     width: 300px;
-    height: 400px;
+    height: auto;
     margin-top: 20px;
     margin-right: 65px;
+    .img{
+      background: #000;
+      width: 300px;
+      height: 100px;
+    }
+    li {
+      &:nth-child(odd) {
+        background: rgb(231, 231, 231);
+      }
+    }
+    .detail{
+      padding: 0 10px;
+      font-size: 14px;
+      text-align: left;
+      width: 300px;
+      overflow: hidden;
+      line-height: 32px;
+      span {
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+        -o-text-overflow: ellipsis;
+        white-space:nowrap;
+        height: 24px;
+        line-height: 36px;
+        &:nth-child(1) {
+          padding-right: 4px;
+          font-size: 16px;
+          font-style:italic;
+        }
+        &:nth-child(2) {
+          text-align: center;
+          display: inline-block;
+          font-size: 12px;
+          width: 36px;
+        }
+        &:nth-child(3) {
+          font-size: 12px;
+          display: inline-block;
+          color: #000;
+          width: 140px;
+        }
+        &:nth-child(4) {
+          text-align: right;
+          font-size: 12px;
+          float: right;
+          width: 80px;
+        }
+      }
+      &:hover {
+        background: rgb(189, 189, 189);
+      }
+    }  
+    .more {
+      height: 40px;
+      span {
+        cursor: pointer;
+        float: right;
+        font-size: 14px;
+        line-height: 40px;
+        padding-right: 10px;
+      }
+      &:hover {
+        color: #000;
+      }
+    }
   }
   li:nth-child(3){
     margin-right: 0;
   }
-  .img{
-    background: #000;
-    width: 300px;
-    height: 100px;
-  }
-  .retail{
-    text-align: left;
-    line-height: 36px;
-  }  
   .list{
     width: 90%;
     display: inline-flex;

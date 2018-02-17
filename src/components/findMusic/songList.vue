@@ -30,50 +30,57 @@
     </div>
     <div>
       <ul class="list">
-        <li class="item" v-for="(item, index) in songlist" :key="index">
-          <img :src="item.imgUrl">
-          <p>{{item.songlistName}}</p>
-        </li>
+        <router-link v-for="(item, index) in songlist" :key="index" :to="{path: '/playlistDetails',query: {id: item.id}}" tag="li" exact>
+          <span>
+            <i class="fa fa-headphones fa-fw"></i>
+            {{item.playCount}}
+          </span>
+          <img :src="item.coverImgUrl">
+          <p><i class="fa fa-user-o fa-fw"></i>{{item.creator.nickname}}</p>
+          <p>{{item.name}}</p>
+        </router-link>
       </ul>
     </div>
     <div class="page">
-      <span>1 2 3 4 5 6 7 8 9 10</span>
+      <span @click="viewPage(currPage - 1)"><i class="fa fa-angle-left fa-fw"></i></span>
+      <span :id="item" v-for="(item, index) in pages" :key="index" @click="viewPage(item)">{{item}}</span>
+      <span @click="viewPage(currPage + 1)"><i class="fa fa-angle-right fa-fw"></i></span>
     </div>
   </div>
 </template>
 <<script>
 import axios from 'axios'
+import renderPlayCount from '../detail/renderPlayCount'
 export default {
   data: function () {
     return {
       isShow: false,
       songlist: [],
       classification: [],
-      page: 1
+      pages: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      currPage: 1
     }
   },
   mounted: function () {
     this.isShow = false
-    axios({
-      url: '/submission/getSonglist.php',
-      method: 'post',
-      data: {
-        page: this.page
-      }
-    }).then((response) => {
-      console.log('getMsg +1拿到数据了')
-      var self = this
-      self.songlist = response.data
-      console.log(self.songlist)
-    }).catch((error) => {
-      console.log(error)
-    })
+    let self = this
+    self.viewPage(1)
+    // axios({
+    //   url: 'http://localhost:3000/top/playlist?offset=0&limit=100&order=hot',
+    //   xhrFields: {
+    //     withCredentials: true
+    //   }
+    // }).then((response) => {
+    //   console.log(response)
+    //   self.songlist = response.data.playlists
+    // }).catch((error) => {
+    //   console.log(error)
+    // })
     axios({
       url: '/submission/getClassification.php',
       method: 'post'
     }).then((response) => {
       console.log('getMsg +1拿到数据了')
-      var self = this
       self.classification = response.data
     }).catch((error) => {
       console.log(error)
@@ -82,23 +89,43 @@ export default {
   methods: {
     fade: function () {
       this.isShow = !this.isShow
+    },
+    viewPage: function (page) {
+      let self = this
+      if (page > 0 && page <= self.pages.length) {
+        axios({
+          url: 'http://localhost:3000/top/playlist?offset=' + (page - 1) * 100 + '&limit=100&order=hot',
+          xhrFields: {
+            withCredentials: true
+          }
+        }).then((response) => {
+          document.getElementById('main').scrollTop = 0
+          document.getElementById(self.currPage).className = ''
+          self.currPage = page
+          document.getElementById(self.currPage).className = 'active-page'
+          self.songlist = response.data.playlists
+          self.songlist.forEach(element => {
+            element.playCount = renderPlayCount(element.playCount)
+          })
+        }).catch((error) => {
+          console.log(error)
+        })
+      }
     }
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .main{
     position: relative;
     left: 0;
     z-index: 0;
-    /* margin-top: 60px; */
     top: 0;
     margin: auto auto auto auto;
     bottom: 74px;
     width: 100%;
     height: auto;
-    /* text-align: center; */
   }
   .drop-down{
     text-align: left;
@@ -135,37 +162,61 @@ export default {
     border-left: none;
   }
   .list{
-    /* position: absolute; */
     width: 92%;
-    /* background: #000; */
-    /* display: inline-flex; */
     margin: auto;
     margin-top: 16px;
-    height: 5700px;
+    height: auto;
     list-style-type:none;
     justify-content: space-between;
-    /*background: #000;*/
-    /* height: 100px; */
+    &:after {
+      content: " ";
+      display: block; 
+      height: 0; 
+      clear: both;
+    }
+    li{
+      cursor: pointer;
+      text-align: left;
+      float: left;
+      width: 180px;
+      margin:8px 14px;
+      height: 240px;
+      font-size: 14px;
+      span {
+        position: relative;
+        color: #fff;
+        padding: 4px;
+        margin-bottom: -36px;
+        float: right;
+      }
+      p {
+        &:nth-child(3) {
+          font-size: 12px;
+          margin-top: -20px;
+          color: #fff;
+        }
+      }
+    }
   }
   img{
     width: 180px;
   }
-  item{
-    display: block;
-    margin: auto;
-    /* width: 140px; */
-  }
-  li{
-    float: left;
-    width: 150px;
-    margin:8px 28px 8px 28px;
-    font-size: 14px;
-  }
   .page{
-    /* position: absolute; */
-    background: #000;
-    /* width: 1000px;
-    height: 100px; */
+    height: 30px;
+    span {
+      cursor: pointer;
+      font-size: 14px;
+      margin: 0 6px;
+      padding: 4px 8px;
+      &:hover {
+        background: #eeeeee;
+        border: 1px solid #b3b1b1;
+      }
+    }
+  }
+  .active-page {
+    color: #ca1c15;
+    text-decoration: underline;
   }
   .option{
     position: relative;

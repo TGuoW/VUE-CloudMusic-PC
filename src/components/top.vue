@@ -1,5 +1,6 @@
 <template>
 	<div class="bg">
+    <sign-in v-on:child-say="renewData" v-show="signInIsShow"></sign-in>
 		<div class="logo" @click="jj()">
 			<router-link :to="{ path: '/'}">
 				<div class="logo-wrap"></div>
@@ -9,34 +10,39 @@
 		<div class="tool">
 			<router-link :to="{ path: '/information'}">
 				<div class="user-img" @click="cc()">
-          <img v-bind:src=userInfo.img>
+          <img v-bind:src=userInfo.profile.avatarUrl>
         </div>
 			</router-link>
-			<span class="username" v-on:click="fade()">{{userInfo.nickName}}</span>
-				<i class="fa fa-yelp" id="yelp" @click="jj()"></i>
-        <i class="fa fa-envelope-o" @click="jj()"></i>
-        <i class="fa fa-cog" @click="jj()"></i>
+			<span class="username" v-on:click="fade()">
+        {{userInfo.profile.nickname}}
+        <i class="fa fa-caret-down fa-fw"></i>
+      </span>
+			<i class="fa fa-yelp" id="yelp" @click="jj()"></i>
+      <i class="fa fa-envelope-o" @click="jj()"></i>
+      <i class="fa fa-cog" @click="jj()"></i>
 		</div>
 		<div class="set" @click="jj()">
 			<i class="fa fa-external-link"></i>
-       		<i class="fa fa-minus"></i>
-        	<i class="fa fa-square-o"></i>
-        	<i class="fa fa-close"></i>
+       	<i class="fa fa-minus"></i>
+        <i class="fa fa-square-o"></i>
+        <i class="fa fa-close"></i>
 		</div>
 		<transition name="fade">
-			<div class="top-status" v-show="isShow()">
+			<div class="top-status" v-show="isShowStatus">
 				<div class="triangle"></div>
 				<div class="rectangle">
-          <div class="loading" v-if="!isLoading">
+          <div class="loading" v-if="isLoading">
             <i class="fa fa-spinner fa-pulse"></i>
             <!-- <p class="load-text">载入中...</p> -->
           </div>
-          <div v-show="isLoading">
+          <div v-else>
 					  <div class="user-info">
 						  <div class="user-img">
                 <img v-bind:src=userInfo.img>
               </div>
-						  <span class="nickname">{{userInfo.nickName}}</span>
+						  <span class="nickname">
+                {{userInfo.profile.nickname}}
+              </span>
 						  <span class="check-in">签到</span>
 					  </div>
 					  <div class="follow">
@@ -64,43 +70,50 @@
 	</div>
 </template>
 <script>
-import axios from 'axios'
+// import axios from 'axios'
+import signIn from './top/signIn'
 export default {
   name: 'top',
+  components: {
+    signIn
+  },
   data () {
     return {
       show: false,
-      userInfo: {},
+      userInfo: {
+        profile: {
+          nickname: '未登录'
+        }
+      },
+      signInIsShow: false,
+      isShowStatus: false,
       isLoading: false
     }
   },
   mounted: function () {
-    this.login()
+    // this.login()
   },
   methods: {
-    login: function () {
-      axios({
-        url: '/submission/userInfo.php',
-        method: 'post'
-      }).then((response) => {
-        var self = this
-        self.userInfo = response.data
-        self.$store.commit('login', self.userInfo)
-        self.isLoading = true
-        console.log(self.userInfo)
-      }).catch((error) => {
-        console.log(error)
-      })
+    renewData: function (data) {
+      this.userInfo = data
+      this.signInIsShow = false
     },
     fade: function () {
-      if (this.$store.state.isShowStatus) {
-        this.$store.commit('showStatus', false)
-        setTimeout(() => {
-          this.isLoading = false
-        }, 200)
+      let self = this
+      if (self.$store.state.isLogin) {
+        if (self.isShowStatus) {
+          // this.$store.commit('showStatus', false)
+          self.isShowStatus = false
+        } else {
+          self.isShowStatus = true
+          self.isLoading = true
+          setTimeout(_ => {
+            self.isLoading = false
+          }, 200)
+          // this.$store.commit('showStatus', true)
+        }
       } else {
-        this.$store.commit('showStatus', true)
-        this.login()
+        self.signInIsShow = true
       }
     },
     isShow: function () {
@@ -173,8 +186,11 @@ $red-color: #ca1c15;
 	.username{
 		font-weight: normal;
     color: #e0e0e0;
-    font-size: 12px;
+    font-size: 14px;
 		cursor: pointer;
+    i {
+      margin-left: -4px;
+    }
 		&:hover{
     	color: #fff;
   	}
