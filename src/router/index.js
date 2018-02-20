@@ -9,6 +9,7 @@ import songList from '@/components/findMusic/songList'
 import transceiver from '@/components/findMusic/transceiver'
 import rank from '@/components/findMusic/rank'
 import singer from '@/components/findMusic/singer'
+import singerDetails from '@/components/detail/singerDetails'
 import newMusic from '@/components/findMusic/newMusic'
 import FM from '@/components/FM/FM'
 import MV from '@/components/MV/MV'
@@ -40,6 +41,11 @@ export default new Router({
       path: '/playlistDetails',
       name: 'playlistDetails',
       component: playlistDetails
+    },
+    {
+      path: '/singerDetails',
+      name: 'singerDetails',
+      component: singerDetails
     },
     {
       path: '/FM',

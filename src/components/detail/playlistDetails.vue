@@ -31,19 +31,48 @@
     </header>
     <nav>
       <ul>
-        <li>歌曲列表</li>
-        <li>评论</li>
-        <li>收藏者</li>
+        <li class="active-page" id="playlist" @click="viewPage(1)">歌曲列表</li>
+        <li id="commend" @click="viewPage(2)">评论</li>
+        <li id="collect" @click="viewPage(3)">收藏者</li>
       </ul>
     </nav>
-    <div style="width:100%;">
-      <v-table
+    <div id="playlist-details" v-show="page===1">
+      <div class="title">
+        <p></p>
+        <!-- <p>操作</p> -->
+        <p>音乐标题</p>
+        <p>歌手</p>
+        <p>专辑</p>
+        <p>时长</p>
+      </div>
+      <ul>
+        <li v-for="(item, index) in songlist" :key="index" @dblclick="setPlayingSong(item)">
+          <p>
+            <i v-show="index<9">0</i>{{index+1}}
+          </p>
+          <p>{{item.name}}</p>
+          <p>
+            <span v-for="(i, o) in item.artists" :key="o">
+              {{i.name}}<i v-show="o!==(item.artists.length-1)">/</i>
+            </span>
+          </p>
+          <p>{{item.album.name}}</p>
+          <p>{{durationFormat(item.duration)}}</p>
+        </li>
+      </ul>
+      <!-- <v-table
         class="table"
         :width="1000"
         :columns="columns"
         :table-data="data"
         :show-vertical-border="false"
-      ></v-table>
+      ></v-table> -->
+    </div>
+    <div v-show="page===2">
+
+    </div>
+    <div v-show="page===3">
+
     </div>
   </div>
 </template>
@@ -56,6 +85,7 @@ import renderPlayCount from './renderPlayCount'
 export default {
   data () {
     return {
+      page: 1,
       screenWidth: document.body.clientWidth * 0.85,
       queryID: this.$route.query.id,
       playlist: {},
@@ -91,35 +121,15 @@ export default {
   watch: {
     $route: {
       handler: function (val, oldval) {
-        console.log(1)
         this.queryID = this.$route.query.id
         this.getSonglist()
-        // val.createTime = timeFormat(val.createTime).split(' ')[0]
-        // this.playlist = val
-        // this.getSonglist()
-        // this.playlist.playCount = renderPlayCount(this.playlist.playCount)
-        // this.creator = this.playlist.creator
-        // this.tags = this.playlist.tags
-        // localStorage.set('playlist', this.playlist)
+        localStorage.set('playlist', this.playlist)
       }
     }
-    // screenWidth (val) {
-    //   if (!this.timer) {
-    //     this.screenWidth = val
-    //     this.timer = true
-    //     let self = this
-    //     setTimeout(function () {
-    //       self.columns.forEach(element => {
-    //         element.width = self.screenWidth / 2
-    //       })
-    //       self.timer = false
-    //     }, 400)
-    //   }
-    // }
   },
   methods: {
     login: function () {
-      console.log(this.$route.query.id)
+      // console.log(this.$route.query.id)
     },
     getSonglist: function () {
       let self = this
@@ -130,6 +140,7 @@ export default {
           withCredentials: true
         }
       }).then((response) => {
+        console.log(response)
         self.playlist = response.data.result
         self.playlist.createTime = timeFormat(self.playlist.createTime).split(' ')[0]
         self.playlist.playCount = renderPlayCount(self.playlist.playCount)
@@ -160,6 +171,15 @@ export default {
       let minute = Math.floor(temp / 60).toString()
       let second = temp % 60 < 10 ? '0' + temp % 60 : temp % 60
       return minute + ':' + second
+    },
+    viewPage: function (num) {
+      document.getElementById('playlist').className = num === 1 ? 'active-page' : ''
+      document.getElementById('commend').className = num === 2 ? 'active-page' : ''
+      document.getElementById('collect').className = num === 3 ? 'active-page' : ''
+      this.page = num
+    },
+    setPlayingSong: function (song) {
+      console.log(song)
     }
   }
 }
@@ -182,6 +202,13 @@ export default {
     overflow: scroll;
     overflow-x: hidden;
     text-align: center;
+  }
+  .main::-webkit-scrollbar {
+    width: 8px;
+  }
+  .main::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: #e1e1e2;
   }
   header {
     padding: 20px 40px;
@@ -206,14 +233,25 @@ export default {
       }
       div {
         margin: 20px 0;
+        height: 40px;
         img {
+          float: left;
+          // display: inline-block;
           width: 40px;
           height: 40px;
           border-radius: 20px;
         }
         .nickname {
-          height: 40px;
-          line-height: 40px;
+          float: left;
+          font-size: 14px;
+          margin-top: 10px;
+          margin-left: 20px;
+        }
+        .createTime {
+          float: left;
+          font-size: 14px;
+          margin-top: 10px;
+          margin-left: 20px;
         }
       }
       .btn-group {
@@ -250,10 +288,83 @@ export default {
       li {
         cursor: pointer;
         display: inline-block;
-        background: rgb(194, 26, 26);
+        border: 1px solid #e0e0e0;
         font-size: 14px;
-        color: #fff;
         padding: 6px 16px;
+      }
+      .active-page {
+        background: rgb(194, 26, 26);
+        color: #fff;
+      }
+    }
+  }
+  #playlist-details {
+    width: 100%;
+    margin: auto;
+    font-size: 13px;
+    .title {
+      width: 100%;
+      height: 28px;
+      line-height: 28px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+      p {
+        border-left: 1px solid #e0e0e0;
+        padding: 0 8px;
+        height: 28px;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+        &:nth-child(1) {
+          border-left: none;
+          width: 72px;
+          padding: 0 32px;
+        }
+        &:nth-child(2) {
+          width: 30%;
+        }
+        &:nth-child(3) {
+          width: 20%;
+        }
+        &:nth-child(4) {
+          width: 20%;
+        }
+      }
+    }
+    ul {
+      li {
+        width: 100%;
+        height: 28px;
+        line-height: 28px;
+        list-style: none;
+        text-align: left;
+        &:nth-child(even) {
+          background: #f1f1f1;
+        }
+        i {
+          font-style: normal;
+        }
+        p {
+          padding: 0 8px;
+          display: inline-block;
+          overflow: hidden;
+          text-overflow:ellipsis;
+          white-space: nowrap;
+          &:nth-child(1) {
+            width: 72px;
+            padding: 0 32px;
+          }
+          &:nth-child(2) {
+            width: 30%;
+          }
+          &:nth-child(3) {
+            width: 20%;
+          }
+          &:nth-child(4) {
+            width: 20%;
+          }
+        }
       }
     }
   }

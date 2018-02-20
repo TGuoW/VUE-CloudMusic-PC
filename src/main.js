@@ -24,7 +24,8 @@ const store = new Vuex.Store({
     isLogin: false,
     isPaused: true,
     // isSelectedMouse: false,
-    userInfo: {}
+    userInfo: {},
+    playingSong: {}
   },
   mutations: {
     showStatus (state, n) {
@@ -43,6 +44,9 @@ const store = new Vuex.Store({
     },
     pause (state, n) {
       state.isPaused = n
+    },
+    setPlayingSong (state, n) {
+      state.playingSong = n
     }
   }
 })

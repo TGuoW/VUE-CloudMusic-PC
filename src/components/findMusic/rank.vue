@@ -71,34 +71,27 @@
         </ul>
       </div>
     </div>
-    <!-- <div class="global-rank">
-      <div class="title">官方榜</div>
+    <div class="global-rank">
+      <div class="title">全球榜</div>
       <div>
         <ul class="list">
-          <li class="item2">
-            <img class="img2">
-            <p>sadasdasdasd</p>
-          </li>
-          <li class="item2">
-            <img class="img2">
-            <p>sadasdasdasd</p>
-          </li>
-          <li class="item2">
-            <img class="img2">
-            <p>sadasdasdasd</p>
-          </li>
-          <li class="item2">
-            <img class="img2">
-            <p>sadasdasdasd</p>
-          </li>
+          <router-link class="item" v-for="(item, index) in otherRank" :key="index" :to="{path: '/playlistDetails',query: {id: item.id}}" tag="span" exact>
+            <span>
+              <i class="fa fa-headphones fa-fw"></i>
+              {{item.playCount}}
+            </span>
+            <img :src="item.coverImgUrl" alt="">
+            <p>{{item.name}}</p>
+          </router-link>
         </ul>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import renderPlayCount from '../detail/renderPlayCount'
 export default {
   data: function () {
     return {
@@ -109,7 +102,8 @@ export default {
       originalRank: [],
       originalRankAll: {},
       hotRank: [],
-      hotRankAll: {}
+      hotRankAll: {},
+      otherRank: []
     }
   },
   mounted: function () {
@@ -117,6 +111,7 @@ export default {
     this.getNewSongRank()
     this.getOriginalRank()
     this.getHotRank()
+    this.getOtherRank()
   },
   methods: {
     getUpRank: function () {
@@ -194,7 +189,6 @@ export default {
             return a + '/' + b.name
           }, '').substr(1)
         }
-        console.log(self.originalRank)
       }).catch((error) => {
         console.log(error)
       })
@@ -224,10 +218,30 @@ export default {
             return a + '/' + b.name
           }, '').substr(1)
         }
-        console.log(self.originalRank)
       }).catch((error) => {
         console.log(error)
       })
+    },
+    getOtherRank: function () {
+      let self = this
+      for (let i = 0; i < 20; i++) {
+        self.otherRank[i] = {}
+        axios({
+          url: 'http://localhost:3000/top/list?idx=' + (i + 4),
+          xhrFields: {
+            withCredentials: true
+          }
+        }).then((response) => {
+          // let self = this
+          self.otherRank[i].id = response.data.playlist.id
+          self.otherRank[i].name = response.data.playlist.name
+          self.otherRank[i].coverImgUrl = response.data.playlist.coverImgUrl
+          self.otherRank[i].playCount = renderPlayCount(response.data.playlist.playCount)
+        }).catch((error) => {
+          console.log(error)
+        })
+      }
+      console.log(self.otherRank)
     }
   }
 }
@@ -245,120 +259,166 @@ export default {
     text-align: center;
   }
   .official-rank{
-    height: 860px;
-  }
-  .title{
-    position: relative;
-    margin: auto;
-    margin-top: 24px;
-    padding-bottom: 10px;
-    font-size: 20px;
-    width: 90%;
-    border-bottom: 1px solid #e0e0e0;
-    text-align: left;
-  }
-  .diff-rank{
-    position: relative;
-    margin: auto;
-    /* margin-top: 20px; */
-    width: 90%;
-  }
-  li{
-    /* background: #000; */
-    list-style: none;
-  }
-  .item{
-    float: left;
-    width: 300px;
     height: auto;
-    margin-top: 20px;
-    margin-right: 65px;
-    .img{
-      background: #000;
-      width: 300px;
-      height: 100px;
+    &:after {
+      content: " ";
+      display: block; 
+      height: 0; 
+      clear: both;
     }
-    li {
-      &:nth-child(odd) {
-        background: rgb(231, 231, 231);
-      }
-    }
-    .detail{
-      padding: 0 10px;
-      font-size: 14px;
+    .title{
+      position: relative;
+      margin: auto;
+      margin-top: 24px;
+      padding-bottom: 10px;
+      font-size: 20px;
+      width: 90%;
+      border-bottom: 1px solid #e0e0e0;
       text-align: left;
+    }
+    .diff-rank{
+      position: relative;
+      margin: auto;
+      /* margin-top: 20px; */
+      width: 90%;
+    }
+    li{
+      /* background: #000; */
+      list-style: none;
+    }
+    .item{
+      float: left;
       width: 300px;
-      overflow: hidden;
-      line-height: 32px;
-      span {
-        overflow: hidden; 
-        text-overflow: ellipsis; 
-        -o-text-overflow: ellipsis;
-        white-space:nowrap;
-        height: 24px;
-        line-height: 36px;
-        &:nth-child(1) {
-          padding-right: 4px;
-          font-size: 16px;
-          font-style:italic;
-        }
-        &:nth-child(2) {
-          text-align: center;
-          display: inline-block;
-          font-size: 12px;
-          width: 36px;
-        }
-        &:nth-child(3) {
-          font-size: 12px;
-          display: inline-block;
-          color: #000;
-          width: 140px;
-        }
-        &:nth-child(4) {
-          text-align: right;
-          font-size: 12px;
-          float: right;
-          width: 80px;
+      height: auto;
+      margin-top: 20px;
+      margin-right: 65px;
+      .img{
+        background: #000;
+        width: 300px;
+        height: 100px;
+      }
+      li {
+        &:nth-child(odd) {
+          background: rgb(231, 231, 231);
         }
       }
-      &:hover {
-        background: rgb(189, 189, 189);
-      }
-    }  
-    .more {
-      height: 40px;
-      span {
-        cursor: pointer;
-        float: right;
+      .detail{
+        padding: 0 10px;
         font-size: 14px;
-        line-height: 40px;
-        padding-right: 10px;
-      }
-      &:hover {
-        color: #000;
+        text-align: left;
+        width: 300px;
+        overflow: hidden;
+        line-height: 32px;
+        span {
+          overflow: hidden; 
+          text-overflow: ellipsis; 
+          -o-text-overflow: ellipsis;
+          white-space:nowrap;
+          height: 24px;
+          line-height: 36px;
+          &:nth-child(1) {
+            padding-right: 4px;
+            font-size: 16px;
+            font-style:italic;
+          }
+          &:nth-child(2) {
+            text-align: center;
+            display: inline-block;
+            font-size: 12px;
+            width: 36px;
+          }
+          &:nth-child(3) {
+            font-size: 12px;
+            display: inline-block;
+            color: #000;
+            width: 140px;
+          }
+          &:nth-child(4) {
+            text-align: right;
+            font-size: 12px;
+            float: right;
+            width: 80px;
+          }
+        }
+        &:hover {
+          background: rgb(189, 189, 189);
+        }
+      }  
+      .more {
+        height: 40px;
+        span {
+          cursor: pointer;
+          float: right;
+          font-size: 14px;
+          line-height: 40px;
+          padding-right: 10px;
+        }
+        &:hover {
+          color: #000;
+        }
       }
     }
+    li:nth-child(3){
+      margin-right: 0;
+    }
+    .list{
+      width: 90%;
+      display: inline-flex;
+      margin: auto;
+      margin-top: 10px;
+      list-style-type:none;
+      justify-content: space-between;
+      /*background: #000;*/
+      height: 200px;
+    }
+    .item2{
+      /* background: #000; */
+      width: 150px;
+      height: 150px;
+    }
+    .img2{
+      width: 150px;
+      height: 150px;
+    }
   }
-  li:nth-child(3){
-    margin-right: 0;
-  }
-  .list{
+  .global-rank{
     width: 90%;
-    display: inline-flex;
     margin: auto;
-    margin-top: 10px;
-    list-style-type:none;
-    justify-content: space-between;
-    /*background: #000;*/
-    height: 200px;
-  }
-  .item2{
-    /* background: #000; */
-    width: 150px;
-    height: 150px;
-  }
-  .img2{
-    width: 150px;
-    height: 150px;
+    &:after {
+      content: " ";
+      display: block; 
+      height: 0; 
+      clear: both;
+    }
+    .title{
+      position: relative;
+      margin: auto;
+      margin-top: 24px;
+      padding-bottom: 10px;
+      font-size: 20px;
+      width: 100%;
+      border-bottom: 1px solid #e0e0e0;
+      text-align: left;
+    }
+    .item {
+      cursor: pointer;
+      margin: 10px 10px 10px 0px;
+      list-style: none;
+      float: left;
+      text-align: left;
+      height: 180px;
+      font-size: 13px;
+      span {
+        position: relative;
+        color: #fff;
+        padding: 4px;
+        margin-left: -80px;
+        margin-bottom: -36px;
+        float: right;
+      }
+      img {
+        width: 160px;
+      }
+    }
   }
 </style>

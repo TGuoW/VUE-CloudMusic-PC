@@ -48,7 +48,6 @@
     background: #fafafa;
     position: absolute;
     left: 15%;
-    /* height: 1000px; */
     height: auto;
     top: 60px;
     bottom: 74px;

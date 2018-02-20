@@ -13,37 +13,50 @@
                 </p>
             </div>
             <ul>
-                <li class="item">
-                    <div class="img"></div>
-                    <span>他们不只唱得好,写得也非常nice</span>
-                </li>
-                <li class="item">
-                    <div class="img"></div>
-                    <span>他们不只唱得好,写得也非常nice</span>
-                </li>
-                <li class="item">
-                    <div class="img"></div>
-                    <span>他们不只唱得好,写得也非常nice</span>
-                </li>
-                <li class="item">
-                    <div class="img"></div>
-                    <span>他们不只唱得好,写得也非常nice</span>
-                </li>
-                <li class="item">
-                    <div class="img"></div>
-                    <span>他们不只唱得好,写得也非常nice</span>
-                </li>
+              <router-link v-for="(item, index) in artists" :key="index" :to="{path: '/singerDetails',query: {id: item.id}}" tag="li" exact>
+                <img :src="item.img1v1Url" alt="">
+                <p>{{item.name}}</p>
+              </router-link>
             </ul>
         </div>
     </div>
 </template>
 
-<<script>
+<script>
+import axios from 'axios'
 export default {
+  data: function () {
+    return {
+      artists: [],
+      page: 1
+    }
+  },
+  mounted: function () {
+    axios({
+      url: 'http://localhost:3000/top/artists?offset=' + (this.page - 1),
+      xhrFields: {
+        withCredentials: true
+      }
+    }).then((response) => {
+      let self = this
+      console.log(response)
+      if (this.page === 1) {
+        self.artists = response.data.artists
+      }
+      console.log(self.artists)
+      // for (let i = 0; i < response.data.data.length; i++) {
+      //   response.data.data[i].playCount = renderPlayCount(response.data.data[i].playCount)
+      //   self.topMV = response.data.data
+      // }
+      // console.log(self.topMV)
+    }).catch((error) => {
+      console.log(error)
+    })
+  }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .main{
       position: fixed;
       /* background: #000; */
@@ -52,19 +65,47 @@ export default {
       bottom: 74px;
       width: 85%;
       text-align: left;
-    }
-    .all{
+      .all{
         width: 96%;
         margin: auto;
-    }
-    .title{
-        position: relative;
-        /* background: #000; */
-        margin: auto;
-        margin-top: 8px;
-        height: 110px;
-        border-bottom: 1px solid #e0e0e0;
-        width: 93%;
+        .title{
+          position: relative;
+          /* background: #000; */
+          margin: auto;
+          margin-top: 8px;
+          height: 110px;
+          border-bottom: 1px solid #e0e0e0;
+          width: 93%;
+        }
+        ul{
+          margin: 30px auto;
+          width: 94%;
+          &:after {
+            content: " ";
+            display: block; 
+            height: 0; 
+            clear: both;
+          }
+          li{
+            float: left;
+            list-style: none;
+            width: 150px;
+            height: 170px;
+            margin-right: 22px;
+            margin-bottom: 20px;
+            img{
+              cursor: pointer;
+              width: 150px;
+              height: 150px;
+            }
+            p {
+              cursor: pointer;
+              font-size: 14px;
+              margin-top: -6px;
+            }
+          }
+        }
+      }
     }
     span{
         text-align: left;
@@ -82,27 +123,6 @@ export default {
         line-height: 32px;
         text-align: right;
     }
-    ul{
-        display: flex;
-        justify-content: space-between;
-        margin-top: 30px;
-        width: 100%;
-    }
-    li{
-        list-style: none;
-        width: 150px;
-        height: 200px;
-    }
-    .item{
-        margin: auto;
-        margin-bottom: 40px;
-        width: 150px;
-        height: 240px;
-    }
-    .img{
-        background: #000;
-        width: 150px;
-        height: 150px;
-    }
+
 </style>
 
