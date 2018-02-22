@@ -35,12 +35,12 @@
           <img :src="i.song.album.blurPicUrl">
           <div>
             <p>{{i.name}}</p>
-            <!-- <p> -->
+            <p>
               <span v-for="(artist, m) in i.song.artists" :key="m">
                 {{artist.name}}
                 <i v-show="m!==i.song.artists.length - 1">/</i>
               </span>
-            <!-- </p> -->
+            </p>
           </div>
         </li>
       </ul>
@@ -250,6 +250,7 @@
       li {
         list-style: none;
         height: 60px;
+        width: 100%;
         &:nth-child(even) {
           background: #ececec;
         }
@@ -278,18 +279,27 @@
         div {
           // display: inline-block;
           float: left;
+          width: 70%;
           height: 60px;
           font-size: 14px;
           padding-left: 8px;
           p {
+            overflow: hidden;
+            text-overflow:ellipsis;
+            white-space: nowrap;
+            width: 100%;
             color: #000;
-            // height: 30px;
             padding-top: 10px;
-          }
-          span {
-            height: 30px;
-            line-height: 30px;
-            padding: 0;
+            height: 40px;
+            margin-bottom: -24px;
+            span {
+              color: #6d6d6d;
+              line-height: 30px;
+              padding: 0;
+            }
+            i {
+              font-style: normal;
+            }
           }
         }
       }

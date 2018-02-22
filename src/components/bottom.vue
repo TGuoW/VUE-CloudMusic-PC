@@ -1,5 +1,5 @@
 <template>
-	<div class="bottom" @mouseup="freeMouse()" @mousemove="setX()">
+	<div class="bottom" @mouseup="freeMouse();freeMouse2()" @mousemove="setX()">
 		<div class="row">
 			<li class="btn">
 				<i class="fa fa-step-backward"></i>
@@ -15,7 +15,7 @@
 		<div class="time">
 			<span>{{currentTime}}</span>
 		</div>
-		<div class="bar">
+		<div class="bar" @mouseup="freeMouse2()">
       <div id="bar-red"></div>
       <div id="bar-grey"></div>
       <div id="pos-i" @mousedown="selectMouse()">
@@ -25,11 +25,17 @@
     <div class="music-length">{{duration}}</div>
 		<div class="volume">
 			<i class="fa fa-fw fa-volume-up"></i>
-			<div class="bar-volume"></div>
+			<div class="bar-volume" @mouseover="isVolumeBtnShow=true" @mouseout="isVolumeBtnShow=false">
+        <div class="bar-red" id="volume-red"></div>
+        <div class="bar-grey" id="volume-grey"></div>
+        <div class="pos-i" id="volume-btn" v-show="isVolumeBtnShow" @mousedown="selectMouse2()">
+          <div class="pos" ></div>
+        </div>
+      </div>
 		</div>
 		<div class="row2">
 			<li class="btn">
-				
+
 			</li>
 			<li class="btn">
 				<i class="fa fa-fw"></i>
@@ -40,36 +46,44 @@
 </template>
 
 <script type="text/javascript">
+import axios from 'axios'
 import Mc from './detail/musicController.js'
-// import axios from 'axios'
-var musicUrl = 'http://39.108.221.165/src.mp3'
-var music = new Mc(musicUrl)
 export default {
   data: function () {
     return {
       currentTime: '00:00',
       duration: '00:00',
       isSelectedMouse: false,
-      x: 0
+      isSelectedMouse2: false,
+      playingSong: {},
+      isVolumeBtnShow: false,
+      music: null,
+      x: 0,
+      x2: 0
     }
   },
-  created: function () {
-    let self = this
-    self.currentTime = self.standardizedTime(music.currentTime)
-    setTimeout(function () {
-      self.duration = self.standardizedTime(music.duration)
-    }, 200)
+  computed: {
+    getPlayingSong: function () {
+      return this.$store.state.playingSong
+    }
   },
+  // created: function () {
+    // let self = this
+    // // self.currentTime = self.standardizedTime(self.music.currentTime)
+    // setTimeout(function () {
+    //   self.duration = self.standardizedTime(self.music.duration)
+    // }, 200)
+  // },
   methods: {
     play: function () { // 播放或暂停
       let self = this
-      self.duration = self.standardizedTime(music.duration)
-      if (music.isPaused) {
-        music.run()
+      // self.duration = self.standardizedTime(self.music.duration)
+      if (self.music.isPaused) {
+        self.music.run()
         this.showTime()
         this.$store.commit('pause', false)
       } else {
-        music.pause()
+        self.music.pause()
         this.$store.commit('pause', true)
       }
     },
@@ -77,6 +91,7 @@ export default {
       return this.$store.state.isPaused
     },
     standardizedTime: function (t) { // 标准化时间
+      t = Math.floor(t / 1000)
       let minute = parseInt(t / 60)
       let second = parseInt(t % 60)
       if (minute / 10 < 1) {
@@ -95,14 +110,14 @@ export default {
       let self = this
       // console.log(music.duration)
       let p = setInterval(function () {
-        console.log(1)
         if (!self.isSelectedMouse) {
-          self.currentTime = self.standardizedTime(music.currentTime)
-          document.getElementById('bar-red').style.width = music.currentTime / music.duration * 500 + 4 + 'px'
-          document.getElementById('bar-grey').style.width = 496 - music.currentTime / music.duration * 500 + 'px'
-          document.getElementById('pos-i').style.left = music.currentTime / music.duration * 486 + 'px'
+          self.currentTime = self.standardizedTime(self.music.currentTime)
+          let t = self.music.currentTime / self.music.duration
+          document.getElementById('bar-red').style.width = t * 496 + 2 + 'px'
+          document.getElementById('bar-grey').style.width = 498 - t * 496 + 'px'
+          document.getElementById('pos-i').style.left = t * 486 + 'px'
         }
-        if (music.isPaused) {
+        if (self.music.isPaused) {
           clearInterval(p)
         }
       }, 100)
@@ -115,23 +130,46 @@ export default {
           let x = self.x
           if (x <= 386) {
             x = 386
-          } else if (x >= 880) {
-            x = 880
+          } else if (x >= 886) {
+            x = 886
           }
-          console.log(x)
-          self.updateBar(x)
+          self.updateTimeBar(x)
         } else {
           clearInterval(p)
         }
       }, 10)
     },
-    updateBar: function (x) {
+    selectMouse2: function () {
+      var self = this
+      self.isSelectedMouse2 = true
+      let p = setInterval(function () {
+        if (self.isSelectedMouse2) {
+          let x2 = self.x - 980
+          if (x2 <= 0) {
+            x2 = 0
+          } else if (x2 >= 110) {
+            x2 = 110
+          }
+          self.updateTimeBar2(x2)
+        } else {
+          clearInterval(p)
+        }
+      }, 10)
+    },
+    updateTimeBar: function (x) {
       let self = this
       document.getElementById('bar-red').style.width = x - 386 + 'px'
       document.getElementById('bar-grey').style.width = 886 - x + 'px'
       document.getElementById('pos-i').style.left = x - 390 + 'px'
-      let time = (x - 386) / 494 * music.duration
+      let time = (x - 386) / 494 * self.music.duration
       self.currentTime = self.standardizedTime(time)
+    },
+    updateTimeBar2: function (x) {
+      this.music.setVolume(x / 120)
+      console.log(this.music.volume)
+      document.getElementById('volume-red').style.width = x + 'px'
+      document.getElementById('volume-grey').style.width = 110 - x + 'px'
+      document.getElementById('volume-btn').style.marginLeft = x + 'px'
     },
     setX: function () {
       let ev = window.event
@@ -140,20 +178,54 @@ export default {
     freeMouse: function () {
       let self = this
       if (self.isSelectedMouse) {
-        let time = (self.x - 386) / 494 * music.duration
+        let time = (self.x - 386) / 494 * self.music.duration / 1000
         self.isSelectedMouse = false
-        music.fastSeek(time)
+        self.music.fastSeek(time)
       }
-      // console.log(time)
       self.$store.commit('showStatus', false)
+    },
+    freeMouse2: function () {
+      let self = this
+      if (self.isSelectedMouse2) {
+        // let time = (self.x - 386) / 494 * self.music.duration / 1000
+        self.isSelectedMouse2 = false
+        // self.music.fastSeek(time)
+      }
+      // self.$store.commit('showStatus', false)
+    },
+    getMusicUrl: function (id) {
+      let self = this
+      axios({
+        url: 'http://localhost:3000/music/url?id=' + id,
+        xhrFields: {
+          withCredentials: true
+        }
+      }).then((response) => {
+        let musicUrl = response.data.data[0].url
+        self.music = new Mc(musicUrl)
+        self.play()
+        self.$store.commit('pause', false)
+      }).catch((error) => {
+        console.log(error)
+      })
+    }
+  },
+  watch: {
+    getPlayingSong: function (val, oldVal) {
+      this.duration = this.standardizedTime(val[0].dt)
+      this.playingSong = val[0]
+      if (this.music) {
+        this.music.delete()
+      }
+      this.getMusicUrl(this.playingSong.id)
     }
   }
 }
 </script>
 
-<style type="text/css" scoped>
+<style lang="scss" type="text/css" scoped>
 .bottom{
-	background: #fff;
+	background: rgb(243, 243, 243);
 	border-top: 1px;
 	border-color: #bdbdbd;
 	border-style: solid;
@@ -174,7 +246,7 @@ export default {
 	color: #fff;
 	border-radius: 20px;
 	background: #ca1c15;
-    margin: 0 10px 0 20px;
+  margin: 0 10px 0 20px;
 	height: 40px;
 	width: 40px;
 	cursor: pointer;
@@ -200,6 +272,29 @@ export default {
 	height: 4px;
 	top: 34px;
 	left: 380px;
+  #pos-i{
+  position: relative;
+  /* background: #e0e0e0; */
+  cursor: pointer;
+  top: -9px;
+  background: #fff;
+  border: 1px solid #b4b4b4;
+  border-radius: 7px;
+  height: 14px;
+  width: 14px;
+  #pos{
+    position: relative;
+    top: 4px;
+    margin: auto;
+    background: #ca1c15;
+    border-radius: 8px;
+    height: 4px;
+    width: 4px;
+  }
+  &:hover{
+    box-shadow: 0px 0px 4px #666666;
+  }
+}
 }
 #bar-red{
 	background: #ca1c15;
@@ -232,20 +327,71 @@ export default {
 }
 .volume{
 	display: inline-flex;
-	width: 15%;
+	width: 150px;
 	position: absolute;
 	height: 40px;
-	/*background: #000;*/
+	// background: #000;
 	left: 950px;
 	top: 15px;
+  .bar-volume{
+    margin: auto;
+    margin-left: 10px;
+    margin-top: 12px;
+    border-radius: 3px;
+    width: 140px;
+    height: 16px;
+    .bar-red{
+      margin-left: 7px;
+      margin-top: 6px;
+      background: #ca1c15;
+      float: left;
+      // position: relative;
+      border-radius: 3px;
+      width: 30px;
+      height: 4px;
+      top: 0px;
+      left: 0px;
+    }
+    .bar-grey {
+      float: left;
+      margin-top: 6px;
+      background: #b4b4b4;
+      // position: relative;
+      border-radius: 3px;
+      width: 80px;
+      height: 4px;
+      top: 0px;
+      left: 0px;
+      
+    }
+    .pos-i{
+      clear: both;
+      float: left;
+      /* background: #e0e0e0; */
+      cursor: pointer;
+      margin-top: -9px;
+      margin-left: 0px;
+      background: #fff;
+      border: 1px solid #b4b4b4;
+      border-radius: 7px;
+      height: 14px;
+      width: 14px;
+      .pos{
+        position: relative;
+        top: 4px;
+        margin: auto;
+        background: #ca1c15;
+        border-radius: 8px;
+        height: 4px;
+        width: 4px;
+      }
+      &:hover{
+        box-shadow: 0px 0px 4px #666666;
+      }
+    }
+  }
 }
-.bar-volume{
-	margin: auto;
-	background: #ca1c15;
-	border-radius: 3px;
-	width: 80%;
-	height: 6px;
-}
+
 .row2{
 	position: absolute;
 	width: 300px;
@@ -254,25 +400,5 @@ export default {
 	display: inline-flex;
 	list-style-type: none;
 }
-#pos-i{
-  position: relative;
-  /* background: #e0e0e0; */
-  cursor: pointer;
-  top: -10px;
-  border: 1px solid #b4b4b4;
-  border-radius: 7px;
-  height: 14px;
-  width: 14px;
-}
-#pos-i:hover{
-  box-shadow: 0px 0px 4px #666666;
-}
-#pos{
-  margin: auto;
-  background: #ca1c15;
-  border: 5px solid #fff;
-  border-radius: 8px;
-  height: 4px;
-  width: 4px;
-}
+
 </style>

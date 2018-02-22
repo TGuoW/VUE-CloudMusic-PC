@@ -1,18 +1,20 @@
 <template> 
-  <div class="main" @click="closeStatus()">    
+  <div class="main" @click="closeStatus()"> 
+    <div class="close" @click="closeAllDetail()"></div>   
     <div class="song">
       <div class="img-btn">
         <div class="disc"> 
           <div class="needle" :class="isPaused() ? 'needle-pause' : 'needle-play'"></div>
           <div :class="isPaused() ? '' : 'record-rotate'"> 
             <div class="song-img">
+              <img :src="playingSong.al.picUrl" alt="">
               <div class="record"></div>
             </div>
           </div>
         </div>
         <div>
           <ul>
-            <li class="btn" @click="jj()">
+            <li class="btn">
               <span>
                 <i class="fa fa-fw fa-heart"></i>
                 喜欢
@@ -40,16 +42,19 @@
         </div>
       </div>
       <div class="lyrics">
-        <h1>非酋</h1>
-        <h2>
-          <span>专辑:任然</span>
-          <span>歌手：啊设计的</span>
-        </h2>
+        <h1>{{playingSong.name}}</h1>
+        <p class="author">
+          <span>专辑:{{playingSong.al.name}}</span>
+          <span>歌手：
+            <span v-for="(item, index) in playingSong.ar" :key="index">
+              {{item.name}}<i v-show="index!==(playingSong.ar.length-1)">/</i>
+            </span>
+          </span>
+        </p>
         <div class="lyric" id="lrc">
           <p v-for="(item, index) in lyric" :key="index">{{item[1]}}</p>
         </div>
-      </div>  
-      <!-- <div class="close" @click="closeAllDetail()"></div>         -->
+      </div>          
     </div>
     <div class="about">
       <div class="comment">
@@ -84,31 +89,32 @@ import axios from 'axios'
 export default {
   data: function () {
     return {
-      lyric: []
+      lyric: [],
+      playingSong: {
+        al: {}
+      }
+    }
+  },
+  computed: {
+    getPlayingSong: function () {
+      return this.$store.state.playingSong
     }
   },
   mounted: function () {
-    var self = this
-    axios({
-      url: '/submission/getLyric.php',
-      method: 'post'
-    }).then((response) => {
-      // console.log(response.data.lrc.lyric)
-      self.lyric = self.parseLyric(response.data.lrc.lyric)
-      console.log(self.lyric)
-    }).catch((error) => {
-      console.log(error)
-    })
+
   },
   methods: {
-    jj: function () {
+    getLyric: function () {
+      var self = this
       axios({
-        url: 'https://bird.ioliu.cn/netease/song?id=473940941',
-        method: 'get',
-        type: 'jsonp'
+        url: 'http://localhost:3000/lyric?id=' + self.playingSong.id,
+        xhrFields: {
+          withCredentials: true
+        }
       }).then((response) => {
-        // console.log(response.data.lrc.lyric)
-        console.log(response.data)
+        console.log(response)
+        self.lyric = self.parseLyric(response.data.lrc.lyric)
+        console.log(self.lyric)
       }).catch((error) => {
         console.log(error)
       })
@@ -144,6 +150,12 @@ export default {
     closeStatus: function () {
       this.$store.commit('showStatus', false)
     }
+  },
+  watch: {
+    getPlayingSong: function (val, oldVal) {
+      this.playingSong = val[0]
+      this.getLyric()
+    }
   }
 }
 </script>
@@ -171,61 +183,89 @@ export default {
 
     .close{
       background: #000;
-      position: absolute;
-      margin: auto;
-      /* float: right; */
-      left: 800px;
-      top: 50px;
+      float: right;
       width: 50px;
       height: 50px;
     }
     .song{
-        position: relative;
-        // background: #000; 
-        display: flex;
-        justify-content: space-between;
+        display: block;
         margin: auto;
         margin-top:10px;
-        width: 1000px;
+        width: 860px;
         height: 460px;
-    }
-    .img-btn{
-        position: relative;
-        width: 360px;
-        height: 400px;
-    }
-    .disc{
-      position: relative;
-      /* background: #000; */
-      width: 360px;
-      height: 360px;
-      margin: auto;
-    }
-    .needle{
-      position: relative;
-      background: url(http://on99ebnkk.bkt.clouddn.com/play_needle.png) no-repeat;
-      /* background: #000; */
-      background-size: 100%;
-      transform-origin: 14px 12px;
-      transition: All 0.4s ease-in-out;
-      // transform: rotate(-45deg);
-      z-index: 3;
-      margin: auto;
-      margin-top: -24px;
-      width: 80px;
-      height: 120px;
-    }
-    .needle-play{
-      transform: rotate(0deg);
-    }
-    .needle-pause{
-      transform: rotate(-45deg);
-    }
-    .record-rotate{
-      transform-origin: 180px 130px;
-      animation: myfirst 12s;
-      animation-timing-function: linear;
-      animation-iteration-count: infinite;
+        &:after {
+          content: " ";
+          display: block; 
+          height: 0; 
+          clear: both;
+        }
+        .img-btn{
+          float: left;
+          width: 360px;
+          height: auto;
+          .disc{
+            position: relative;
+            width: 360px;
+            height: 360px;
+            margin: auto;
+          }
+          .needle{
+            position: relative;
+            background: url(http://on99ebnkk.bkt.clouddn.com/play_needle.png) no-repeat;
+            /* background: #000; */
+            background-size: 100%;
+            transform-origin: 14px 12px;
+            transition: All 0.4s ease-in-out;
+            // transform: rotate(-45deg);
+            z-index: 3;
+            margin: auto;
+            margin-top: -24px;
+            width: 80px;
+            height: 120px;
+          }
+          .needle-play{
+            transform: rotate(0deg);
+          }
+          .needle-pause{
+            transform: rotate(-45deg);
+          }
+          .record-rotate{
+            transform-origin: 180px 130px;
+            animation: myfirst 12s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+          }
+          .song-img{
+            position: relative;
+            // background: url("http://p3.music.126.net/Kv0E_qQdJ9amNRu4_64Mxw==/18924794137514110.jpg?param=200y200") no-repeat center;
+            // background-size: 65%;
+            margin: auto;
+            z-index: 0;
+            // top: -50px;
+            // border-radius: 50%;
+            // background: #000;
+            width: 360px;
+            height: 360px;
+            img {
+              position: relative;
+              width: 240px;
+              margin-bottom: -240px;
+              border-radius: 120px;
+            }
+            .record{
+              position: relative;
+              background: url(http://on99ebnkk.bkt.clouddn.com/disc-ip6.png) no-repeat center;
+              display: table-cell;
+              vertical-align: middle;
+              text-align: center;  
+              background-size: 100%;
+              top: -70px;
+              z-index: 2;
+              width: 360px;
+              height: 360px;
+            }
+          }
+        }
     }
     @keyframes myfirst {
       from {
@@ -235,38 +275,20 @@ export default {
         transform: rotate(360deg)
       }
     }
-    .record{
-      position: relative;
-      background: url(http://on99ebnkk.bkt.clouddn.com/disc-ip6.png) no-repeat center;
-      display: table-cell;
-      vertical-align: middle;
-      text-align: center;  
-      background-size: 100%;
-      z-index: 2;
-      width: 360px;
-      height: 360px;
-    }
-    .song-img{
-        position: relative;
-        background: url("http://p3.music.126.net/Kv0E_qQdJ9amNRu4_64Mxw==/18924794137514110.jpg?param=200y200") no-repeat center;
-        background-size: 65%;
-        margin: auto;
-        z-index: -1;
-        top: -50px;
-        border-radius: 50%;
-        width: 360px;
-        height: 360px;
-    }
+
     .lyrics{
-        /* float: right; */
-        position: relative;
-        // background: #000;
-        width: 640px;
-        height: 300px;
+        float: left;
+        width: 400px;
+        text-align: left;
+        margin-left: 100px;
+        height: auto;
+        .author {
+          font-size: 14px;
+        }
         .lyric{
           border-right: 1px solid #e0e0e0;
           height: 400px;
-          width: 640px;
+          width: 400px;
           overflow: scroll;
           overflow-x: hidden;
           line-height: 32px;
@@ -277,23 +299,20 @@ export default {
             border-radius: 4px;
             background-color: #e1e1e2;
           }
+          // h1{
+          //   text-align: left;
+          //   font-size: 24px;
+          //   font-weight: normal;
+          // }
+          // h2{
+          //   text-align: left;
+          //   margin-top: 10px;
+          //   font-size: 14px;
+          //   font-weight: normal;
+          // }
         }
     }
-    
-    h1{
-        text-align: left;
-        font-size: 24px;
-        font-weight: normal;
-    }
-    h2{
-        text-align: left;
-        margin-top: 10px;
-        font-size: 14px;
-        font-weight: normal;
-    }
-    span{
-        /* margin-right: 80px; */
-    }
+  
     li{
         list-style: none;
         cursor: pointer;

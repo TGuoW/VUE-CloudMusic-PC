@@ -1,17 +1,34 @@
 <template>
   <div class="main" @mouseover="fadeIn()" @mouseout="fadeOut()">
     <div class="image" @click="showAllDetail()">
-      <img src="http://p3.music.126.net/Kv0E_qQdJ9amNRu4_64Mxw==/18924794137514110.jpg?param=200y200" id="image">
+      <img :src="playingSong.al.picUrl" id="image">
     </div>
     <div class="text">
-      非酋
-      <p>朱河/华盛顿</p>
+      {{playingSong.name}}
+      <p>
+        <span v-for="(item, index) in playingSong.ar" :key="index">
+          {{item.name}}
+          <i v-show="index!==playingSong.ar.length-1">/</i>
+        </span>
+      </p>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  data: function () {
+    return {
+      playingSong: {
+        al: {}
+      }
+    }
+  },
+  computed: {
+    getPlayingSong: function () {
+      return this.$store.state.playingSong
+    }
+  },
   methods: {
     fadeIn: function () {
       document.getElementById('image').style.opacity = 0.7
@@ -21,6 +38,11 @@ export default {
     },
     showAllDetail: function () {
       this.$store.commit('showAllDetail', true)
+    }
+  },
+  watch: {
+    getPlayingSong: function (val, oldVal) {
+      this.playingSong = val[0]
     }
   }
 }

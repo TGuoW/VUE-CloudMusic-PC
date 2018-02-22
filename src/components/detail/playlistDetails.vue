@@ -50,7 +50,7 @@
           <p>
             <i v-show="index<9">0</i>{{index+1}}
           </p>
-          <p>{{item.name}}</p>
+          <p :style="(item.copyrightId!==1000&&item.copyrightId!==5003)?'color:#000':'color:#b0b0b0'">{{item.name}}</p>
           <p>
             <span v-for="(i, o) in item.artists" :key="o">
               {{i.name}}<i v-show="o!==(item.artists.length-1)">/</i>
@@ -140,7 +140,6 @@ export default {
           withCredentials: true
         }
       }).then((response) => {
-        console.log(response)
         self.playlist = response.data.result
         self.playlist.createTime = timeFormat(self.playlist.createTime).split(' ')[0]
         self.playlist.playCount = renderPlayCount(self.playlist.playCount)
@@ -179,7 +178,27 @@ export default {
       this.page = num
     },
     setPlayingSong: function (song) {
-      console.log(song)
+      let self = this
+      if (song.copyrightId !== 1000 && song.copyrightId !== 5003) {
+        axios({
+          url: 'http://localhost:3000/song/detail?ids=' + song.id,
+          xhrFields: {
+            withCredentials: true
+          }
+        }).then((response) => {
+          self.$store.commit('setPlayingSong', response.data.songs)
+        }).catch((error) => {
+          console.log(error)
+        })
+      } else {
+        let dialog = document.createElement('div')
+        dialog.style.cssText = 'position:fixed; width:600px; height:150px; background:#000; left:0; right:0; top:0; bottom:0; margin:auto; border-radius:10px; color:#fff; text-align:center; line-height:150px; opacity:0.8; font-size:24px;'
+        dialog.innerText = '因网易云合作方要求，该资源已下架'
+        document.body.appendChild(dialog)
+        setTimeout(function () {
+          document.body.removeChild(dialog)
+        }, 2000)
+      }
     }
   }
 }

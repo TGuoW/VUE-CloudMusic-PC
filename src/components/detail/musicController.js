@@ -12,13 +12,13 @@ const musicController = function (url, autoplay = false, loop = false) {
       return audio.ended
     },
     get duration () {
-      return audio.duration
+      return audio.duration * 1000
     }, // 音频长度
     get volume () {
       return audio.volume
     }, // 音量
     get currentTime () {
-      return audio.currentTime
+      return audio.currentTime * 1000
     }, // 当前播放位置
     run: function () {
       audio.play()
@@ -38,6 +38,9 @@ const musicController = function (url, autoplay = false, loop = false) {
     },
     fastSeek: function (t) {
       audio.currentTime = t
+    },
+    setVolume: function (value) {
+      audio.volume = value
     }
   }
   return obj
