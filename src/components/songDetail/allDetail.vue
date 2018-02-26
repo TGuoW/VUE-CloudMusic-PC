@@ -69,10 +69,20 @@
             <p>包含这首歌的歌单</p>
           </div>
         </div>
-        <div class="contain-song">
+        <div class="simi-song">
           <div class="title">
             <p>相似歌曲</p>
           </div>
+          <ul>
+            <li v-for="(item, index) in simiSong" :key="index">
+              <p>{{item.name}}</p>
+              <p>
+                <span v-for="(i, o) in item.artists" :key="o">
+                  {{i.name}}
+                </span>
+              </p>
+            </li>
+          </ul>
         </div>
         <div class="contain-song">
           <div class="title">
@@ -92,7 +102,8 @@ export default {
       lyric: [],
       playingSong: {
         al: {}
-      }
+      },
+      simiSong: []
     }
   },
   computed: {
@@ -112,9 +123,9 @@ export default {
           withCredentials: true
         }
       }).then((response) => {
-        console.log(response)
         self.lyric = self.parseLyric(response.data.lrc.lyric)
-        console.log(self.lyric)
+        self.getSimiSong()
+        self.getSimiUsers()
       }).catch((error) => {
         console.log(error)
       })
@@ -140,6 +151,32 @@ export default {
         }
       }
       return lrcObj
+    },
+    getSimiSong: function () {
+      let self = this
+      axios({
+        url: 'http://localhost:3000/simi/song?id=' + self.playingSong.id,
+        xhrFields: {
+          withCredentials: true
+        }
+      }).then((response) => {
+        self.simiSong = response.data.songs
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    getSimiUsers: function () {
+      let self = this
+      axios({
+        url: 'http://localhost:3000/simi/user?id=' + self.playingSong.id,
+        xhrFields: {
+          withCredentials: true
+        }
+      }).then((response) => {
+        console.log(response)
+      }).catch((error) => {
+        console.log(error)
+      })
     },
     isPaused: function () {
       return this.$store.state.isPaused
@@ -198,6 +235,15 @@ export default {
           display: block; 
           height: 0; 
           clear: both;
+        }
+        li span{
+          background: #e0e0e0;
+          cursor: pointer;
+          padding: 4px 8px 4px 8px;
+          border-radius: 4px;
+          border: 1px solid #b4b4b4;
+          line-height: 24px;
+          font-size:14px;
         }
         .img-btn{
           float: left;
@@ -299,17 +345,6 @@ export default {
             border-radius: 4px;
             background-color: #e1e1e2;
           }
-          // h1{
-          //   text-align: left;
-          //   font-size: 24px;
-          //   font-weight: normal;
-          // }
-          // h2{
-          //   text-align: left;
-          //   margin-top: 10px;
-          //   font-size: 14px;
-          //   font-weight: normal;
-          // }
         }
     }
   
@@ -345,13 +380,13 @@ export default {
       /* display: flex; */
       /* background: #000; */
     }
-    .title{
-        text-align: left;
-        font-size: 24px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #e0e0e0;
-        /* float: left; */
-    }
+    // .title{
+    //     text-align: left;
+    //     font-size: 24px;
+    //     padding-bottom: 10px;
+    //     border-bottom: 1px solid #e0e0e0;
+    //     /* float: left; */
+    // }
     .input{
         margin-top: 20px;
         margin-bottom: 40px;
@@ -360,27 +395,42 @@ export default {
         font-size: 16px;
         width: 560px;
     }
-    li span{
-      background: #e0e0e0;
-      cursor: pointer;
-      padding: 4px 8px 4px 8px;
-      border-radius: 4px;
-      border: 1px solid #b4b4b4;
-      line-height: 24px;
-      font-size:14px;
-    }
+
     .other-song{
       position: relative;
       margin-left: 40px;
       height: auto;
       width: 300px;
     }
-    .contain-song .title{
+    .title{
+      text-align: left;
       font-size: 22px;
       width: 300px;
       font-weight: lighter;
       line-height: 31px;
       border-bottom: 1px solid #e0e0e0;
+    }
+    .simi-song {
+      ul {
+        li {
+          list-style-type: none;
+          text-align: left;
+          font-size: 14px;
+          width: 300px;
+          height: 32px;
+          p {
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+            display: inline-block;
+            width: 100px;
+            &:nth-child(1) {
+              width: 160px;
+              color: #000;
+            }
+          }
+        }
+      }
     }
 </style>
 

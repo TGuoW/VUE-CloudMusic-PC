@@ -1,32 +1,26 @@
 <template>
-  <div class="main" @click="login()">
+  <div class="main">
     <header>
-      <img :src="playlist.coverImgUrl" alt="">
+      <img :src="album.blurPicUrl" alt="">
       <div>
         <p>
-          <span class="playlist-text">歌单</span>
-          <span>{{playlist.name}}</span>
+          <span class="playlist-text">专辑</span>
+          <span>{{album.name}}</span>
         </p>
-        <div>
-          <img :src="creator.avatarUrl" alt="">
-          <span class="nickname">{{creator.nickname}}</span>
-          <span class="createTime">{{playlist.createTime}}创建</span>
-        </div>
         <div class="btn-group">
           <span class="btn" @click="setPlaylist(songlist)"><i class="fa fa-play-circle-o fa-fw"></i>播放全部</span>
           <span class="btn"><i class="fa fa-folder-o fa-fw"></i>收藏</span>
           <span class="btn"><i class="fa fa-share-square-o fa-fw"></i>分享</span>
           <span class="btn"><i class="fa fa-download fa-fw"></i>下载全部</span>
         </div>
-        <p>
-          <span v-for="(item, index) in tags" :key="index">
-            {{item}}
+        <p style="font-size:14px;">
+          歌手：
+          <span v-for="(item, index) in album.artists" :key="index">
+            {{item.name}}
+            <i v-if="index!==album.artists.length-1">/</i>
           </span>
         </p>
-      </div>
-      <div class="count">
-        <span><i class="fa fa-music fa-fw"></i>{{playlist.trackCount}}</span>
-        <span><i class="fa fa-play-circle-o fa-fw"></i>{{playlist.playCount}}</span>
+        <p class="createTime">时间：{{album.publishTime}}</p>
       </div>
     </header>
     <nav>
@@ -52,21 +46,14 @@
           </p>
           <p :style="(item.copyrightId!==1000&&item.copyrightId!==5003)?'color:#000':'color:#b0b0b0'">{{item.name}}</p>
           <p>
-            <span v-for="(i, o) in item.artists" :key="o">
-              {{i.name}}<i v-show="o!==(item.artists.length-1)">/</i>
+            <span v-for="(i, o) in item.ar" :key="o">
+              {{i.name}}<i v-show="o!==(item.ar.length-1)">/</i>
             </span>
           </p>
-          <p>{{item.album.name}}</p>
-          <p>{{durationFormat(item.duration)}}</p>
+          <p>{{item.al.name}}</p>
+          <p>{{durationFormat(item.dt)}}</p>
         </li>
       </ul>
-      <!-- <v-table
-        class="table"
-        :width="1000"
-        :columns="columns"
-        :table-data="data"
-        :show-vertical-border="false"
-      ></v-table> -->
     </div>
     <div v-show="page===2">
       <ul id="hotComments">
@@ -109,27 +96,16 @@
 import axios from 'axios'
 import timeFormat from './time'
 import localStorage from './localStorge'
-import renderPlayCount from './renderPlayCount'
+// import renderPlayCount from './renderPlayCount'
 export default {
   data () {
     return {
       page: 1,
       screenWidth: document.body.clientWidth * 0.85,
       queryID: this.$route.query.id,
-      playlist: {},
-      creator: {},
-      tags: [],
-      data: [],
+      album: {},
       hotComments: [],
       comments: [],
-      columns: [
-        { title: '', field: '', width: 100 },
-        { title: '', field: 'id', width: 100 },
-        { title: '音乐标题', field: 'name', width: 200 },
-        { title: '歌手', field: 'artists', width: 200 },
-        { title: '专辑', field: 'album', width: 200 },
-        { title: '时长', field: 'duration' }
-      ],
       songlist: []
     }
   },
@@ -140,7 +116,7 @@ export default {
   },
   mounted: function () {
     let self = this
-    self.getSonglist()
+    self.getAlbum()
     window.onresize = () => {
       return (() => {
         window.screenWidth = document.body.clientWidth
@@ -159,43 +135,37 @@ export default {
   },
   methods: {
     timeFormat: timeFormat,
-    login: function () {
-      // console.log(this.$route.query.id)
-    },
-    getSonglist: function () {
+    getAlbum: function () {
       let self = this
       axios({
-        url: 'http://localhost:3000/playlist/detail?id=' + self.queryID,
+        url: 'http://localhost:3000/album?id=' + self.queryID,
         // url: '/user/playlist',
         xhrFields: {
           withCredentials: true
         }
       }).then((response) => {
-        self.playlist = response.data.result
-        self.playlist.createTime = timeFormat(self.playlist.createTime).split(' ')[0]
-        self.playlist.playCount = renderPlayCount(self.playlist.playCount)
-        self.creator = response.data.result.creator
-        self.tags = response.data.result.tags
-        self.songlist = response.data.result.tracks
-        self.updateSonglist(self.songlist)
+        console.log(response)
+        self.album = response.data.album
+        self.album.publishTime = timeFormat(self.album.publishTime).split(' ')[0]
+        self.songlist = response.data.songs
       }).catch((error) => {
         console.log(error)
       })
     },
-    updateSonglist: function (songlist) {
-      let self = this
-      self.data = []
-      for (let i = 0; i < songlist.length; i++) {
-        self.data[i] = {}
-        self.data[i].id = (i + 1) / 10 < 1 ? '0' + (i + 1) : i + 1
-        self.data[i].name = songlist[i].name
-        self.data[i].artists = songlist[i].artists.reduce((a, b) => {
-          return a + '/' + b.name
-        }, '').substr(1)
-        self.data[i].album = songlist[i].album.name
-        self.data[i].duration = self.durationFormat(songlist[i].duration)
-      }
-    },
+    // updateSonglist: function (songlist) {
+    //   let self = this
+    //   self.data = []
+    //   for (let i = 0; i < songlist.length; i++) {
+    //     self.data[i] = {}
+    //     self.data[i].id = (i + 1) / 10 < 1 ? '0' + (i + 1) : i + 1
+    //     self.data[i].name = songlist[i].name
+    //     self.data[i].artists = songlist[i].artists.reduce((a, b) => {
+    //       return a + '/' + b.name
+    //     }, '').substr(1)
+    //     self.data[i].album = songlist[i].album.name
+    //     self.data[i].duration = self.durationFormat(songlist[i].duration)
+    //   }
+    // },
     durationFormat: function (time) {
       let temp = Math.floor(time / 1000)
       let minute = Math.floor(temp / 60).toString()
@@ -214,8 +184,7 @@ export default {
     getComment: function () {
       let self = this
       axios({
-        url: 'http://localhost:3000/comment/playlist?id=' + self.playlist.id,
-        // url: '/user/playlist',
+        url: 'http://localhost:3000/comment/album?id=' + self.album.id,
         xhrFields: {
           withCredentials: true
         }
@@ -314,18 +283,11 @@ export default {
           height: 40px;
           border-radius: 20px;
         }
-        .nickname {
-          float: left;
-          font-size: 14px;
-          margin-top: 10px;
-          margin-left: 20px;
-        }
-        .createTime {
-          float: left;
-          font-size: 14px;
-          margin-top: 10px;
-          margin-left: 20px;
-        }
+      }
+      .createTime {
+        float: left;
+        font-size: 14px;
+        margin-top: 10px;
       }
       .btn-group {
         .btn {

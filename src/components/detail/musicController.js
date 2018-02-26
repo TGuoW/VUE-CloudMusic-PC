@@ -1,8 +1,8 @@
-const musicController = function (url, autoplay = false, loop = false) {
+const musicController = function (url, volume = 1, autoplay = false) {
   let audio = document.createElement('audio')
   audio.src = url
   audio.autoplay = autoplay
-  audio.loop = loop
+  audio.volume = volume
   document.body.appendChild(audio)
   let obj = {
     get isPaused () {

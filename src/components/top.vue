@@ -6,7 +6,52 @@
 				<div class="logo-wrap"></div>
 			</router-link>
 		</div>
-		<input type="text" class="input" name="search" placeholder="搜索音乐，歌手，歌词，用户">
+		<input type="text" @focus="isShowSearchResult=true" @blur="hideSearchResults()" v-model="sth" class="input" name="search" placeholder="搜索音乐，歌手，歌词，用户">
+		<transition name="fade">
+			<div class="search-result" v-show="isShowSearchResult">
+				<div class="triangle"></div>
+				<div class="rectangle">
+          <div>
+            <ul>
+              <li>搜“{{sth}}”相关用户</li>
+            </ul>
+            <ul> 
+              <li class="title"><i class="fa fa-music fa-fw"></i>单曲</li>
+              <li v-for="(item, index) in searchResults.songs" :key="index">
+								{{item.name}}
+							</li>
+            </ul>
+            <ul>
+              <li class="title"><i class="fa fa-user-o fa-fw"></i>歌手</li>
+              <router-link v-for="(item, index) in searchResults.artists" :key="index" :to="{path: '/singerDetails',query: {id: item.id}}" tag="li" exact>
+                {{item.name}}
+              </router-link>
+            </ul>
+            <ul>
+              <li class="title"><i class="fa fa-dot-circle-o fa-fw"></i>专辑</li>
+              <li v-for="(item, index) in searchResults.albums" :key="index">
+								{{item.name}}
+							</li>
+            </ul>
+            <ul>
+              <li class="title"><i class="fa fa-youtube-play fa-fw"></i>MV</li>
+              <li v-for="(item, index) in searchResults.mvs" :key="index">
+								{{item.name}}
+							</li>
+            </ul>
+            <ul>
+              <li class="title"><i class="fa fa-list fa-fw"></i>歌单</li>
+              <router-link v-for="(item, index) in searchResults.playlists" :key="index" :to="{path: '/playlistDetails',query: {id: item.id}}" tag="li" exact>
+								{{item.name}}
+              </router-link>
+            </ul>
+          </div>
+				</div>
+			</div>
+		</transition>
+    <div class="search-icon">
+			<i class="fa fa-search fa-fw"></i>
+		</div>
 		<div class="tool">
 			<router-link :to="{ path: '/information'}">
 				<div class="user-img" @click="cc()">
@@ -70,7 +115,7 @@
 	</div>
 </template>
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 import signIn from './top/signIn'
 export default {
   name: 'top',
@@ -79,13 +124,23 @@ export default {
   },
   data () {
     return {
+      sth: null,
       show: false,
       userInfo: {
         profile: {
           nickname: '未登录'
         }
       },
+      searchResults: {},
+      translate: {
+        albums: '专辑',
+        artists: '歌手',
+        songs: '单曲',
+        playlists: '歌单',
+        mvs: 'MV'
+      },
       signInIsShow: false,
+      isShowSearchResult: false,
       isShowStatus: false,
       isLoading: false
     }
@@ -94,12 +149,21 @@ export default {
     // this.login()
   },
   methods: {
+    search: function () {
+
+    },
+    hideSearchResults: function () {
+      setTimeout(_ => {
+        this.isShowSearchResult = false
+      }, 150)
+    },
     renewData: function (data) {
       this.userInfo = data
       this.signInIsShow = false
     },
     fade: function () {
       let self = this
+      console.log(self.$store.state.isLogin)
       if (self.$store.state.isLogin) {
         if (self.isShowStatus) {
           // this.$store.commit('showStatus', false)
@@ -123,8 +187,23 @@ export default {
       this.$store.commit('showStatus', false)
     },
     cc: function () {
-      this.jj()
-      this.$store.commit('showAllDetail', false)
+      console.log(1)
+    }
+  },
+  watch: {
+    sth: function (val) {
+      let self = this
+      axios({
+        url: 'http://localhost:3000/search/suggest?keywords=' + val,
+        xhrFields: {
+          withCredentials: true
+        }
+      }).then((response) => {
+        self.searchResults = response.data.result
+        console.log(self.searchResults)
+      }).catch((error) => {
+        console.log(error)
+      })
     }
   }
 }
@@ -155,6 +234,67 @@ $red-color: #ca1c15;
 			height: 60px;
 		}
 	}
+	.search-icon {
+		position: absolute;
+		top: 0;
+		left: 500px;
+		height: 60px;
+		line-height: 60px;
+    font-size: 14px;
+    color: #f0f0f0;
+	}
+  .search-result {
+    position: absolute;
+		z-index: 999 !important;
+		margin-top: -16px;
+    margin-left: 300px;
+		.triangle {
+			position: relative;
+			margin: auto;
+			width: 0;
+    	height: 0;
+    	border-left: 15px solid transparent;
+    	border-right: 15px solid transparent;
+    	border-bottom: 16px solid #fafafa;
+		}
+		.rectangle {
+			width: 250px;
+			height: auto;
+			border-left:1px solid #cccccc;
+			border-right:1px solid #cccccc;
+			border-bottom:1px solid #cccccc;
+			border-radius: 6px;
+			box-shadow: 0px 2px 5px #666666;
+			background: #fafafa;
+			text-align: left;
+			ul {
+        color: #000;
+        font-size: 14px;
+        .title {
+          background: #f5f5f5;
+          padding-left: 0;
+          i {
+            margin-left: 10px;
+            font-style: normal;
+          }
+        }
+				li {
+          cursor: pointer;
+          padding-left: 32px;
+          height: 28px;
+          width: 100%;
+          line-height: 28px;
+					list-style: none;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          &:hover {
+            background: #f5f5f5;
+          }
+				}
+			}
+	  }
+  }
 	.input {
 		background: #d73f3f;
 		border: none;

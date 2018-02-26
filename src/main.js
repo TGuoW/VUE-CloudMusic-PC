@@ -24,8 +24,11 @@ const store = new Vuex.Store({
     isLogin: false,
     isPaused: true,
     // isSelectedMouse: false,
+    playmode: 1, // 'loop', 'order', 'single', 'random'
+    volume: 1,
     userInfo: {},
-    playingSong: {}
+    playingSong: {},
+    playlist: []
   },
   mutations: {
     showStatus (state, n) {
@@ -47,6 +50,12 @@ const store = new Vuex.Store({
     },
     setPlayingSong (state, n) {
       state.playingSong = n
+    },
+    setPlaylist (state, n) {
+      state.playlist = n
+    },
+    setVolume (state, n) {
+      state.volume = n
     }
   }
 })

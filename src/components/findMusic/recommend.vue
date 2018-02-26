@@ -30,7 +30,7 @@
         <span class="more">更多></span>
       </div>
       <ul v-for="(item, index) in newSong" :key="index">
-        <li v-for="(i, o) in item" :key="o">
+        <li v-for="(i, o) in item" :key="o" @dblclick="setPlayingSong(i)">
           <span><i v-show="o!=4||index!=1">0</i>{{index * 5 + o + 1}}</span>
           <img :src="i.song.album.blurPicUrl">
           <div>
@@ -131,7 +131,7 @@
               self.newSong[1].push(response.data.result[i])
             }
           }
-          console.log(self.newSong)
+          // console.log(self.newSong)
         }).catch((error) => {
           console.log(error)
         })
@@ -152,10 +152,34 @@
           //     self.newSong[1].push(response.data.result[i])
           //   }
           // }
-          console.log(response)
+          // console.log(response)
         }).catch((error) => {
           console.log(error)
         })
+      },
+      setPlayingSong: function (song) {
+        // console.log(song)
+        let self = this
+        if (song.copyrightId !== 1000 && song.copyrightId !== 5003) {
+          axios({
+            url: 'http://localhost:3000/song/detail?ids=' + song.id,
+            xhrFields: {
+              withCredentials: true
+            }
+          }).then((response) => {
+            self.$store.commit('setPlayingSong', response.data.songs)
+          }).catch((error) => {
+            console.log(error)
+          })
+        } else {
+          let dialog = document.createElement('div')
+          dialog.style.cssText = 'position:fixed; width:600px; height:150px; background:#000; left:0; right:0; top:0; bottom:0; margin:auto; border-radius:10px; color:#fff; text-align:center; line-height:150px; opacity:0.8; font-size:24px;'
+          dialog.innerText = '因网易云合作方要求，该资源已下架'
+          document.body.appendChild(dialog)
+          setTimeout(function () {
+            document.body.removeChild(dialog)
+          }, 2000)
+        }
       }
     }
   }
@@ -279,7 +303,7 @@
         div {
           // display: inline-block;
           float: left;
-          width: 70%;
+          width: 65%;
           height: 60px;
           font-size: 14px;
           padding-left: 8px;

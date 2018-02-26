@@ -15,11 +15,11 @@
 		<div class="time">
 			<span>{{currentTime}}</span>
 		</div>
-		<div class="bar" @mouseup="freeMouse2()">
-      <div id="bar-red"></div>
-      <div id="bar-grey"></div>
-      <div id="pos-i" @mousedown="selectMouse()">
-        <div id="pos" ></div>
+		<div class="bar" @mousedown="selectMouse()" @mouseup="freeMouse2()">
+      <div id="bar-red" @click="updateTimeBar(x)"></div>
+      <div id="bar-grey" @click="updateTimeBar(x)"></div>
+      <div id="pos-i">
+        <div id="pos"></div>
       </div>
     </div>
     <div class="music-length">{{duration}}</div>
@@ -35,19 +35,20 @@
 		</div>
 		<div class="row2">
 			<li class="btn">
-
 			</li>
 			<li class="btn">
 				<i class="fa fa-fw"></i>
 			</li>
-				<i class="fa fa-file-text-o fa-fw" ></i>
+				<i class="fa fa-file-text-o fa-fw" @click="isShowCurrPlaylist=!isShowCurrPlaylist"></i>
 		</div>
+    <curr-playlist @chileEvent="isShowCurrPlaylist=false" :playlist="playlist" v-show="isShowCurrPlaylist"></curr-playlist>
 	</div>
 </template>
 
 <script type="text/javascript">
 import axios from 'axios'
 import Mc from './detail/musicController.js'
+import currPlaylist from './detail/currPlaylist'
 export default {
   data: function () {
     return {
@@ -56,15 +57,26 @@ export default {
       isSelectedMouse: false,
       isSelectedMouse2: false,
       playingSong: {},
+      playlist: [],
       isVolumeBtnShow: false,
+      isShowCurrPlaylist: false,
       music: null,
       x: 0,
       x2: 0
     }
   },
+  components: {
+    currPlaylist
+  },
   computed: {
     getPlayingSong: function () {
       return this.$store.state.playingSong
+    },
+    getPlaylist: function () {
+      return this.$store.state.playlist
+    },
+    getVolume: function () {
+      return this.$store.state.volume
     }
   },
   // created: function () {
@@ -147,10 +159,11 @@ export default {
           let x2 = self.x - 980
           if (x2 <= 0) {
             x2 = 0
-          } else if (x2 >= 110) {
-            x2 = 110
+          } else if (x2 >= 106) {
+            x2 = 106
           }
-          self.updateTimeBar2(x2)
+          // self.updateTimeBar2(x2)
+          self.$store.commit('setVolume', x2 / 106)
         } else {
           clearInterval(p)
         }
@@ -165,10 +178,9 @@ export default {
       self.currentTime = self.standardizedTime(time)
     },
     updateTimeBar2: function (x) {
-      this.music.setVolume(x / 120)
-      console.log(this.music.volume)
+      x = x * 106
       document.getElementById('volume-red').style.width = x + 'px'
-      document.getElementById('volume-grey').style.width = 110 - x + 'px'
+      document.getElementById('volume-grey').style.width = 106 - x + 'px'
       document.getElementById('volume-btn').style.marginLeft = x + 'px'
     },
     setX: function () {
@@ -202,7 +214,7 @@ export default {
         }
       }).then((response) => {
         let musicUrl = response.data.data[0].url
-        self.music = new Mc(musicUrl)
+        self.music = new Mc(musicUrl, self.$store.state.volume)
         self.play()
         self.$store.commit('pause', false)
       }).catch((error) => {
@@ -211,6 +223,10 @@ export default {
     }
   },
   watch: {
+    getPlaylist: function (val, oldVal) {
+      console.log(val)
+      this.playlist = val
+    },
     getPlayingSong: function (val, oldVal) {
       this.duration = this.standardizedTime(val[0].dt)
       this.playingSong = val[0]
@@ -218,6 +234,12 @@ export default {
         this.music.delete()
       }
       this.getMusicUrl(this.playingSong.id)
+    },
+    getVolume: function (val, oldVal) {
+      if (this.music) {
+        this.music.setVolume(val)
+      }
+      this.updateTimeBar2(val)
     }
   }
 }
@@ -347,7 +369,7 @@ export default {
       float: left;
       // position: relative;
       border-radius: 3px;
-      width: 30px;
+      width: 110px;
       height: 4px;
       top: 0px;
       left: 0px;
@@ -358,7 +380,7 @@ export default {
       background: #b4b4b4;
       // position: relative;
       border-radius: 3px;
-      width: 80px;
+      width: 0px;
       height: 4px;
       top: 0px;
       left: 0px;
@@ -370,7 +392,7 @@ export default {
       /* background: #e0e0e0; */
       cursor: pointer;
       margin-top: -9px;
-      margin-left: 0px;
+      margin-left: 106px;
       background: #fff;
       border: 1px solid #b4b4b4;
       border-radius: 7px;

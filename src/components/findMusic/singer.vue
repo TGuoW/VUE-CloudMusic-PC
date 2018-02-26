@@ -39,11 +39,11 @@ export default {
       }
     }).then((response) => {
       let self = this
-      console.log(response)
+      // console.log(response)
       if (this.page === 1) {
         self.artists = response.data.artists
       }
-      console.log(self.artists)
+      // console.log(self.artists)
       // for (let i = 0; i < response.data.data.length; i++) {
       //   response.data.data[i].playCount = renderPlayCount(response.data.data[i].playCount)
       //   self.topMV = response.data.data

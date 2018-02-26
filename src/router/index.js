@@ -11,6 +11,7 @@ import rank from '@/components/findMusic/rank'
 import singer from '@/components/findMusic/singer'
 import singerDetails from '@/components/detail/singerDetails'
 import newMusic from '@/components/findMusic/newMusic'
+import albumDetails from '@/components/detail/albumDetails'
 import FM from '@/components/FM/FM'
 import MV from '@/components/MV/MV'
 import featuredMV from '@/components/MV/featuredMV'
@@ -46,6 +47,11 @@ export default new Router({
       path: '/singerDetails',
       name: 'singerDetails',
       component: singerDetails
+    },
+    {
+      path: '/albumDetails',
+      name: 'albumDetails',
+      component: albumDetails
     },
     {
       path: '/FM',

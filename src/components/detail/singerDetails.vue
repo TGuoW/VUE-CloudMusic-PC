@@ -18,8 +18,9 @@
     <nav>
       <ul>
         <li class="active-page" id="playlist" @click="viewPage(1)">专辑</li>
-        <li id="commend" @click="viewPage(2)">评论</li>
-        <li id="collect" @click="viewPage(3)">收藏者</li>
+        <li id="mv" @click="viewPage(2)">MV</li>
+        <li id="singer-detail" @click="viewPage(3)">歌手详情</li>
+        <li id="singer-same" @click="viewPage(4)">相似歌手</li>
       </ul>
     </nav>
     <div id="albumlist" v-show="page===1">
@@ -45,7 +46,8 @@
     </div>
     <div id="albumlist" v-for="(item, index) in album" :key="index" v-show="page===1">
       <div>
-        <img :src="item.blurPicUrl" alt="">
+        <router-link style="cursor:pointer;" :src="item.blurPicUrl" :to="{path: '/albumDetails',query: {id: item.id}}" tag="img" exact></router-link>
+        <!-- <img :src="item.blurPicUrl" alt=""> -->
         <p>{{timeFormat(item.publishTime).split(' ')[0]}}</p>
       </div>
       <div>
@@ -66,10 +68,29 @@
         </p>
       </div>
     </div>
-    <div v-show="page===2">
-
+    <div class="mvs" v-show="page===2">
+      <ul>
+        <li v-for="(item, index) in mvs" :key="index">
+          <span>
+            <i class="fa fa-video-camera fa-lg"></i>
+            {{renderPlayCount(item.playCount)}}
+          </span>
+          <img :src="item.imgurl">
+          <p>{{item.name}}</p>
+        </li>
+      </ul>
     </div>
-    <div v-show="page===3">
+    <div class="introduction" v-show="page===3">
+      <div>
+        <h3>{{artist.name}}简介</h3>
+        <pre>{{desc.briefDesc}}</pre>
+      </div>
+      <div v-for="(item, index) in desc.introduction" :key="index">
+        <h3>{{item.ti}}</h3>
+        <pre>{{item.txt}}</pre>
+      </div>
+    </div>
+    <div v-show="page===4">
 
     </div>
   </div>
@@ -79,7 +100,7 @@
 import axios from 'axios'
 import timeFormat from './time'
 import localStorage from './localStorge'
-// import renderPlayCount from './renderPlayCount'
+import renderPlayCount from './renderPlayCount'
 export default {
   data () {
     return {
@@ -88,7 +109,9 @@ export default {
       hotSongs: [],
       album: [],
       albumSong: [],
-      isShowAll: []
+      isShowAll: [],
+      mvs: [],
+      desc: {}
     }
   },
   // props: ['parentPlaylist'],
@@ -110,6 +133,7 @@ export default {
     }
   },
   methods: {
+    renderPlayCount: renderPlayCount,
     timeFormat: timeFormat,
     login: function () {
       // console.log(this.$route.query.id)
@@ -179,7 +203,47 @@ export default {
         this.hotSongs = newValue
       }
     },
-    updateSonglist: function (songlist) {
+    getMV: function () {
+      let self = this
+      axios({
+        url: 'http://localhost:3000/artist/mv?id=' + self.artist.id + '&limit=30',
+        xhrFields: {
+          withCredentials: true
+        }
+      }).then((response) => {
+        self.mvs = response.data.mvs
+        // console.log(response)
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    getDesc: function () {
+      let self = this
+      axios({
+        url: 'http://localhost:3000/artist/desc?id=' + self.artist.id,
+        xhrFields: {
+          withCredentials: true
+        }
+      }).then((response) => {
+        self.desc = response.data
+        // console.log(response)
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+    getSimiSinger: function () {
+      // let self = this
+      axios({
+        url: 'http://localhost:3000/simi/artist?id=6452',
+        xhrFields: {
+          withCredentials: true
+        }
+      }).then((response) => {
+        // self.desc = response.data
+        console.log(response)
+      }).catch((error) => {
+        console.log(error)
+      })
     },
     durationFormat: function (time) {
       let temp = Math.floor(time / 1000)
@@ -189,9 +253,17 @@ export default {
     },
     viewPage: function (num) {
       document.getElementById('playlist').className = num === 1 ? 'active-page' : ''
-      document.getElementById('commend').className = num === 2 ? 'active-page' : ''
-      document.getElementById('collect').className = num === 3 ? 'active-page' : ''
+      document.getElementById('mv').className = num === 2 ? 'active-page' : ''
+      document.getElementById('singer-detail').className = num === 3 ? 'active-page' : ''
+      document.getElementById('singer-same').className = num === 4 ? 'active-page' : ''
       this.page = num
+      if (num === 2) {
+        this.getMV()
+      } else if (num === 3) {
+        this.getDesc()
+      } else if (num === 4) {
+        this.getSimiSinger()
+      }
     }
   }
 }
@@ -213,7 +285,7 @@ export default {
     width: 85%;
     overflow: scroll;
     overflow-x: hidden;
-    text-align: center;
+    text-align: left;
   }
   .main::-webkit-scrollbar {
     width: 8px;
@@ -278,15 +350,25 @@ export default {
   }
   nav {
     text-align: left;
+    height: 32px;
     // background: #000;
     border-bottom: 1px solid rgb(194, 26, 26);
     ul {
       margin-left: 40px;
+      &:after {
+        content: " ";
+        height: 0;
+        display: block;
+        clear: both;
+      }
       li {
+        list-style: none;
         cursor: pointer;
-        display: inline-block;
+        float: left;
         border: 1px solid #e0e0e0;
         border-bottom: none;
+        height: 32px;
+        // line-height: 32px;
         font-size: 14px;
         padding: 6px 32px;
       }
@@ -373,11 +455,65 @@ export default {
         }
       }
     }
-    // p {
-    //   float: left;
-    //   padding: 0 0 10px 0;
-    //   margin-left: 60px;
-    // }
+  }
+  .mvs {
+    font-size: 14px;
+    display: block;
+    text-align: left;
+    margin: 20px auto;
+    width: 91%;
+    height: auto;
+    ul {
+      &:after {
+        content: " ";
+        display: block; 
+        height: 0; 
+        clear: both;
+      }
+      li {
+        cursor: pointer;
+        list-style: none;
+        float: left;
+        margin: 8px auto;
+        margin-right: 36px;
+        width: 169px;
+        height: 150px;
+        span {
+          position: relative;
+          float: right;
+          color: #fff;
+          margin-bottom: -18px;
+        }
+        img {
+          width: 169px;
+        }
+        p {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+  .introduction {
+    width: 91%;
+    // font-size: 14px;
+    line-height: 32px;
+    display: block;
+    text-align: left;
+    margin: 20px auto;
+    width: 91%;
+    height: auto;
+    pre {
+      font-size: 16px;
+      // text-indent: 32px;
+      width: 100%;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    div {
+      margin-top: 24px;
+    }
   }
   .table {
     margin: 0 auto;
