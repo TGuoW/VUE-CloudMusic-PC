@@ -2,9 +2,10 @@
 # VUE-CloudMusic-PC
 
 > 使用VUE实现网易云音乐PC端
->> ec6fdc27c204eae1fed40e9ede8bd87cf8790ec3
 
 ## Build Setup
+
+后端接口来源于https://github.com/Binaryify/NeteaseCloudMusicApi ,感谢
 
 ``` bash
 # install dependencies
@@ -19,14 +20,13 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
 ```
+已实现的功能：
+1、音乐播放；
+2、发现音乐；
+3、歌手详情、歌单详情、专辑详情；
+4、搜索；
+5、歌词。
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+即将实现的功能：
+1、MV播放。
