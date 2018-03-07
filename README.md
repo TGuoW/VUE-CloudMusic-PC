@@ -3,9 +3,9 @@
 
 > 使用VUE实现网易云音乐PC端
 
-## Build Setup
-
 后端接口来源于https://github.com/Binaryify/NeteaseCloudMusicApi ,感谢
+
+## Build Setup
 
 ``` bash
 # install dependencies
