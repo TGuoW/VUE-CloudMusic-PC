@@ -1,5 +1,5 @@
 <template>
-  <div @click="jj()">
+  <div class="main" @click="jj()">
 	  <div id="left">
       <div id="list-head">推荐</div>
       <ul id="list">
@@ -62,7 +62,7 @@ export default {
   },
   mounted: function () {
     axios({
-      // url: 'http://localhost:3000/recommend/resource',
+      // url: 'http://tguow.ink:3000/recommend/resource',
       url: '/user/playlist',
       xhrFields: {
         withCredentials: true
@@ -106,12 +106,26 @@ export default {
   border-color: #ca1c15;
   border-style: solid;
 }
+.main {
+  width: 100%;
+  // background: #000;
+  flex: 1;
+  overflow:auto;
+  -webkit-overflow-scrolling: touch;
+  position: relative;
+}
+.tes {
+  width: 100px;
+  height: 100px;
+  background: #fff;
+}
 #left{
+  float: left;
   text-align: left;
-  position: fixed;
-  top: 60px;
-  bottom: 133px;
-  width: 14.9%;  
+  position: absolute;
+  top: 0;
+  bottom: 60px;
+  width: 204px;  
   border-right: 1px solid #e0e0e0;
   background: #f5f5f7;
   overflow: scroll;
@@ -155,5 +169,10 @@ li{
 }
 #left ul li:hover {
   color:#000;
+  }
+  .mainBody {
+    margin-left: 204px;
+    height: 100%;
+    position: relative;
   }
 </style>

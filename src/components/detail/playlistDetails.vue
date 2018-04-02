@@ -165,7 +165,7 @@ export default {
     getSonglist: function () {
       let self = this
       axios({
-        url: 'http://localhost:3000/playlist/detail?id=' + self.queryID,
+        url: 'http://tguow.ink:3000/playlist/detail?id=' + self.queryID,
         // url: '/user/playlist',
         xhrFields: {
           withCredentials: true
@@ -214,7 +214,7 @@ export default {
     getComment: function () {
       let self = this
       axios({
-        url: 'http://localhost:3000/comment/playlist?id=' + self.playlist.id,
+        url: 'http://tguow.ink:3000/comment/playlist?id=' + self.playlist.id,
         // url: '/user/playlist',
         xhrFields: {
           withCredentials: true
@@ -232,7 +232,7 @@ export default {
       self.setPlaylist(self.songlist)
       if (song.copyrightId !== 1000 && song.copyrightId !== 5003) {
         axios({
-          url: 'http://localhost:3000/song/detail?ids=' + song.id,
+          url: 'http://tguow.ink:3000/song/detail?ids=' + song.id,
           xhrFields: {
             withCredentials: true
           }
@@ -265,13 +265,13 @@ export default {
   .main{
     background: #fafafa;
     position: absolute;
-    left: 15%;
+    left: 0;
     height: auto;
     /* background: #000; */
     height: auto;
-    top: 60px;
-    bottom: 74px;
-    width: 85%;
+    top: 0;
+    bottom: 0;
+    width: 100%;
     overflow: scroll;
     overflow-x: hidden;
     text-align: center;

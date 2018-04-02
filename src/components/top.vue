@@ -29,9 +29,9 @@
             </ul>
             <ul>
               <li class="title"><i class="fa fa-dot-circle-o fa-fw"></i>专辑</li>
-              <li v-for="(item, index) in searchResults.albums" :key="index">
-								{{item.name}}
-							</li>
+							<router-link v-for="(item, index) in searchResults.albums" :key="index" :to="{path: '/albumDetails',query: {id: item.id}}" tag="li" exact>
+                {{item.name}}
+              </router-link>
             </ul>
             <ul>
               <li class="title"><i class="fa fa-youtube-play fa-fw"></i>MV</li>
@@ -194,7 +194,7 @@ export default {
     sth: function (val) {
       let self = this
       axios({
-        url: 'http://localhost:3000/search/suggest?keywords=' + val,
+        url: 'http://tguow.ink:3000/search/suggest?keywords=' + val,
         xhrFields: {
           withCredentials: true
         }
@@ -219,8 +219,8 @@ $red-color: #ca1c15;
 	.bg {
 		background: $red-color;
 		height: 60px;
-		position: fixed;
-		top: 0;
+		// position: fixed;
+		// top: 0;
 		width: 100%;
 		z-index: 1;
 	}

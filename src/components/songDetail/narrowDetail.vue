@@ -58,7 +58,8 @@ export default {
     border-right: 1px solid #e0e0e0;
     bottom: 73px;
     height: 60px;
-    width: 14.9%;
+    width: 204px;
+    overflow: hidden;
     background: #f5f5f7;
   }
   img{

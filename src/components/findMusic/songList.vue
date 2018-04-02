@@ -66,7 +66,7 @@ export default {
     let self = this
     self.viewPage(1)
     // axios({
-    //   url: 'http://localhost:3000/top/playlist?offset=0&limit=100&order=hot',
+    //   url: 'http://tguow.ink:3000/top/playlist?offset=0&limit=100&order=hot',
     //   xhrFields: {
     //     withCredentials: true
     //   }
@@ -94,7 +94,7 @@ export default {
       let self = this
       if (page > 0 && page <= self.pages.length) {
         axios({
-          url: 'http://localhost:3000/top/playlist?offset=' + (page - 1) * 100 + '&limit=100&order=hot',
+          url: 'http://tguow.ink:3000/top/playlist?offset=' + (page - 1) * 100 + '&limit=100&order=hot',
           xhrFields: {
             withCredentials: true
           }

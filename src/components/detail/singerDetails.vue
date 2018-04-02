@@ -141,7 +141,7 @@ export default {
     getSonglist: function () {
       let self = this
       axios({
-        url: 'http://localhost:3000/artists?id=' + self.$route.query.id,
+        url: 'http://tguow.ink:3000/artists?id=' + self.$route.query.id,
         xhrFields: {
           withCredentials: true
         }
@@ -156,7 +156,7 @@ export default {
     getAlbum: function () {
       let self = this
       axios({
-        url: 'http://localhost:3000/artist/album?id=' + self.$route.query.id,
+        url: 'http://tguow.ink:3000/artist/album?id=' + self.$route.query.id,
         xhrFields: {
           withCredentials: true
         }
@@ -181,7 +181,7 @@ export default {
     getAlbumSong: function (element) {
       return new Promise(function (resolve, reject) {
         axios({
-          url: 'http://localhost:3000/album?id=' + element.id,
+          url: 'http://tguow.ink:3000/album?id=' + element.id,
           xhrFields: {
             withCredentials: true
           }
@@ -206,7 +206,7 @@ export default {
     getMV: function () {
       let self = this
       axios({
-        url: 'http://localhost:3000/artist/mv?id=' + self.artist.id + '&limit=30',
+        url: 'http://tguow.ink:3000/artist/mv?id=' + self.artist.id + '&limit=30',
         xhrFields: {
           withCredentials: true
         }
@@ -220,7 +220,7 @@ export default {
     getDesc: function () {
       let self = this
       axios({
-        url: 'http://localhost:3000/artist/desc?id=' + self.artist.id,
+        url: 'http://tguow.ink:3000/artist/desc?id=' + self.artist.id,
         xhrFields: {
           withCredentials: true
         }
@@ -234,7 +234,7 @@ export default {
     getSimiSinger: function () {
       // let self = this
       axios({
-        url: 'http://localhost:3000/simi/artist?id=6452',
+        url: 'http://tguow.ink:3000/simi/artist?id=6452',
         xhrFields: {
           withCredentials: true
         }
@@ -276,13 +276,13 @@ export default {
   .main{
     background: #fafafa;
     position: absolute;
-    left: 15%;
+    left: 0;
     height: auto;
     /* background: #000; */
     height: auto;
-    top: 60px;
-    bottom: 74px;
-    width: 85%;
+    top: 0;
+    bottom: 0;
+    width: 100%;
     overflow: scroll;
     overflow-x: hidden;
     text-align: left;

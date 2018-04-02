@@ -72,7 +72,7 @@ export default {
   },
   mounted: function () {
     axios({
-      // url: 'http://localhost:3000/recommend/resource',
+      // url: 'http://tguow.ink:3000/recommend/resource',
       url: '/mv/first',
       xhrFields: {
         withCredentials: true
@@ -91,7 +91,7 @@ export default {
       console.log(error)
     })
     axios({
-      // url: 'http://localhost:3000/recommend/resource',
+      // url: 'http://tguow.ink:3000/recommend/resource',
       url: '/personalized/mv',
       xhrFields: {
         withCredentials: true
@@ -110,7 +110,7 @@ export default {
       console.log(error)
     })
     axios({
-      // url: 'http://localhost:3000/recommend/resource',
+      // url: 'http://tguow.ink:3000/recommend/resource',
       url: '/top/mv',
       xhrFields: {
         withCredentials: true
@@ -132,11 +132,10 @@ export default {
 
 <style lang="scss" scoped>
     .main{
-        position: absolute;
-        /* background: #000; */
+        position: relative;
         margin: auto;
         text-align: left;
-        margin-top: -60px;
+        top: 0;
         left: 0;
         bottom: 0;
         width: 100%;

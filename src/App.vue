@@ -37,6 +37,10 @@ export default {
 
 <style>
 *{padding:0px;margin:0px;border:0px;}
+html, body {
+  width: 100%;
+  height: 100%;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -44,8 +48,11 @@ export default {
   text-align: center;
   color: #2c3e50;
   width: 100%;
-  margin-top: 60px;
+  height: 100%;
+  /* margin-top: 60px; */
   user-select: none;
+  display: flex;
+  flex-direction: column;
 }
 .top-layer {
   z-index: 0;

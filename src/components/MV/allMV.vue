@@ -37,11 +37,11 @@ export default {
 
 <style scoped>
     .main{
-        position: absolute;
+        position: relative;
         /* background: #000; */
         margin: auto;
         text-align: left;
-        margin-top: -60px;
+        /* margin-top: -60px; */
         left: 0;
         bottom: 0;
         width: 100%;

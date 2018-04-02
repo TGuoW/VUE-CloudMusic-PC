@@ -28,9 +28,9 @@ export default {
   methods: {
     login: function () {
       let self = this
-      // let url = 'http://localhost:3000/login/cellphone?phone=' + document.getElementsByName('phoneNumber')[0].value + '&password=' + document.getElementsByName('password')[0].value
+      // let url = 'http://tguow.ink:3000/login/cellphone?phone=' + document.getElementsByName('phoneNumber')[0].value + '&password=' + document.getElementsByName('password')[0].value
       axios({
-        url: 'http://localhost:3000/login/cellphone?phone=15768620356&password=WZpolongbingtang',
+        url: 'http://tguow.ink:3000/login/cellphone?phone=15768620356&password=WZpolongbingtang',
         // url: url,
         // Headers: {
         //   'phone': '15768620356',

@@ -116,7 +116,7 @@ export default {
   methods: {
     getUpRank: function () {
       axios({
-        url: 'http://localhost:3000/top/list?idx=3',
+        url: 'http://tguow.ink:3000/top/list?idx=3',
         xhrFields: {
           withCredentials: true
         }
@@ -137,7 +137,7 @@ export default {
     },
     getNewSongRank: function () {
       axios({
-        url: 'http://localhost:3000/top/list?idx=0',
+        url: 'http://tguow.ink:3000/top/list?idx=0',
         xhrFields: {
           withCredentials: true
         }
@@ -166,7 +166,7 @@ export default {
     },
     getOriginalRank: function () {
       axios({
-        url: 'http://localhost:3000/top/list?idx=2',
+        url: 'http://tguow.ink:3000/top/list?idx=2',
         xhrFields: {
           withCredentials: true
         }
@@ -195,7 +195,7 @@ export default {
     },
     getHotRank: function () {
       axios({
-        url: 'http://localhost:3000/top/list?idx=1',
+        url: 'http://tguow.ink:3000/top/list?idx=1',
         xhrFields: {
           withCredentials: true
         }
@@ -227,7 +227,7 @@ export default {
       for (let i = 0; i < 20; i++) {
         self.otherRank[i] = {}
         axios({
-          url: 'http://localhost:3000/top/list?idx=' + (i + 4),
+          url: 'http://tguow.ink:3000/top/list?idx=' + (i + 4),
           xhrFields: {
             withCredentials: true
           }

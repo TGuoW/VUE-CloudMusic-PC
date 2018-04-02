@@ -90,7 +90,7 @@
     methods: {
       getSonglist: function () { // 推荐歌单
         axios({
-          // url: 'http://localhost:3000/recommend/resource',
+          // url: 'http://tguow.ink:3000/recommend/resource',
           url: '/recommend/resource',
           xhrFields: {
             withCredentials: true
@@ -104,7 +104,7 @@
       },
       getExclusive: function () { // 独家放送
         axios({
-          // url: 'http://localhost:3000/personalized/privatecontent',
+          // url: 'http://tguow.ink:3000/personalized/privatecontent',
           url: '/personalized/privatecontent',
           xhrFields: {
             withCredentials: true
@@ -118,7 +118,7 @@
       },
       getNewSong: function () {
         axios({
-          url: 'http://localhost:3000/personalized/newsong',
+          url: 'http://tguow.ink:3000/personalized/newsong',
           xhrFields: {
             withCredentials: true
           }
@@ -138,7 +138,7 @@
       },
       getRecommendMV: function () {
         axios({
-          url: 'http://localhost:3000/personalized/mv',
+          url: 'http://tguow.ink:3000/personalized/mv',
           xhrFields: {
             withCredentials: true
           }
@@ -162,7 +162,7 @@
         let self = this
         if (song.copyrightId !== 1000 && song.copyrightId !== 5003) {
           axios({
-            url: 'http://localhost:3000/song/detail?ids=' + song.id,
+            url: 'http://tguow.ink:3000/song/detail?ids=' + song.id,
             xhrFields: {
               withCredentials: true
             }
@@ -192,7 +192,7 @@
     left: 0;
     top: 0;
     margin-top: 30px;
-    bottom: 74px;
+    // bottom: 74px;
     width: 100%;
     text-align: center;
   }

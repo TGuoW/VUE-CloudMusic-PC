@@ -55,7 +55,7 @@ export default {
       let self = this
       if (song.copyrightId !== 1000 && song.copyrightId !== 5003) {
         axios({
-          url: 'http://localhost:3000/song/detail?ids=' + song.id,
+          url: 'http://tguow.ink:3000/song/detail?ids=' + song.id,
           xhrFields: {
             withCredentials: true
           }

@@ -32,7 +32,7 @@ export default {
   },
   mounted: function () {
     axios({
-      url: 'http://localhost:3000/top/album?offset=0&limit=30',
+      url: 'http://tguow.ink:3000/top/album?offset=0&limit=30',
       xhrFields: {
         withCredentials: true
       }

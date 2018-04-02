@@ -31,21 +31,20 @@ export default {
     width: 100%;
     position: relative;
     /* background: #000; */
-    margin-top: 24px;
+    /* margin-top: 72px; */
     /* margin: auto; */
     /* height: auto; */
-    height: 1800px;
+    /* height: 1800px; */
 }
 .main{
     position: absolute;
     background: #fafafa;
-    left: 15%;
-    top:60px;
-    bottom: 73px;
+    left: 0;
+    top:0;
+    bottom: 0;
     height: auto;
-    margin: auto;
     text-align: center;
-    width: 85%;
+    width: 100%;
     overflow: scroll;
     overflow-x: hidden;
 }
@@ -58,7 +57,7 @@ export default {
   }
 .check{
     margin-top: 20px;
-
+    height: 40px;
 }
 span{
     background: #fff;

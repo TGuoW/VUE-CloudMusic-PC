@@ -208,7 +208,7 @@ export default {
     getMusicUrl: function (id) {
       let self = this
       axios({
-        url: 'http://localhost:3000/music/url?id=' + id,
+        url: 'http://tguow.ink:3000/music/url?id=' + id,
         xhrFields: {
           withCredentials: true
         }
@@ -248,16 +248,18 @@ export default {
 <style lang="scss" type="text/css" scoped>
 .bottom{
 	background: rgb(243, 243, 243);
+  // background: #808080;
 	border-top: 1px;
 	border-color: #bdbdbd;
 	border-style: solid;
-	bottom: 0;
+	// bottom: 0;
 	height: 73px;
 	width: 100%;
-	position: fixed;
+	position: relative;
+  overflow: hidden;
 }
 .row{
-	width: 300px;
+	width: 20%;
 	left: 10px;
 	top: 20px;
 	position: absolute;

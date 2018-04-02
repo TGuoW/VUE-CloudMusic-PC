@@ -33,7 +33,7 @@ export default {
   },
   mounted: function () {
     axios({
-      url: 'http://localhost:3000/top/artists?offset=' + (this.page - 1),
+      url: 'http://tguow.ink:3000/top/artists?offset=' + (this.page - 1),
       xhrFields: {
         withCredentials: true
       }
@@ -58,12 +58,12 @@ export default {
 
 <style lang="scss" scoped>
     .main{
-      position: fixed;
+      position: relative;
       /* background: #000; */
-      left: 15%;
-      margin-top: 60px;
-      bottom: 74px;
-      width: 85%;
+      left: 0;
+      // margin-top: 60px;
+      // bottom: 74px;
+      width: 100%;
       text-align: left;
       .all{
         width: 96%;

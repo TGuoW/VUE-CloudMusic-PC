@@ -118,7 +118,7 @@ export default {
     getLyric: function () {
       var self = this
       axios({
-        url: 'http://localhost:3000/lyric?id=' + self.playingSong.id,
+        url: 'http://tguow.ink:3000/lyric?id=' + self.playingSong.id,
         xhrFields: {
           withCredentials: true
         }
@@ -155,7 +155,7 @@ export default {
     getSimiSong: function () {
       let self = this
       axios({
-        url: 'http://localhost:3000/simi/song?id=' + self.playingSong.id,
+        url: 'http://tguow.ink:3000/simi/song?id=' + self.playingSong.id,
         xhrFields: {
           withCredentials: true
         }
@@ -168,7 +168,7 @@ export default {
     getSimiUsers: function () {
       let self = this
       axios({
-        url: 'http://localhost:3000/simi/user?id=' + self.playingSong.id,
+        url: 'http://tguow.ink:3000/simi/user?id=' + self.playingSong.id,
         xhrFields: {
           withCredentials: true
         }

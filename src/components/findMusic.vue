@@ -47,11 +47,11 @@
   .main{
     background: #fafafa;
     position: absolute;
-    left: 15%;
+    left: 0;
     height: auto;
-    top: 60px;
-    bottom: 74px;
-    width: 85%;
+    top: 0;
+    bottom: 0;
+    width: 100%;
     overflow: scroll;
     overflow-x: hidden;
     text-align: center;

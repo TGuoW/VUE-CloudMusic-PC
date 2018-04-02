@@ -86,7 +86,7 @@ export default {
     getFm: function () {
       let self = this
       axios({
-        url: 'http://localhost:3000/personal_fm',
+        url: 'http://tguow.ink:3000/personal_fm',
         xhrFields: {
           withCredentials: true
         }
@@ -103,7 +103,7 @@ export default {
     getLyric: function () {
       var self = this
       axios({
-        url: 'http://localhost:3000/lyric?id=' + self.playingSong.id,
+        url: 'http://tguow.ink:3000/lyric?id=' + self.playingSong.id,
         xhrFields: {
           withCredentials: true
         }
@@ -138,7 +138,7 @@ export default {
     getComment: function () {
       let self = this
       axios({
-        url: 'http://localhost:3000/comment/music?id=' + self.playingSong.id,
+        url: 'http://tguow.ink:3000/comment/music?id=' + self.playingSong.id,
         // url: '/user/playlist',
         xhrFields: {
           withCredentials: true
@@ -159,11 +159,11 @@ export default {
     .main{
         /* background: #000; */
         position: absolute;
-        left: 15%;
-        width: 85%;
+        left: 0;
+        width: 100%;
         /* height: 300px; */
-        bottom: 73px;
-        top: 60px;
+        bottom: 0;
+        top: 0;
         height: auto;
         text-align: center;
         overflow: scroll;
