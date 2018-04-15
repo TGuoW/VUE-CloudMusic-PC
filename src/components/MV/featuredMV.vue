@@ -1,62 +1,48 @@
 <template>
-    <div class="main">
-        <div class="newMV">
-            <div class="title">
-                <span class="big-font">最新MV</span>
-                <span>内地</span>
-                <router-link :to="{ path: '/MV/allMV'}" class="more" tag="span">更多</router-link>
-            </div>
-            <ul v-for="(i, id) in newMV" :key="id">
-              <li v-for="(item, index) in i" :key="index">
-                <span>
-                  <i class="fa fa-video-camera fa-lg"></i>
-                  {{item.playCount}}
-                </span>
-                <img :src="item.cover">
-                <p>{{item.briefDesc}}</p>
-                <p>{{item.name}}</p>
-                <p>{{item.artistName}}</p>
-              </li>
-            </ul>
-        </div>
-        <div class="newMV">
-            <div class="title">
-                <span class="big-font">热播MV</span>
-                <router-link :to="{ path: '/MV/allMV'}" class="more" tag="span">更多</router-link>
-            </div>
-            <ul v-for="(i, id) in hotMV" :key="id">
-              <li v-for="(item, index) in i" :key="index">
-                <span>
-                  <i class="fa fa-video-camera fa-lg"></i>
-                  {{item.playCount}}
-                </span>
-                <img :src="item.picUrl">
-                <p>{{item.copywriter}}</p>
-                <p>{{item.name}}</p>
-                <p>{{item.artistName}}</p>
-              </li>
-            </ul>
-        </div>
-        <div class="topMV">
-            <div class="title">
-                <span class="big-font">MV排行榜</span>
-                <span>内地</span>
-                <router-link :to="{ path: '/MV/allMV'}" class="more" tag="span">更多</router-link>
-            </div>
-            <div class="rank">
-                <ol>
-                  <li v-for="(item, index) in topMV" :key="index">
-                    <img :src="item.cover">
-                    <div>
-                      <p>{{item.name}}</p>
-                      <p>{{item.artistName}}</p>
-                      <p>{{item.briefDesc}}</p>
-                    </div>
-                  </li>
-                </ol>
-            </div>
-        </div>
+  <div class="main">
+    <div class="newMV">
+      <div class="title">
+        <span class="big-font">最新MV</span>
+        <span>内地</span>
+        <router-link :to="{ path: '/MV/allMV'}" class="more" tag="span">更多</router-link>
+      </div>
+      <ul v-for="(i, id) in newMV" :key="id">
+        <li v-for="(item, index) in i" :key="index">
+          <mv-child :item="item"></mv-child>
+        </li>
+      </ul>
     </div>
+    <div class="newMV">
+      <div class="title">
+        <span class="big-font">热播MV</span>
+        <router-link :to="{ path: '/MV/allMV'}" class="more" tag="span">更多</router-link>
+      </div>
+      <ul v-for="(i, id) in hotMV" :key="id">
+        <li v-for="(item, index) in i" :key="index">
+          <mv-child :item="item"></mv-child>
+        </li>
+      </ul>
+    </div>
+    <div class="topMV">
+      <div class="title">
+        <span class="big-font">MV排行榜</span>
+        <span>内地</span>
+        <router-link :to="{ path: '/MV/allMV'}" class="more" tag="span">更多</router-link>
+      </div>
+      <div class="rank">
+        <ol>
+          <li v-for="(item, index) in topMV" :key="index">
+            <img :src="item.cover">
+            <div>
+              <p>{{item.name}}</p>
+              <p>{{item.artistName}}</p>
+              <p>{{item.briefDesc}}</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -167,38 +153,7 @@ export default {
       justify-content: space-between;
       margin-top: 10px;
       li{
-        cursor: pointer;
         list-style: none;
-        margin: auto;
-        width: 300px;
-        height: 210px;
-        margin-bottom: 20px;
-        span {
-          position: relative;
-          color: #fff;
-          font-size: 14px;
-          padding: 5px;
-          float: right;
-          margin-bottom: -30px;
-        }
-        p {
-          padding: 2px;
-          text-align: left;
-          font-size: 14px;
-          &:nth-child(3) {
-            color: #fff;
-            font-size: 12px;
-            margin-top:-26px;
-          }
-          &:nth-child(4) {
-            color: #000;
-          }
-        }
-        img {
-          // background: #000;
-          width: 300px;
-          height: 169px;
-        }
       }
     }
     .topMV{

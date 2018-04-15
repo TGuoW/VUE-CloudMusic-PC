@@ -15,9 +15,7 @@ import albumDetails from '@/components/detail/albumDetails'
 import FM from '@/components/FM/FM'
 import MV from '@/components/MV/MV'
 import featuredMV from '@/components/MV/featuredMV'
-
 import allMV from '@/components/MV/allMV'
-import asa from '@/components/detail/asa'
 
 Vue.use(Router)
 
@@ -120,11 +118,6 @@ export default new Router({
           component: newMusic
         }
       ]
-    },
-    {
-      path: '/asa',
-      name: 'asa',
-      component: asa
     }
   ]
 })

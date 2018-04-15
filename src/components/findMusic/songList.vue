@@ -31,13 +31,7 @@
     <div>
       <ul class="list">
         <router-link v-for="(item, index) in songlist" :key="index" :to="{path: '/playlistDetails',query: {id: item.id}}" tag="li" exact>
-          <span>
-            <i class="fa fa-headphones fa-fw"></i>
-            {{item.playCount}}
-          </span>
-          <img :src="item.coverImgUrl">
-          <p><i class="fa fa-user-o fa-fw"></i>{{item.creator.nickname}}</p>
-          <p>{{item.name}}</p>
+          <playlist-child :item="item"></playlist-child>
         </router-link>
       </ul>
     </div>
@@ -175,31 +169,8 @@ export default {
       clear: both;
     }
     li{
-      cursor: pointer;
-      text-align: left;
       float: left;
-      width: 180px;
-      margin:8px 14px;
-      height: 240px;
-      font-size: 14px;
-      span {
-        position: relative;
-        color: #fff;
-        padding: 4px;
-        margin-bottom: -36px;
-        float: right;
-      }
-      p {
-        &:nth-child(3) {
-          font-size: 12px;
-          margin-top: -20px;
-          color: #fff;
-        }
-      }
     }
-  }
-  img{
-    width: 180px;
   }
   .page{
     height: 30px;

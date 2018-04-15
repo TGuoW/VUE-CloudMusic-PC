@@ -1,15 +1,19 @@
 
 <template>
 <div>
-  <div class="carousel">
-    <transition-group tag='ul' class="clearfix slide" name='image'>
-      <li v-for='(image,index) in img' :key='index' v-show='index===(mark-1>=0?mark-1:mark+3)' class="left">
+  <div class="carousel" ref="main">
+    <transition-group tag='ul'
+      class="clearfix slide"
+      name='image'
+      :enter-class="right?'imageR-enter':'imageL-enter'"
+      :leave-active-class="right?'imageR-leave-active':'imageL-leave-active'">
+      <li v-for='(image,index) in img' :key='index' v-show='index===(mark-1>=0?mark-1:mark+7)' :class="index==mark-1?'skip':''" class="left">
         <a><img :src="image"></a>
       </li>
-      <li v-for='(image,index) in img' :key='index' v-show='index===mark' class="middle">
+      <li v-for='(image,index) in img' :key='index + 8' v-show='index===mark' :class="index==mark?'skip':''" class="middle">
         <a><img :src="image"></a>
       </li>
-      <li v-for='(image,index) in img' :key='index' v-show='index===(mark+1<4?mark+1:mark-3)' class="right">
+      <li v-for='(image,index) in img' :key='index + 16' v-show='index===(mark+1<=7?mark+1:mark-7)' :class="index==mark+1||index==mark-7?'skip-right':''" class="right">
         <a><img :src="image"></a>
       </li>
     </transition-group>
@@ -34,28 +38,30 @@ export default {
     return {
       mark: 0,
       timer: null,
-      img: ['http://p3.music.126.net/09hujI6_LSJD6DWK02qXwQ==/18964376555989719.jpg',
-        'http://p4.music.126.net/j_cH-yjz5tTLIDFmz4sSiQ==/18833534674063637.jpg',
-        'http://p4.music.126.net/I1zKnPl4g9snKbAA5zJi3Q==/18623527953173535.jpg',
-        'http://p4.music.126.net/x9KxmTxNEXHQJS9n-oWRLw==/18623527953173527.jpg',
-        'http://p3.music.126.net/U3y3VH4_3cX8pXECLFsHjA==/18624627464801303.jpg',
-        'http://p4.music.126.net/F7yr2uUq982rTIWlwvaThg==/18964376555989729.jpg',
-        'http://p4.music.126.net/qADzamZDC3c5whBibC_rAQ==/18906102439712983.jpg',
-        'http://p3.music.126.net/tw17cN9NJfa5FmFDyS0A_g==/18624627464801294.jpg'
-      ]
+      right: true
     }
   },
-  created: function () {
-    // this.play()
+  props: ['height', 'img'],
+  mounted: function () {
+    let imgWidth = (document.body.clientWidth - 204) * 0.9 * 0.6
+    let carouselHeight = imgWidth * 336 / 730 + 29
+    this.$refs.main.style.height = carouselHeight + 'px'
+  },
+  watch: {
+    height: function (val) {
+      this.$refs.main.style.height = val + 'px'
+    }
   },
   methods: {
     change: function (i) {
       this.mark = i
     },
     prev: function () {
+      this.right = false
       this.mark = this.mark - 1 < 0 ? this.mark + 7 : this.mark - 1
     },
     next: function () {
+      this.right = true
       this.mark = this.mark + 1 > 7 ? this.mark - 7 : this.mark + 1
     },
     autoPlay: function () {
@@ -71,7 +77,6 @@ export default {
     getPeddingContribution: function () {
       this.seeButtonNotUse = false
       this.seeButtonUse = false
-      console.log('爸爸getMsg 1在运行')
       var self = this
       axios({
         url: '/submission/getMsg.php',
@@ -107,15 +112,15 @@ export default {
   }
   .carousel {
     width: 90%;
-    height: 320px;
     z-index: 0;
     margin: 0 auto;
     overflow: hidden;
     position: relative;
   }
   .slide {
-    /* width: 500px; */
-    height: auto;
+    position: relative;
+    height: 100%;
+    width: 100%;
   }
         
   li {
@@ -126,23 +131,22 @@ export default {
     position: absolute;
     left: 0;
     bottom: 29px;
-    /* margin:auto; */
-    width: 56%;
-    /* margin-top: 4.8%; */
+    width: 54%;
   }
   .middle{
-    margin-left: 20%;
+    position: absolute;
+    bottom: 29px;
+    left: 0;
+    right: 0;
+    margin: auto;
     width: 60%;
-    /* text-align: center; */
     z-index: 10;
   }
   .right{
     position: absolute;
     bottom: 29px;
     right: 0;
-    /* margin-left: 40%; */
-    width: 56%;
-    /* margin-top: 4.8%; */
+    width: 54%;
   }
   img {
     width: 100%;
@@ -151,8 +155,8 @@ export default {
   .bullet {
     width: 100%;
     position: absolute;
-    margin-top: 290px;;
     text-align: center;
+    bottom: 0;
     z-index: 10;
   }
         
@@ -165,45 +169,61 @@ export default {
     margin-right: 10px;
   }
   .prev-btn{
-    position: relative;
+    position: absolute;
     cursor: pointer;
-    top: 120px;
+    height: 32px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
     font-size: 32px;
-    float: left;
     z-index: 20;
   }   
   .next-btn{
-    position: relative;
+    position: absolute;
     cursor: pointer;
-    top: 120px;
+    top: 0;
+    bottom: 0;
+    right: 0;
     font-size: 32px;
-    float: right;
+    height: 32px;
+    margin: auto;
     z-index: 20;
   }
   .active {
     background: #ca1c15;
   }
-        
+
+  .skip {
+    z-index: 20;
+  }      
+  .skip-right {
+    z-index: 19;
+  }
   .image-enter-active {
     transform: translateX(0);
-    /* opacity: 1; */
-    transition: all 0.5s ease;
+    transition: all 0.4s ease;
   }
         
-  .image-leave-active {
-    transform: scale3d(0.9,0.9,0.9) translateY(5.5%) translateX(43%);
-    /* opacity: 0.5; */
-    transition: all 0.5s ease;
-    
+  .imageR-leave-active {
+    transform: scale3d(0.9,0.9,0.9) translateY(5.2%) translateX(-42.5%);
+    transition: all 0.4s ease;
+  }
+
+  .imageL-leave-active {
+    transform: scale3d(0.9,0.9,0.9) translateY(5.2%) translateX(42.5%);
+    transition: all 0.4s ease;
   }
         
-  .image-enter {
-    transform: scale3d(0.9,0.9,0.9) translateY(5.5%) translateX(43%);
-    /* opacity: 1; */
+  .imageL-enter {
+    transform: scale3d(0.9,0.9,0.9) translateY(5.2%) translateX(-42.5%);
+  }
+
+  .imageR-enter {
+    transform: scale3d(0.9,0.9,0.9) translateY(5.2%) translateX(42.5%);
   }
         
   .image-leave {
     transform: translateX(0);
-    /* opacity: 0.5; */
   }
 </style>

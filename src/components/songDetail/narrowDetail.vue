@@ -67,7 +67,7 @@ export default {
     cursor: pointer;
   }
   .image{
-    background: #000;
+    /* background: #000; */
     width: 60px;
     height: 60px;
   }

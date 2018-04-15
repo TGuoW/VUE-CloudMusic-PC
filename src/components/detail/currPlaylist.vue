@@ -165,7 +165,6 @@ export default {
             width: 300px;
           }
           &:nth-child(2) {
-            // float: right;
             width: 120px;
           }
         }

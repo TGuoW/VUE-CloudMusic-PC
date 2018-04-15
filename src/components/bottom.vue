@@ -5,8 +5,8 @@
 				<i class="fa fa-step-backward"></i>
 			</li>
 			<li class="btn" @click="play()">
-				<i class="fa fa-pause" v-show="!isPaused()"></i>
-        <i class="fa fa-play" v-show="isPaused()"></i>
+				<i class="fa fa-pause" v-if="!isPaused"></i>
+        <i class="fa fa-play" v-else></i>
 			</li>
 			<li class="btn">
 				<i class="fa fa-step-forward"></i>
@@ -61,6 +61,7 @@ export default {
       isVolumeBtnShow: false,
       isShowCurrPlaylist: false,
       music: null,
+      isFirstMusic: Boolean,
       x: 0,
       x2: 0
     }
@@ -69,6 +70,9 @@ export default {
     currPlaylist
   },
   computed: {
+    isPaused: function () {
+      return this.$store.state.isPaused
+    },
     getPlayingSong: function () {
       return this.$store.state.playingSong
     },
@@ -79,28 +83,25 @@ export default {
       return this.$store.state.volume
     }
   },
-  // created: function () {
-    // let self = this
-    // // self.currentTime = self.standardizedTime(self.music.currentTime)
-    // setTimeout(function () {
-    //   self.duration = self.standardizedTime(self.music.duration)
-    // }, 200)
-  // },
+  mounted: function () {
+    let self = this
+    if (!self.$store.state.playingSong.id) {
+      self.isFirstMusic = true
+      let lastSong = JSON.parse(localStorage.getItem('lastSong'))
+      self.$store.commit('setPlayingSong', lastSong)
+    }
+  },
   methods: {
     play: function () { // 播放或暂停
       let self = this
-      // self.duration = self.standardizedTime(self.music.duration)
       if (self.music.isPaused) {
         self.music.run()
-        this.showTime()
-        this.$store.commit('pause', false)
+        self.showTime()
+        self.$store.commit('pause', false)
       } else {
         self.music.pause()
-        this.$store.commit('pause', true)
+        self.$store.commit('pause', true)
       }
-    },
-    isPaused: function () {
-      return this.$store.state.isPaused
     },
     standardizedTime: function (t) { // 标准化时间
       t = Math.floor(t / 1000)
@@ -215,8 +216,10 @@ export default {
       }).then((response) => {
         let musicUrl = response.data.data[0].url
         self.music = new Mc(musicUrl, self.$store.state.volume)
-        self.play()
-        self.$store.commit('pause', false)
+        if (!self.isFirstMusic) {
+          self.play()
+        }
+        // self.$store.commit('pause', false)
       }).catch((error) => {
         console.log(error)
       })
@@ -228,6 +231,8 @@ export default {
       this.playlist = val
     },
     getPlayingSong: function (val, oldVal) {
+      let obj = JSON.stringify(val)
+      localStorage.setItem('lastSong', obj)
       this.duration = this.standardizedTime(val[0].dt)
       this.playingSong = val[0]
       if (this.music) {
@@ -248,6 +253,7 @@ export default {
 <style lang="scss" type="text/css" scoped>
 .bottom{
 	background: rgb(243, 243, 243);
+  font-size: 14px;
   // background: #808080;
 	border-top: 1px;
 	border-color: #bdbdbd;
@@ -259,8 +265,8 @@ export default {
   overflow: hidden;
 }
 .row{
-	width: 20%;
-	left: 10px;
+	width: 180px;
+	left: 1rem;
 	top: 20px;
 	position: absolute;
 	display: inline-flex;
@@ -270,7 +276,7 @@ export default {
 	color: #fff;
 	border-radius: 20px;
 	background: #ca1c15;
-  margin: 0 10px 0 20px;
+  margin: 0 10px 0 10px;
 	height: 40px;
 	width: 40px;
 	cursor: pointer;

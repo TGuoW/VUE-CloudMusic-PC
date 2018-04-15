@@ -66,12 +66,12 @@
       <i class="fa fa-envelope-o" @click="jj()"></i>
       <i class="fa fa-cog" @click="jj()"></i>
 		</div>
-		<div class="set" @click="jj()">
+		<!-- <div class="set" @click="jj()">
 			<i class="fa fa-external-link"></i>
        	<i class="fa fa-minus"></i>
         <i class="fa fa-square-o"></i>
         <i class="fa fa-close"></i>
-		</div>
+		</div> -->
 		<transition name="fade">
 			<div class="top-status" v-show="isShowStatus">
 				<div class="triangle"></div>
@@ -158,7 +158,9 @@ export default {
       }, 150)
     },
     renewData: function (data) {
-      this.userInfo = data
+      if (data) {
+        this.userInfo = data
+      }
       this.signInIsShow = false
     },
     fade: function () {
@@ -212,8 +214,8 @@ export default {
 $red-color: #ca1c15;
 	.fa {
   	cursor: pointer;
-		height: 1.2rem;
-		margin-left: 1.2rem;
+		height: 16px;
+		margin-left: 16px;
 		vertical-align: middle;
 	}
 	.bg {
@@ -221,6 +223,7 @@ $red-color: #ca1c15;
 		height: 60px;
 		// position: fixed;
 		// top: 0;
+		font-size: 16px;
 		width: 100%;
 		z-index: 1;
 	}
@@ -282,7 +285,7 @@ $red-color: #ca1c15;
           cursor: pointer;
           padding-left: 32px;
           height: 28px;
-          width: 100%;
+          // width: 100%;
           line-height: 28px;
 					list-style: none;
           text-overflow: ellipsis;
@@ -351,7 +354,7 @@ $red-color: #ca1c15;
     	right: 0;
     	top:10px;
     	color: #fff;
-    	right: 180px;
+    	right: 1rem;
     }
   .top-status {
 		position: absolute;

@@ -7,11 +7,11 @@
     <div v-if="isLoading">
       <div class="about" >
         <div class="img">
-          <img v-bind:src=userInfo.img>
+          <img v-bind:src=userInfo.profile.avatarUrl>
         </div>
         <div class="info">
           <div class="person">
-            <span>{{userInfo.nickName}}</span>
+            <span>{{userInfo.profile.nickname}}</span>
             <span class="edit">编辑个人信息</span>
           </div>
           <div class="follow">
@@ -26,24 +26,20 @@
           </div>
         </div>
       </div>
-      <div class="my-create">
+      <div class="my-playlist">
         <div class="my-songlist">我创建的歌单</div>
-        <ul class="aa">
-                <li class="bb"></li>
-                <li class="bb"></li>
-                <li class="bb"></li>
-                <li class="bb"></li>
-                <li class="bb"></li>
+        <ul>
+          <router-link v-for="(item, index) in playlist" :key="index" :to="{path: '/playlistDetails',query: {id: item.id}}" tag="li" exact>
+            <playlist-child :item="item" :artist="false" v-if="item.creator.userId==userInfo.account.id"></playlist-child>
+          </router-link>
         </ul>
       </div>
-      <div class="my-collect">
+      <div class="my-playlist">
         <div class="my-songlist">我收藏的歌单</div>
-        <ul class="aa">
-                <li class="bb"></li>
-                <li class="bb"></li>
-                <li class="bb"></li>
-                <li class="bb"></li>
-                <li class="bb"></li>
+        <ul>
+          <router-link v-for="(item, index) in playlist" :key="index" :to="{path: '/playlistDetails',query: {id: item.id}}" tag="li" exact>
+            <playlist-child :item="item" :artist="false" v-if="item.creator.userId!=userInfo.account.id"></playlist-child>
+          </router-link>
         </ul>
       </div>
     </div>
@@ -56,28 +52,31 @@ export default {
   data () {
     return {
       userInfo: {},
-      isLoading: false
+      isLoading: false,
+      playlist: []
     }
   },
   mounted: function () {
-    let self = this
-    self.login()
+    this.userInfo = this.$store.state.userInfo
+    console.log(this.userInfo)
+    this.getPlaylist()
   },
   destroyed: function () {
     let self = this
     self.isLoading = false
   },
   methods: {
-    login: function () {
+    getPlaylist: function () {
+      let self = this
       axios({
-        url: '/submission/userInfo.php',
-        method: 'post'
+        url: 'http://tguow.ink:3000/user/playlist?uid=' + self.$store.state.userInfo.account.id,
+        xhrFields: {
+          withCredentials: true
+        }
       }).then((response) => {
-        var self = this
-        self.userInfo = response.data
-        self.$store.commit('login', self.userInfo)
         self.isLoading = true
-        console.log(self.userInfo)
+        self.playlist = response.data.playlist
+        console.log(response)
       }).catch((error) => {
         console.log(error)
       })
@@ -86,13 +85,13 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .main{
-    position: fixed;
-    left: 15%;
-    top: 60px;
-    bottom: 73px;
-    width: 85%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 100%;
     height: auto;
     overflow: scroll;
     overflow-x: hidden;
@@ -106,10 +105,10 @@ export default {
     background-color: #e1e1e2;
 }
 .about{
-    position: absolute;
-    height: 200px;
+    // position: absolute;
+    height: 240px;
     width: 94%;
-    display: inline;
+    display: flex;
     left: 0;
     margin: 2% 3% 0 3%;
 }
@@ -117,15 +116,18 @@ export default {
     background: #000;
     float: left;
     height: 200px;
-    width: 18%;
+    width: 200px;
+    img {
+      width: 100%;
+    }
 }
 .info{
-    float: right;
+    flex: 1;
     text-align: left;
     margin-top: 10px;
-    /* margin-right: 0px; */
+    margin-left: 40px;
     height: 200px;
-    width: 78%;
+    width: 100%;
 }
 .person{
     font-size: 22px;
@@ -162,15 +164,22 @@ p{
     font-size: 20px;
     margin-top: 10px;
 }
-.my-create{
-    position: absolute;
-    width: 100%;
-    margin-top: 250px;
-}
-.my-collect{
-    position: absolute;
-    width: 100%;
-    margin-top: 470px;
+.my-playlist{
+  width: 100%;
+  ul {
+    width: 94%;
+    margin: auto;
+    &::after {
+      content: " ";
+      display: block; 
+      height: 0; 
+      clear: both;
+    }
+    li {
+      list-style: none;
+      float: left;
+    }
+  }
 }
 .my-songlist{
     width: 100%;
@@ -184,16 +193,16 @@ p{
     height: 30px;
 }
 
-  .aa{
-    width: 94%;
-    display: inline-flex;
-    margin: auto;
-    margin-top: 10px;
-    list-style-type:none;
-    justify-content: space-between;
-    /*background: #000;*/
-    height: 100px;
-  }
+  // .aa{
+  //   width: 94%;
+  //   display: inline-flex;
+  //   margin: auto;
+  //   margin-top: 10px;
+  //   list-style-type:none;
+  //   justify-content: space-between;
+  //   /*background: #000;*/
+  //   height: 100px;
+  // }
   .bb{
     background: #000;
     width: 150px;

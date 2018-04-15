@@ -15,6 +15,12 @@ import findMusic from './components/findMusic.vue'
 import allDetail from './components/songDetail/allDetail.vue'
 export default {
   name: 'app',
+  data: function () {
+    return {
+      screenWidth: document.body.clientWidth,
+      timer: false
+    }
+  },
   components: {
     left,
     top,
@@ -22,13 +28,46 @@ export default {
     findMusic,
     allDetail
   },
+  mounted: function () {
+    let self = this
+    window.onresize = () => {
+      return (() => {
+        window.screenWidth = document.body.clientWidth
+        self.screenWidth = window.screenWidth
+        self.$store.commit('setScreenWidth', self.screenWidth)
+      })()
+    }
+    (function (doc, win) {
+      var docEl = doc.documentElement
+      var resizeEvt = 'orientationchange' in win ? 'orientationchange' : 'resize'
+      var recalc = function () {
+        var clientWidth = docEl.clientWidth
+        if (clientWidth === undefined) return
+        docEl.style.fontSize = 10 * (clientWidth / 320) + 'px'
+        console.log(docEl.style.fontSize)
+      }
+      if (doc.addEventListener === undefined) return
+      win.addEventListener(resizeEvt, recalc, false)
+      doc.addEventListener('DOMContentLoaded', recalc, false)
+    })(document, window)
+  },
+  watch: {
+    // screenWidth (val) {
+    //   console.log(val)
+    //   // if (!this.timer) {
+    //   //   this.screenWidth = val
+    //   //   this.timer = true
+    //   //   let self = this
+    //   //   setTimeout(function () {
+    //   //     self.screenWidth = val
+    //   //     console.log(val)
+    //   //     self.timer = false
+    //   //   }, 400)
+    //   // }
+    // }
+  },
   methods: {
     isShow: function () {
-      // console.log(3)
-      // top.data().show = false
-      // if (this.$refs.isShowStatus.show) {
-      //   this.$refs.isShowStatus.fade()
-      // }
       return this.$store.state.isShowAllDetail
     }
   }

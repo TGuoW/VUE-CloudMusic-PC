@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <div class="close">
-      <i class="fa fa-remove fa-fw"></i>
+      <i class="fa fa-remove fa-fw" @click="closeThis()"></i>
     </div>
     <div class="phone-signIn" v-if="isShow" @click="hide()">手机号登录</div>
     <form action="" v-else>
@@ -31,12 +31,6 @@ export default {
       // let url = 'http://tguow.ink:3000/login/cellphone?phone=' + document.getElementsByName('phoneNumber')[0].value + '&password=' + document.getElementsByName('password')[0].value
       axios({
         url: 'http://tguow.ink:3000/login/cellphone?phone=15768620356&password=WZpolongbingtang',
-        // url: url,
-        // Headers: {
-        //   'phone': '15768620356',
-        //   'password': 'WZpolongbingtang'
-        // },
-        // data: 'phone=15768620356&password=WZpolongbingtang',
         xhrFields: {
           withCredentials: true
         }
@@ -44,11 +38,12 @@ export default {
         console.log(response.data)
         self.$store.commit('login', response.data)
         self.$emit('child-say', response.data)
-        // console.log(response.data)
-        // self.isLoading = true
       }).catch((error) => {
         console.log(error)
       })
+    },
+    closeThis: function () {
+      this.$emit('child-say', false)
     },
     hide: function () {
       this.isShow = false
@@ -70,6 +65,7 @@ export default {
     left: 0;
     right: 0;
     box-shadow: 0 0 10px #dddddd;
+    // font-size: 14px;
     .close {
       cursor: pointer;
       float: right;
@@ -104,7 +100,7 @@ export default {
         outline: none;
         font-size: 14px;
         padding: 0 10px;
-        width: 185px;
+        width: 165px;
         line-height: 36px;
         &:nth-child(1){
           border-bottom: 1px solid #c0c0c0;

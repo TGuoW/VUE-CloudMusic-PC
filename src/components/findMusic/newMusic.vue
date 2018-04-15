@@ -50,12 +50,9 @@ export default {
 
 <style lang="scss" scoped>
   .main{
-    position: fixed;
+    position: relative;
     font-size: 14px;
-    left: 15%;
-    margin-top: 60px;
-    bottom: 74px;
-    width: 85%;
+    width: 100%;
   }
   .title {
     text-align: center;

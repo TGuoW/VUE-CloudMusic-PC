@@ -70,25 +70,15 @@
     border-bottom: 1px;
     border-color: #e0e0e0;
     border-style: solid;
-    height: 50px;
-    width: 90%;
-  }
-  .btn-2{
-    text-align: left;
-    margin: 200px auto auto auto;
-    background: #fff;
-    border-bottom: 1px;
-    border-color: #000;
-    border-style: solid;
-    height: 50px;
+    height: 1.25rem;
     width: 90%;
   }
   li{
-    width: 72px;
-    line-height: 48px;
+    width: 2rem;
+    line-height: 1.21rem;
     display: inline-block;
-    margin: 0 18px 0 18px;
-    font-size: 18px;
+    margin: 0 0.5rem 0 0.5rem;
+    font-size: 0.4rem;
     text-decoration: none;
     cursor: pointer;
   }

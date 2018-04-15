@@ -60,25 +60,13 @@ export default {
       currentPlaylist: {}
     }
   },
+  computed: {
+    userInfo: function () {
+      return this.$store.state.userInfo
+    }
+  },
   mounted: function () {
-    axios({
-      // url: 'http://tguow.ink:3000/recommend/resource',
-      url: '/user/playlist',
-      xhrFields: {
-        withCredentials: true
-      }
-    }).then((response) => {
-      var self = this
-      self.playlist = response.data.playlist.filter(function (item) {
-        // item.createTime = timeFormat(this.playlist.createTime).split(' ')[0]
-        return !item.ordered
-      })
-      self.orderedPlaylist = response.data.playlist.filter(function (item) {
-        return item.ordered
-      })
-    }).catch((error) => {
-      console.log(error)
-    })
+    this.getPlaylist(this.uid)
   },
   components: {
     narrowDetail
@@ -87,11 +75,38 @@ export default {
     handleTabChange (val) {
       this.activeTab = val
     },
+    getPlaylist: function (uid) {
+      if (!uid) {
+        return
+      }
+      axios({
+        // url: 'http://tguow.ink:3000/recommend/resource',
+        url: 'http://tguow.ink:3000/user/playlist?uid=' + uid,
+        xhrFields: {
+          withCredentials: true
+        }
+      }).then((response) => {
+        var self = this
+        self.playlist = response.data.playlist.filter(function (item) {
+          return !item.ordered
+        })
+        self.orderedPlaylist = response.data.playlist.filter(function (item) {
+          return item.ordered
+        })
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
     jj: function () {
       this.$store.commit('showStatus', false)
     },
     viewPlaylist: function (msg) {
       this.currentPlaylist = msg
+    }
+  },
+  watch: {
+    userInfo: function (val) {
+      this.getPlaylist(val.account.id)
     }
   }
 }
@@ -109,6 +124,7 @@ export default {
 .main {
   width: 100%;
   // background: #000;
+  font-size: 14px;
   flex: 1;
   overflow:auto;
   -webkit-overflow-scrolling: touch;
@@ -138,14 +154,10 @@ export default {
   border-radius: 4px;
   background-color: #e1e1e2;
   }
-#list{
-  /*margin-left: 18px;*/
-  /*vertical-align: middle;*/
-}
 #list-head{
-  padding-left: 1rem;
-  height: 3.2rem;
-  line-height: 3.2rem;
+  padding-left: 14px;
+  height: 40px;
+  line-height: 40px;
   font-size: 14px;
   text-align: left;
   cursor: default;
@@ -157,9 +169,9 @@ export default {
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 100%;
-  line-height: 2.5rem;
+  line-height: 36px;
   font-size: 14px;
-  height: 2.5rem;
+  height: 36px;
   color: #5e5e5e;
   vertical-align: middle;
   cursor: pointer;

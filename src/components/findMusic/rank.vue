@@ -107,141 +107,156 @@ export default {
     }
   },
   mounted: function () {
-    this.getUpRank()
-    this.getNewSongRank()
-    this.getOriginalRank()
-    this.getHotRank()
-    this.getOtherRank()
+    Promise.all([
+      this.getUpRank(),
+      this.getNewSongRank(),
+      this.getOriginalRank(),
+      this.getHotRank(),
+      this.getOtherRank()
+    ])
   },
   methods: {
     getUpRank: function () {
-      axios({
-        url: 'http://tguow.ink:3000/top/list?idx=3',
-        xhrFields: {
-          withCredentials: true
-        }
-      }).then((response) => {
-        let self = this
-        self.upRankAll = response.data.playlist
-        for (let i = 0; i < 8; i++) {
-          self.upRank[i] = {}
-          self.upRank[i].ratio = self.upRankAll.trackIds[i].ratio + '%'
-          self.upRank[i].name = self.upRankAll.tracks[i].name
-          self.upRank[i].artists = self.upRankAll.tracks[i].ar.reduce(function (a, b) {
-            return a + '/' + b.name
-          }, '').substr(1)
-        }
-      }).catch((error) => {
-        console.log(error)
-      })
-    },
-    getNewSongRank: function () {
-      axios({
-        url: 'http://tguow.ink:3000/top/list?idx=0',
-        xhrFields: {
-          withCredentials: true
-        }
-      }).then((response) => {
-        let self = this
-        self.newSongRankAll = response.data.playlist
-        for (let i = 0; i < 8; i++) {
-          self.newSongRank[i] = {}
-          if (self.newSongRankAll.trackIds[i].lr === undefined) {
-            self.newSongRank[i].ratio = 'new'
-          } else if (self.newSongRankAll.trackIds[i].lr > i) {
-            self.newSongRank[i].ratio = '\u2191'
-          } else if (self.newSongRankAll.trackIds[i].lr < i) {
-            self.newSongRank[i].ratio = '\u2193'
-          } else {
-            self.newSongRank[i].ratio = '-'
-          }
-          self.newSongRank[i].name = self.newSongRankAll.tracks[i].name
-          self.newSongRank[i].artists = self.newSongRankAll.tracks[i].ar.reduce(function (a, b) {
-            return a + '/' + b.name
-          }, '').substr(1)
-        }
-      }).catch((error) => {
-        console.log(error)
-      })
-    },
-    getOriginalRank: function () {
-      axios({
-        url: 'http://tguow.ink:3000/top/list?idx=2',
-        xhrFields: {
-          withCredentials: true
-        }
-      }).then((response) => {
-        let self = this
-        self.originalRankAll = response.data.playlist
-        for (let i = 0; i < 8; i++) {
-          self.originalRank[i] = {}
-          if (self.originalRankAll.trackIds[i].lr === undefined) {
-            self.originalRank[i].ratio = 'new'
-          } else if (self.originalRankAll.trackIds[i].lr > i) {
-            self.originalRank[i].ratio = '\u2191'
-          } else if (self.originalRankAll.trackIds[i].lr < i) {
-            self.originalRank[i].ratio = '\u2193'
-          } else {
-            self.originalRank[i].ratio = '-'
-          }
-          self.originalRank[i].name = self.originalRankAll.tracks[i].name
-          self.originalRank[i].artists = self.originalRankAll.tracks[i].ar.reduce(function (a, b) {
-            return a + '/' + b.name
-          }, '').substr(1)
-        }
-      }).catch((error) => {
-        console.log(error)
-      })
-    },
-    getHotRank: function () {
-      axios({
-        url: 'http://tguow.ink:3000/top/list?idx=1',
-        xhrFields: {
-          withCredentials: true
-        }
-      }).then((response) => {
-        let self = this
-        self.hotRankAll = response.data.playlist
-        for (let i = 0; i < 8; i++) {
-          self.hotRank[i] = {}
-          if (self.hotRankAll.trackIds[i].lr === undefined) {
-            self.hotRank[i].ratio = 'new'
-          } else if (self.hotRankAll.trackIds[i].lr > i) {
-            self.hotRank[i].ratio = '\u2191'
-          } else if (self.hotRankAll.trackIds[i].lr < i) {
-            self.hotRank[i].ratio = '\u2193'
-          } else {
-            self.hotRank[i].ratio = '-'
-          }
-          self.hotRank[i].name = self.hotRankAll.tracks[i].name
-          self.hotRank[i].artists = self.hotRankAll.tracks[i].ar.reduce(function (a, b) {
-            return a + '/' + b.name
-          }, '').substr(1)
-        }
-      }).catch((error) => {
-        console.log(error)
-      })
-    },
-    getOtherRank: function () {
       let self = this
-      for (let i = 0; i < 20; i++) {
-        self.otherRank[i] = {}
+      return new Promise(function (resolve, reject) {
         axios({
-          url: 'http://tguow.ink:3000/top/list?idx=' + (i + 4),
+          url: 'http://tguow.ink:3000/top/list?idx=3',
           xhrFields: {
             withCredentials: true
           }
         }).then((response) => {
-          // let self = this
-          self.otherRank[i].id = response.data.playlist.id
-          self.otherRank[i].name = response.data.playlist.name
-          self.otherRank[i].coverImgUrl = response.data.playlist.coverImgUrl
-          self.otherRank[i].playCount = renderPlayCount(response.data.playlist.playCount)
+          self.upRankAll = response.data.playlist
+          for (let i = 0; i < 8; i++) {
+            self.upRank[i] = {}
+            self.upRank[i].ratio = self.upRankAll.trackIds[i].ratio + '%'
+            self.upRank[i].name = self.upRankAll.tracks[i].name
+            self.upRank[i].artists = self.upRankAll.tracks[i].ar.reduce(function (a, b) {
+              return a + '/' + b.name
+            }, '').substr(1)
+            resolve()
+          }
         }).catch((error) => {
           console.log(error)
         })
-      }
-      console.log(self.otherRank)
+      })
+    },
+    getNewSongRank: function () {
+      let self = this
+      return new Promise(function (resolve, reject) {
+        axios({
+          url: 'http://tguow.ink:3000/top/list?idx=0',
+          xhrFields: {
+            withCredentials: true
+          }
+        }).then((response) => {
+          self.newSongRankAll = response.data.playlist
+          for (let i = 0; i < 8; i++) {
+            self.newSongRank[i] = {}
+            if (self.newSongRankAll.trackIds[i].lr === undefined) {
+              self.newSongRank[i].ratio = 'new'
+            } else if (self.newSongRankAll.trackIds[i].lr > i) {
+              self.newSongRank[i].ratio = '\u2191'
+            } else if (self.newSongRankAll.trackIds[i].lr < i) {
+              self.newSongRank[i].ratio = '\u2193'
+            } else {
+              self.newSongRank[i].ratio = '-'
+            }
+            self.newSongRank[i].name = self.newSongRankAll.tracks[i].name
+            self.newSongRank[i].artists = self.newSongRankAll.tracks[i].ar.reduce(function (a, b) {
+              return a + '/' + b.name
+            }, '').substr(1)
+            resolve()
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+      })
+    },
+    getOriginalRank: function () {
+      let self = this
+      return new Promise(function (resolve, reject) {
+        axios({
+          url: 'http://tguow.ink:3000/top/list?idx=2',
+          xhrFields: {
+            withCredentials: true
+          }
+        }).then((response) => {
+          self.originalRankAll = response.data.playlist
+          for (let i = 0; i < 8; i++) {
+            self.originalRank[i] = {}
+            if (self.originalRankAll.trackIds[i].lr === undefined) {
+              self.originalRank[i].ratio = 'new'
+            } else if (self.originalRankAll.trackIds[i].lr > i) {
+              self.originalRank[i].ratio = '\u2191'
+            } else if (self.originalRankAll.trackIds[i].lr < i) {
+              self.originalRank[i].ratio = '\u2193'
+            } else {
+              self.originalRank[i].ratio = '-'
+            }
+            self.originalRank[i].name = self.originalRankAll.tracks[i].name
+            self.originalRank[i].artists = self.originalRankAll.tracks[i].ar.reduce(function (a, b) {
+              return a + '/' + b.name
+            }, '').substr(1)
+            resolve()
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+      })
+    },
+    getHotRank: function () {
+      let self = this
+      return new Promise(function (resolve, reject) {
+        axios({
+          url: 'http://tguow.ink:3000/top/list?idx=1',
+          xhrFields: {
+            withCredentials: true
+          }
+        }).then((response) => {
+          self.hotRankAll = response.data.playlist
+          for (let i = 0; i < 8; i++) {
+            self.hotRank[i] = {}
+            if (self.hotRankAll.trackIds[i].lr === undefined) {
+              self.hotRank[i].ratio = 'new'
+            } else if (self.hotRankAll.trackIds[i].lr > i) {
+              self.hotRank[i].ratio = '\u2191'
+            } else if (self.hotRankAll.trackIds[i].lr < i) {
+              self.hotRank[i].ratio = '\u2193'
+            } else {
+              self.hotRank[i].ratio = '-'
+            }
+            self.hotRank[i].name = self.hotRankAll.tracks[i].name
+            self.hotRank[i].artists = self.hotRankAll.tracks[i].ar.reduce(function (a, b) {
+              return a + '/' + b.name
+            }, '').substr(1)
+          }
+        }).catch((error) => {
+          console.log(error)
+        })
+      })
+    },
+    getOtherRank: function () {
+      let self = this
+      return new Promise(function (resolve, reject) {
+        for (let i = 0; i < 20; i++) {
+          self.otherRank[i] = {}
+          axios({
+            url: 'http://tguow.ink:3000/top/list?idx=' + (i + 4),
+            xhrFields: {
+              withCredentials: true
+            }
+          }).then((response) => {
+            // let self = this
+            self.otherRank[i].id = response.data.playlist.id
+            self.otherRank[i].name = response.data.playlist.name
+            self.otherRank[i].coverImgUrl = response.data.playlist.coverImgUrl
+            self.otherRank[i].playCount = renderPlayCount(response.data.playlist.playCount)
+          }).catch((error) => {
+            console.log(error)
+          })
+        }
+        resolve()
+      })
     }
   }
 }
@@ -252,7 +267,7 @@ export default {
   .main{
     position: relative;
     left: 0;
-    margin-top: -60px;
+    // margin-top: -60px;
     bottom: 74px;
     width: 100%;
     height: auto;
