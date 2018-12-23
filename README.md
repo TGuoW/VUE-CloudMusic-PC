@@ -3,7 +3,7 @@
 
 > 使用VUE实现网易云音乐PC端
 
-预览地址：http://tguow.ink/cloudMusic
+预览地址：暂无
 
 后端接口来源于https://github.com/Binaryify/NeteaseCloudMusicApi ,感谢
 
